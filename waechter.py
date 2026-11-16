@@ -69,6 +69,27 @@ ALARM_REGEX = {
                         r"(plunges?|crash(es)?|tumbles?|sinks?)", re.I),
     "krypto": re.compile(r"hack(ed)?|exploit|depeg|withdrawals (halted|paused|suspended)|SEC (sues|charges)|crypto crash", re.I),
 }
+# Krypto: nur Meldungen zu Watchlist-Coins, großen Börsen oder Stablecoins – und ab 100 Mio. $ Schaden
+KRYPTO_RELEVANT = re.compile(r"\b(bitcoin|btc|ethereum|ether|eth|solana|sol|xrp|ripple|bnb|binance|cardano|ada|dogecoin|doge|"
+                             r"avalanche|avax|chainlink|coinbase|kraken|okx|bybit|tether|usdt|usdc|circle|crypto market)\b", re.I)
+BETRAG = re.compile(r"\$\s?([\d.,]+)\s?(k|m|mn|million|b|bn|billion)\b", re.I)
+KRYPTO_MIN_USD = 100e6
+
+
+def krypto_wichtig(titel: str) -> bool:
+    if not KRYPTO_RELEVANT.search(titel):
+        return False
+    m = BETRAG.search(titel)
+    if m:
+        try:
+            wert = float(m.group(1).replace(",", ""))
+        except ValueError:
+            return True
+        faktor = {"k": 1e3, "m": 1e6, "mn": 1e6, "million": 1e6, "b": 1e9, "bn": 1e9, "billion": 1e9}[m.group(2).lower()]
+        return wert * faktor >= KRYPTO_MIN_USD
+    return True
+
+
 SPEKULATIV = re.compile(r"\?|\b(could|might|may|will|should|would|what if|why|how to|prediction|predict)\b", re.I)
 
 
@@ -195,6 +216,8 @@ def pruefe_news(aktien: list[str], krypto: list[str], gesehen: set, diag: dict) 
                 except Exception:
                     continue
                 if SPEKULATIV.search(titel) or not ALARM_REGEX[art].search(titel):
+                    continue
+                if art == "krypto" and not krypto_wichtig(titel):
                     continue
                 prio = 4 if art in ("markt", "krypto") else 3
                 betroffen = [t for t in aktien if NAMEN.get(t, t).lower() in titel.lower()]
