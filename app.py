@@ -1,0 +1,364 @@
+"""
+Signal-Radar – Oberfläche
+Start:  streamlit run app.py   (oder Doppelklick auf start.bat)
+"""
+import numpy as np
+import pandas as pd
+import plotly.graph_objects as go
+import streamlit as st
+
+import engine as E
+
+st.set_page_config(page_title="Signal-Radar", layout="wide")
+
+SIGNAL_FARBE = E.SIGNAL_FARBEN
+REGIME_FARBE = {"RISK-ON": "#0f7b3f", "NEUTRAL": "#b58900", "RISK-OFF": "#c62828", "UNBEKANNT": "#8a8f98"}
+KAUF_SIGNALE = ("STARK KAUFEN", "KAUFEN")
+
+
+def badge(text: str, farbe: str, gross: bool = False) -> str:
+    size = "1.6rem" if gross else "0.95rem"
+    pad = "10px 22px" if gross else "3px 10px"
+    return (f"<span style='background:{farbe};color:white;padding:{pad};border-radius:8px;"
+            f"font-weight:700;font-size:{size};white-space:nowrap'>{text}</span>")
+
+
+def fmt_kurs(x):
+    if x is None or not np.isfinite(x):
+        return "–"
+    return f"{x:,.4f}" if x < 1 else f"{x:,.2f}"
+
+
+def fmt_pct(x, plus=True):
+    if x is None or not np.isfinite(x):
+        return "–"
+    return f"{x:+.1%}" if plus else f"{x:.0%}"
+
+
+# ------------------------------------------------------------------ Seitenleiste
+with st.sidebar:
+    st.header("Einstellungen")
+    quelle = st.radio("Datenquelle", ["Live (Yahoo Finance, kostenlos)", "Demo (Zufallsdaten zum Testen)"])
+    demo = quelle.startswith("Demo")
+    konto = st.number_input("Kontogröße (in Kurswährung, meist USD)", min_value=100.0, value=10000.0, step=500.0)
+    risiko = st.slider("Max. Risiko pro Trade (% vom Konto)", 0.25, 3.0, 1.0, 0.25,
+                       help="So viel verlierst du, wenn der Stop greift. Profis: 0,5–1 %.")
+    with st.expander("Watchlists bearbeiten"):
+        akt_txt = st.text_area("Aktien", ", ".join(E.STANDARD_AKTIEN), height=120)
+        etf_txt = st.text_area("ETFs", ", ".join(E.STANDARD_ETFS), height=70)
+        kry_txt = st.text_area("Krypto (Format BTC-USD)", ", ".join(E.STANDARD_KRYPTO), height=70)
+        st.caption("Ticker wie auf finance.yahoo.com, z. B. SAP.DE für Xetra, VOW3.DE, BTC-USD.")
+    if st.button("Daten neu laden", width="stretch"):
+        st.cache_data.clear()
+    st.caption("Signale werden einmal pro Stunde neu berechnet. Basis: Tagesschlusskurse.")
+
+
+def liste(txt):
+    return [t.strip().upper() for t in txt.replace("\n", ",").split(",") if t.strip()]
+
+
+gruppen = {"Aktien": liste(akt_txt), "ETFs": liste(etf_txt), "Krypto": liste(kry_txt)}
+alle = list(dict.fromkeys(sum(gruppen.values(), []) + E.HILFS_TICKER))
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def lade(tickers: tuple, demo: bool):
+    return E.demo_daten(list(tickers)) if demo else E.lade_yahoo(list(tickers))
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def rechne(tickers: tuple, demo: bool, gruppen_key: tuple):
+    daten = lade(tickers, demo)
+    gr = {g: list(l) for g, l in gruppen_key}
+    return E.analysiere(daten, gr)
+
+
+with st.spinner("Lade Kurse und berechne Signale … (beim ersten Start ca. 30–60 Sekunden)"):
+    ergebnisse, regime = rechne(tuple(alle), demo, tuple((g, tuple(l)) for g, l in gruppen.items()))
+
+if not ergebnisse:
+    st.error("Keine Daten geladen. Internetverbindung prüfen, kurz warten und auf „Daten neu laden“ klicken. "
+             "Yahoo begrenzt manchmal kurzzeitig die Abrufe.")
+    st.stop()
+
+# ------------------------------------------------------------------ Kopf + Marktampel
+st.title("Signal-Radar")
+stand = max(r.merkmale.index[-1] for r in ergebnisse.values())
+st.caption(f"Stand: Schlusskurse bis {stand:%d.%m.%Y}" + ("  ·  DEMO-DATEN – keine echten Kurse!" if demo else ""))
+
+c1, c2 = st.columns(2)
+for spalte, name, key in [(c1, "Aktienmarkt (S&P 500)", "Aktien"), (c2, "Kryptomarkt (Bitcoin)", "Krypto")]:
+    r = regime.get(key)
+    with spalte:
+        if r is None or not len(r):
+            st.info(f"{name}: keine Daten")
+            continue
+        last = r.iloc[-1]
+        lab = E.regime_label(float(last["score"]))
+        txt = []
+        txt.append("Trend über 200-Tage-Linie" if last["trend"] > 0 else "Trend unter 200-Tage-Linie")
+        if "vix" in r.columns and np.isfinite(last.get("vix", np.nan)):
+            txt.append(f"VIX {last['vix']:.1f}")
+        if "vix_struktur" in r.columns and np.isfinite(last.get("vix_struktur", np.nan)):
+            txt.append("Angst kurzfristig niedrig" if last["vix_struktur"] < 1 else "Angst kurzfristig erhöht")
+        if "breite" in r.columns and np.isfinite(last.get("breite", np.nan)):
+            txt.append(f"{last['breite']:.0%} der Aktien im Aufwärtstrend")
+        if "vola" in r.columns:
+            txt.append("Schwankung normal" if last["vola"] >= 0 else "Schwankung extrem")
+        st.markdown(f"**{name}**&nbsp;&nbsp;{badge(lab, REGIME_FARBE[lab], gross=True)}", unsafe_allow_html=True)
+        st.caption(" · ".join(txt))
+
+with st.expander("Was bedeutet die Marktampel?"):
+    st.markdown(
+        "- **RISK-ON**: Umfeld ist günstig – Kaufsignale haben historisch besser funktioniert.\n"
+        "- **NEUTRAL**: gemischtes Umfeld – kleinere Positionen.\n"
+        "- **RISK-OFF**: Markt im Stress – Kaufsignale werden automatisch abgeschwächt, Vorsicht."
+    )
+
+# ------------------------------------------------------------------ Tabelle bauen
+zeilen = []
+for t, r in ergebnisse.items():
+    last_score = float(r.score.dropna().iloc[-1])
+    kurs = float(r.merkmale["close"].iloc[-1])
+    lv = r.levels
+    kauf = r.signal in KAUF_SIGNALE
+    stueck, wert = E.positionsgroesse(kurs, lv["stop"], konto, risiko) if kauf else (0.0, 0.0)
+    tab = r.auswertung["tabelle"].set_index("Signal")
+    treffer_kauf = tab.loc[list(KAUF_SIGNALE), "Trefferquote"]
+    n_kauf = tab.loc[list(KAUF_SIGNALE), "Anzahl Tage"]
+    tq = float((treffer_kauf * n_kauf).sum() / n_kauf.sum()) if n_kauf.sum() > 0 else np.nan
+    hinweis = ""
+    ep = r.merkmale["ext_pct"].iloc[-1]
+    if np.isfinite(ep) and ep > 0.95:
+        hinweis = "überdehnt – Gewinne sichern"
+    elif kauf and np.isfinite(lv["crv"]) and lv["crv"] < 1.5:
+        hinweis = "Chance/Risiko knapp – Rücksetzer abwarten"
+    elif r.merkmale["sweep_kuerzlich"].iloc[-1] > 0 and r.komponenten["trend"].iloc[-1] > 0:
+        hinweis = "Sweep zurückerobert"
+    zeilen.append({
+        "Ticker": t, "Gruppe": r.gruppe, "Signal": r.signal, "Score": round(last_score),
+        "Kurs": kurs, "Heute": r.tag_pct,
+        "Stop": lv["stop"] if kauf else np.nan, "Ziel": lv["ziel"] if kauf else np.nan,
+        "CRV": lv["crv"] if kauf else np.nan,
+        "Stück": stueck if kauf else np.nan, "Positionswert": wert if kauf else np.nan,
+        "Hist. Treffer Kauf": tq, "Hinweis": hinweis,
+    })
+tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
+
+tab_ueber, tab_detail, tab_guete, tab_hilfe = st.tabs(["Übersicht", "Detailanalyse", "Wie gut sind die Signale?", "Anleitung"])
+
+# ------------------------------------------------------------------ Übersicht
+with tab_ueber:
+    k1, k2 = st.columns(2)
+    with k1:
+        st.subheader("Beste Kaufkandidaten")
+        top = tabelle[tabelle["Signal"].isin(KAUF_SIGNALE)].head(6)
+        if top.empty:
+            st.write("Derzeit kein Kaufsignal.")
+        for _, z in top.iterrows():
+            st.markdown(f"{badge(z['Signal'], SIGNAL_FARBE[z['Signal']])} &nbsp; **{z['Ticker']}** · Score {z['Score']} · "
+                        f"Kurs {fmt_kurs(z['Kurs'])} · Stop {fmt_kurs(z['Stop'])} · Ziel {fmt_kurs(z['Ziel'])}",
+                        unsafe_allow_html=True)
+    with k2:
+        st.subheader("Eher meiden / verkaufen")
+        flop = tabelle[tabelle["Signal"].isin(["STARK VERKAUFEN", "VERKAUFEN"])].sort_values("Score").head(6)
+        if flop.empty:
+            st.write("Derzeit kein Verkaufssignal.")
+        for _, z in flop.iterrows():
+            st.markdown(f"{badge(z['Signal'], SIGNAL_FARBE[z['Signal']])} &nbsp; **{z['Ticker']}** · Score {z['Score']} · "
+                        f"Kurs {fmt_kurs(z['Kurs'])}", unsafe_allow_html=True)
+
+    st.divider()
+    f1, f2 = st.columns([2, 3])
+    gr_filter = f1.multiselect("Gruppe", list(gruppen), default=list(gruppen))
+    sig_filter = f2.multiselect("Signal", list(SIGNAL_FARBE), default=list(SIGNAL_FARBE))
+    ansicht = tabelle[tabelle["Gruppe"].isin(gr_filter) & tabelle["Signal"].isin(sig_filter)]
+
+    def farbe_signal(v):
+        return f"background-color:{SIGNAL_FARBE.get(v, '#888')};color:white;font-weight:700"
+
+    styler = ansicht.style.map(farbe_signal, subset=["Signal"]) if hasattr(ansicht.style, "map") \
+        else ansicht.style.applymap(farbe_signal, subset=["Signal"])
+    st.dataframe(
+        styler, width="stretch", hide_index=True, height=min(38 * (len(ansicht) + 1), 900),
+        column_config={
+            "Score": st.column_config.ProgressColumn("Score", min_value=-100, max_value=100, format="%d"),
+            "Kurs": st.column_config.NumberColumn(format="%.2f"),
+            "Heute": st.column_config.NumberColumn(format="percent"),
+            "Stop": st.column_config.NumberColumn(format="%.2f", help="Verkaufen, wenn der Kurs darunter schließt"),
+            "Ziel": st.column_config.NumberColumn(format="%.2f", help="Erste Zone für Gewinnmitnahme"),
+            "CRV": st.column_config.NumberColumn(format="%.1f", help="Chance/Risiko: möglicher Gewinn ÷ möglicher Verlust"),
+            "Stück": st.column_config.NumberColumn(format="%.2f", help="Bei deinem Risiko pro Trade"),
+            "Positionswert": st.column_config.NumberColumn(format="%.0f"),
+            "Hist. Treffer Kauf": st.column_config.NumberColumn(
+                format="percent", help=f"Wie oft lag der Kurs {E.FORWARD_TAGE} Tage nach einem Kaufsignal höher (dieser Wert, Vergangenheit)"),
+        },
+    )
+    st.caption("Stop, Ziel und Stückzahl nur bei Kaufsignalen. Score: −100 (sehr schwach) bis +100 (sehr stark).")
+
+# ------------------------------------------------------------------ Detail
+with tab_detail:
+    wahl = st.selectbox("Wert auswählen", tabelle["Ticker"].tolist(), index=0)
+    r = ergebnisse[wahl]
+    f = r.merkmale
+    zeile = tabelle[tabelle["Ticker"] == wahl].iloc[0]
+    st.markdown(f"## {wahl} &nbsp; {badge(r.signal, SIGNAL_FARBE[r.signal], gross=True)}", unsafe_allow_html=True)
+    m = st.columns(6)
+    m[0].metric("Kurs", fmt_kurs(zeile["Kurs"]), fmt_pct(zeile["Heute"]))
+    m[1].metric("Score", f"{zeile['Score']:+d}")
+    m[2].metric("Stop", fmt_kurs(r.levels["stop"]))
+    m[3].metric("Ziel", fmt_kurs(r.levels["ziel"]))
+    m[4].metric("Chance/Risiko", f"{r.levels['crv']:.1f}" if np.isfinite(r.levels["crv"]) else "–")
+    st_k, wert_k = E.positionsgroesse(zeile["Kurs"], r.levels["stop"], konto, risiko)
+    m[5].metric("Stück bei deinem Risiko", f"{st_k:.2f}", f"Wert {wert_k:,.0f}", delta_color="off")
+    if r.signal not in KAUF_SIGNALE:
+        st.caption("Stop/Ziel/Stück gelten nur, falls du trotzdem kaufen würdest – das System empfiehlt hier keinen Kauf.")
+    elif np.isfinite(r.levels["crv"]) and r.levels["crv"] < 1.5:
+        st.warning("Kaufsignal, aber das Chance/Risiko-Verhältnis ist unter 1,5: Das nächste Ziel liegt nah. "
+                   "Besser einen Rücksetzer Richtung Stop-Zone abwarten oder kleiner einsteigen.")
+
+    links, rechts = st.columns([3, 2])
+    with links:
+        zeitraum = st.radio("Zeitraum", ["6 Monate", "1 Jahr", "2 Jahre"], index=1, horizontal=True)
+        tage = {"6 Monate": 182, "1 Jahr": 365, "2 Jahre": 730}[zeitraum]
+        d = r.daten.loc[r.daten.index >= r.daten.index[-1] - pd.Timedelta(days=tage)]
+        fz = f.loc[d.index]
+        fig = go.Figure()
+        fig.add_trace(go.Candlestick(x=d.index, open=d["Open"], high=d["High"], low=d["Low"], close=d["Close"], name="Kurs"))
+        fig.add_trace(go.Scatter(x=fz.index, y=fz["sma50"], name="50-Tage-Linie", line=dict(width=1.2, color="#1f77b4")))
+        fig.add_trace(go.Scatter(x=fz.index, y=fz["sma200"], name="200-Tage-Linie", line=dict(width=1.6, color="#7f3fbf")))
+        fig.add_trace(go.Scatter(x=fz.index, y=fz["avwap_tief"], name="VWAP ab 52W-Tief", line=dict(width=1.2, dash="dot", color="#2ca02c")))
+        fig.add_trace(go.Scatter(x=fz.index, y=fz["avwap_tief"] + 2 * fz["avwap_tief_sd"], name="+2σ (überdehnt)",
+                                 line=dict(width=1, dash="dot", color="#d62728")))
+        last = f.iloc[-1]
+        for y, name, col in [(last["poc"], "POC", "#555"), (last["val"], "VAL", "#888"), (last["vah"], "VAH", "#888")]:
+            if np.isfinite(y):
+                fig.add_hline(y=y, line=dict(color=col, width=1, dash="dash"), annotation_text=name, annotation_position="right", annotation_xshift=8)
+        if r.signal in KAUF_SIGNALE:
+            fig.add_hline(y=r.levels["stop"], line=dict(color="#c62828", width=2), annotation_text="Stop", annotation_position="left")
+            fig.add_hline(y=r.levels["ziel"], line=dict(color="#0f7b3f", width=2), annotation_text="Ziel", annotation_position="left")
+        fig.update_layout(height=520, xaxis_rangeslider_visible=False, margin=dict(l=10, r=70, t=10, b=10),
+                          legend=dict(orientation="h", y=1.02, x=0))
+        st.plotly_chart(fig, width="stretch")
+
+        sc = r.score.loc[d.index]
+        fig2 = go.Figure(go.Scatter(x=sc.index, y=sc, fill="tozeroy", line=dict(color="#1f77b4"), name="Score"))
+        for yv, col in [(E.KAUF_SCHWELLE, "#3fae5a"), (E.STARK_SCHWELLE, "#0f7b3f"), (-E.KAUF_SCHWELLE, "#e0782f"), (-E.STARK_SCHWELLE, "#c62828")]:
+            fig2.add_hline(y=yv, line=dict(color=col, width=1, dash="dot"))
+        fig2.update_layout(height=200, margin=dict(l=10, r=10, t=30, b=10), title="Score-Verlauf", yaxis_range=[-100, 100])
+        st.plotly_chart(fig2, width="stretch")
+
+    with rechts:
+        st.subheader("Warum dieses Signal?")
+        for richtung, txt in r.gruende:
+            sym, col = {"+": ("▲", "#0f7b3f"), "-": ("▼", "#c62828"), "0": ("●", "#8a8f98")}[richtung]
+            st.markdown(f"<span style='color:{col};font-weight:700'>{sym}</span> {txt}", unsafe_allow_html=True)
+
+        st.subheader("Bausteine des Scores")
+        k_last = r.komponenten.iloc[-1]
+        namen = {"trend": "Trend", "momentum": "Momentum", "rel_staerke": "Relative Stärke",
+                 "akkumulation": "Akkumulation", "zone": "Kauf-/Verkaufszone", "volatilitaet": "Volatilität"}
+        werte = [k_last[n] * E.GEWICHTE[n] * 100 for n in namen]
+        fig3 = go.Figure(go.Bar(x=werte, y=list(namen.values()), orientation="h",
+                                marker_color=["#0f7b3f" if w >= 0 else "#c62828" for w in werte]))
+        fig3.update_layout(height=260, margin=dict(l=10, r=10, t=10, b=10), xaxis_title="Beitrag zum Score")
+        st.plotly_chart(fig3, width="stretch")
+
+    st.subheader(f"So haben die Signale bei {wahl} früher funktioniert")
+    a = r.auswertung
+    t = a["tabelle"].copy()
+    st.dataframe(t, hide_index=True, width="stretch", column_config={
+        "Trefferquote": st.column_config.NumberColumn(format="percent"),
+        f"Ø Rendite {E.FORWARD_TAGE}T": st.column_config.NumberColumn(format="percent"),
+    })
+    st.caption(f"Zum Vergleich – an allen Tagen: Trefferquote {fmt_pct(a['basis_treffer'], False)}, "
+               f"Ø Rendite {fmt_pct(a['basis_rendite'])} nach {E.FORWARD_TAGE} Tagen. "
+               "Ein Signal ist nur dann etwas wert, wenn es besser ist als dieser Durchschnitt.")
+    e1, e2 = st.columns([3, 2])
+    with e1:
+        eq = a["equity"]
+        fig4 = go.Figure()
+        for col, farbe in [("Signal-Strategie", "#1f77b4"), ("Kaufen & Halten", "#999")]:
+            fig4.add_trace(go.Scatter(x=eq.index, y=eq[col], name=col, line=dict(color=farbe)))
+        fig4.update_layout(height=300, margin=dict(l=10, r=10, t=10, b=10), yaxis_type="log",
+                           legend=dict(orientation="h", y=1.05))
+        st.plotly_chart(fig4, width="stretch")
+    with e2:
+        st.markdown(
+            f"| | Signal-Strategie | Kaufen & Halten |\n|---|---|---|\n"
+            f"| Rendite pro Jahr | {fmt_pct(a['cagr_strategie'])} | {fmt_pct(a['cagr_halten'])} |\n"
+            f"| Größter Rückgang | {fmt_pct(a['mdd_strategie'])} | {fmt_pct(a['mdd_halten'])} |\n"
+            f"| Zeit investiert | {fmt_pct(a['zeit_im_markt'], False)} | 100% |\n"
+            f"| Zeitraum | {a['jahre']:.1f} Jahre | |")
+        st.caption("Strategie: kaufen ab Signal KAUFEN, verkaufen wenn Score unter −5 fällt, "
+                   "Ausführung am nächsten Tag, 0,1 % Kosten je Wechsel.")
+
+# ------------------------------------------------------------------ Güte gesamt
+with tab_guete:
+    st.subheader("Alle Werte zusammen: Was haben die Signale früher gebracht?")
+    teile = []
+    for r in ergebnisse.values():
+        tt = r.auswertung["tabelle"].copy()
+        tt["Gruppe"] = r.gruppe
+        teile.append(tt)
+    gesamt = pd.concat(teile)
+    rk = f"Ø Rendite {E.FORWARD_TAGE}T"
+    gesamt["_t"] = gesamt["Trefferquote"] * gesamt["Anzahl Tage"]
+    gesamt["_r"] = gesamt[rk] * gesamt["Anzahl Tage"]
+    agg = gesamt.groupby(["Gruppe", "Signal"], sort=False)[["Anzahl Tage", "_t", "_r"]].sum()
+    agg["Trefferquote"] = agg["_t"] / agg["Anzahl Tage"]
+    agg[rk] = agg["_r"] / agg["Anzahl Tage"]
+    agg = agg.drop(columns=["_t", "_r"]).reset_index()
+    st.dataframe(agg, hide_index=True, width="stretch", column_config={
+        "Trefferquote": st.column_config.NumberColumn(format="percent"),
+        rk: st.column_config.NumberColumn(format="percent"),
+    })
+    vergleich = pd.DataFrame([{
+        "Ticker": t, "Gruppe": r.gruppe,
+        "Strategie p.a.": r.auswertung["cagr_strategie"], "Halten p.a.": r.auswertung["cagr_halten"],
+        "Max. Rückgang Strategie": r.auswertung["mdd_strategie"], "Max. Rückgang Halten": r.auswertung["mdd_halten"],
+    } for t, r in ergebnisse.items()])
+    besser = (vergleich["Strategie p.a."] > vergleich["Halten p.a."]).mean()
+    weniger_dd = (vergleich["Max. Rückgang Strategie"] > vergleich["Max. Rückgang Halten"]).mean()
+    st.markdown(f"**Signal-Strategie schlägt Kaufen & Halten bei {besser:.0%} der Werte (Rendite) "
+                f"und hat bei {weniger_dd:.0%} kleinere Rückgänge.**")
+    st.dataframe(vergleich.sort_values("Strategie p.a.", ascending=False), hide_index=True, width="stretch",
+                 column_config={c: st.column_config.NumberColumn(format="percent") for c in vergleich.columns[2:]})
+    st.warning(
+        "Ehrliche Einordnung: Die Watchlist enthält die heutigen Gewinner – das schönt die Vergangenheit (Survivorship-Bias). "
+        "Überlappende 20-Tage-Fenster sind nicht unabhängig. Vergangene Trefferquoten garantieren nichts. "
+        "Typisch für Trend-/Momentum-Systeme: ähnliche oder etwas geringere Rendite als Halten, aber deutlich kleinere Crashs."
+    )
+
+# ------------------------------------------------------------------ Anleitung
+with tab_hilfe:
+    st.markdown(f"""
+### So nutzt du das Signal-Radar
+1. **Marktampel ansehen.** Bei RISK-OFF eher keine neuen Käufe oder nur kleine Positionen.
+2. **Übersicht → Beste Kaufkandidaten.** Grün = Kaufsignal. Je höher der Score, desto mehr Faktoren sprechen dafür.
+3. **Detailanalyse öffnen.** Unter „Warum dieses Signal?“ steht, was dafür (▲) und dagegen (▼) spricht.
+4. **Stop sofort beim Broker setzen.** Die Stückzahl ist so berechnet, dass du beim Stop höchstens {risiko:.2f} % deines Kontos verlierst.
+5. **Ziel:** dort einen Teil verkaufen. Steht „überdehnt – Gewinne sichern“, Gewinne absichern.
+6. **Verkaufssignal** bei einem Wert, den du hast: Position verkaufen oder Stop eng nachziehen.
+7. **Einmal am Tag reicht** – am besten abends nach US-Börsenschluss (22:00 Uhr MEZ). Signale basieren auf Tagesschlusskursen.
+
+### Was das System bewertet
+| Baustein | Gewicht | Was er misst |
+|---|---|---|
+| Trend | 25 % | Lage zur 200-/50-Tage-Linie, Steigung |
+| Momentum | 20 % | 12-Monats-Rendite ohne letzten Monat, schwankungsbereinigt |
+| Relative Stärke | 15 % | 6 Monate besser/schlechter als S&P 500 bzw. Bitcoin |
+| Akkumulation | 15 % | Wo im Tagesbereich schließt der Kurs bei hohem Volumen |
+| Kauf-/Verkaufszone | 15 % | Anchored VWAP, Volumenprofil (POC/VAL/VAH), Liquiditäts-Sweeps, Überdehnung |
+| Volatilität | 10 % | Kompression (gut) oder Stress (schlecht) |
+| Marktampel | ±10 Punkte | Gesamtmarkt; bei RISK-OFF werden Kaufsignale um 40 % abgeschwächt |
+
+Die Gewichte sind **bewusst nicht** auf historische Daten optimiert – sonst sähe der Backtest toll aus und würde live versagen.
+
+### Grenzen
+- Kostenlose Yahoo-Daten: gelegentlich Lücken oder Verzögerungen. Kein Intraday, kein echter Orderflow.
+- Unternehmensnachrichten, Earnings-Termine und Politik fließen nicht direkt ein – nur über Kurs, Volumen und Marktampel.
+- **Keine Anlageberatung.** Nutze das Radar als Filter und Entscheidungshilfe, nicht als Autopilot.
+""")
+
+st.caption("Signal-Radar · Keine Anlageberatung · Vergangene Ergebnisse sind keine Garantie für die Zukunft.")
