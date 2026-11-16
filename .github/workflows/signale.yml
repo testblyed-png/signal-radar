@@ -33,6 +33,8 @@ jobs:
         run: git clone -q --depth 1 --branch signale "https://github.com/${{ github.repository }}.git" vorher
       - run: pip install -r requirements-actions.txt
       - run: python export_signals.py ausgabe vorher
+        env:
+          SEC_IDENTITY: ${{ secrets.SEC_IDENTITY }}
       - name: Ergebnis auf Branch "signale" speichern
         run: |
           cd ausgabe

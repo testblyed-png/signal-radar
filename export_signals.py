@@ -42,7 +42,7 @@ def main(ziel="ausgabe", vorher="vorher"):
             cache = json.load(fh)
     except Exception:
         pass
-    identitaet = os.environ.get("SEC_IDENTITY", "Signal-Radar Bot signal-radar-bot@users.noreply.github.com")
+    identitaet = os.environ.get("SEC_IDENTITY") or "Signal-Radar Bot signal-radar-bot@users.noreply.github.com"
     extras = X.sammle(gruppen["Aktien"], gruppen["Krypto"], cache, identitaet)
     extras["diagnose"]["fred_spalten"] = list(fred.columns) if len(fred) else []
     X.anwenden(ergebnisse, extras, daten)
