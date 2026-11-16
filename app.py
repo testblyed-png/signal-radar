@@ -456,6 +456,22 @@ with tab_kry:
         figk.update_layout(height=360, margin=dict(l=10, r=10, t=10, b=10), yaxis_type="log", yaxis_title="Wert von 1 $ (log)",
                            legend=dict(orientation="h", y=-0.2))
         st.plotly_chart(figk, width="stretch")
+        mv = c.get("mvrv")
+        if mv:
+            hilft = [n for n, ok in mv.get("verbessert", {}).items() if ok]
+            st.caption(f"MVRV (Marktwert geteilt durch den Einstandspreis aller Coins) steht bei {mv['aktuell']:.2f}. Über {mv['hoch']} gilt als "
+                       f"überhitzt, unter {mv['tief']} als günstig. Die MVRV-Zeilen in der Tabelle zeigen, was diese Zusatzregeln gebracht hätten: "
+                       + ("bei diesem Coin eine kleine Verbesserung. " if hilft else "bei diesem Coin keine Verbesserung. ")
+                       + "Weil sie nicht bei beiden Coins helfen, sind sie nicht Teil der Strategie.")
+        tr = pd.DataFrame([{"Regel": n, "Trades": v["trades"]["trades"], "Trefferquote": v["trades"]["trefferquote"],
+                            "Ø Gewinn": v["trades"]["gewinn_mittel"], "Ø Verlust": v["trades"]["verlust_mittel"],
+                            "Größter Gewinn": v["trades"]["groesster_gewinn"]} for n, v in kz.items() if v.get("trades")])
+        if len(tr):
+            with st.expander("Trefferquote der einzelnen Regeln: warum sie niedrig ist und trotzdem funktioniert"):
+                st.dataframe(tr, hide_index=True, width="stretch", column_config={
+                    c_: st.column_config.NumberColumn(format="percent") for c_ in ["Trefferquote", "Ø Gewinn", "Ø Verlust", "Größter Gewinn"]})
+                st.caption("Trendfolge liegt nur bei etwa jedem dritten bis zweiten Trade richtig. Sie verdient, weil ein Gewinn im Schnitt "
+                           "ein Vielfaches eines Verlusts bringt: Verluste werden früh begrenzt, Gewinne laufen gelassen.")
         jr = pd.DataFrame({"Halten": h_["jahresrenditen"], "Strategie": e_["jahresrenditen"]})
         jr.index.name = "Jahr"
         with st.expander("Rendite je Kalenderjahr"):
