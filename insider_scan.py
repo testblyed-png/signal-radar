@@ -52,6 +52,13 @@ def holen(url: str, timeout: int = 30) -> bytes | None:
         except urllib.error.HTTPError as ex:
             if ex.code == 404:
                 return b""
+            if ex.code == 403:
+                try:
+                    koerper = ex.read().decode("utf-8", "ignore")
+                except Exception:
+                    koerper = ""
+                if not re.search(r"rate|threshold|undeclared|automated", koerper, re.I):
+                    return b""              # Datei gibt es (noch) nicht – die SEC meldet das als 403
             if ex.code in (403, 429):
                 time.sleep(20 * (versuch + 1))
                 if versuch == 2:
