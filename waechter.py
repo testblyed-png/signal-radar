@@ -90,6 +90,86 @@ def krypto_wichtig(titel: str) -> bool:
     return True
 
 
+# Staatsaufträge: Titel muss Auftragsvergabe UND staatlichen Auftraggeber nennen
+AUFTRAG = re.compile(r"\b(wins?|won|awarded|secures?|lands?|receives?|gets?|nabs?|inks?|signs?|selected)\b.*"
+                     r"\b(contract|order|deal|award|agreement|program)\b", re.I)
+STAAT = re.compile(r"Pentagon|\bArmy\b|\bNavy\b|Air Force|Space Force|NASA|DARPA|\bDoD\b|\bDOE\b|Department of|"
+                   r"government|federal|military|Missile Defense|Homeland|NATO|\bU\.S\.|\bUS\b|Marine Corps|\bVA\b", re.I)
+KAND_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/kandidaten/kandidaten.json"
+SUFFIX = re.compile(r",?\s+(inc\.?|incorporated|corp\.?|corporation|company|co\.?|ltd\.?|plc|holdings?|group|n\.v\.|s\.a\.|"
+                    r"\(the\)|class [abc]|trust)\b\.?", re.I)
+
+
+def kurzname(name: str) -> str:
+    n = SUFFIX.sub("", name or "").strip(" ,.")
+    return SUFFIX.sub("", n).strip(" ,.")
+
+
+def kandidaten_namen(status: dict, diag: dict) -> dict:
+    """Ticker -> Kurzname der aktuellen Potenzial-Kandidaten (täglich aktualisiert)."""
+    alt = status.get("kand_namen_zeit")
+    if status.get("kand_namen") and alt and datetime.fromisoformat(alt) > datetime.now(timezone.utc) - timedelta(hours=12):
+        return status["kand_namen"]
+    try:
+        d = json.loads(holen(KAND_URL, timeout=40))
+        namen = {k["ticker"]: kurzname(k.get("name") or "") for k in d.get("kandidaten", [])}
+        namen = {t: n for t, n in namen.items() if len(n) >= 4}
+        status["kand_namen"] = namen
+        status["kand_namen_zeit"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        return namen
+    except Exception as ex:
+        diag["fehler"].append(f"Kandidaten-Namen: {type(ex).__name__}: {str(ex)[:80]}")
+        return status.get("kand_namen") or {}
+
+
+def pruefe_auftraege(namen: dict, gesehen: set, diag: dict) -> list:
+    """Schlagzeilen zu Staatsaufträgen für Watchlist und Kandidaten."""
+    ev = []
+    paare = list(namen.items())
+    jetzt = datetime.now(timezone.utc)
+    for i in range(0, len(paare), 8):
+        block = paare[i:i + 8]
+        q = ("(" + " OR ".join(f'"{n}"' for _, n in block) + ") (contract OR awarded) "
+             "(Pentagon OR Army OR Navy OR \"Air Force\" OR NASA OR \"Space Force\" OR government OR federal)")
+        try:
+            for titel, link, pub in google_news(q):
+                key = titel_key(titel)
+                if key in gesehen:
+                    continue
+                try:
+                    if jetzt - parsedate_to_datetime(pub) > timedelta(hours=NEWS_MAX_ALTER_H):
+                        continue
+                except Exception:
+                    continue
+                if SPEKULATIV.search(titel) or not AUFTRAG.search(titel) or not STAAT.search(titel):
+                    continue
+                betroffen = [t for t, n in block if re.search(r"\b" + re.escape(n) + r"\b", titel, re.I)]
+                if not betroffen:
+                    continue
+                gesehen.add(key)
+                ev.append((3, f"Staatsauftrag {', '.join(betroffen)}: {titel}", link))
+            diag["auftrag_ok"] = diag.get("auftrag_ok", 0) + 1
+        except Exception as ex:
+            diag["fehler"].append(f"Aufträge: {type(ex).__name__}: {str(ex)[:100]}")
+        time.sleep(1.0)
+    return ev
+
+
+def probe_dod(diag: dict) -> None:
+    """Test, ob die tägliche Auftragsliste des US-Verteidigungsministeriums maschinell erreichbar ist."""
+    for host in ("www.war.gov", "www.defense.gov"):
+        url = f"https://{host}/DesktopModules/ArticleCS/RSS.ashx?ContentType=400&Site=945&max=3"
+        try:
+            roh = holen(url, timeout=20)
+            root = ET.fromstring(roh)
+            items = list(root.iter("item"))
+            diag[f"dod_{host}"] = {"bytes": len(roh), "items": len(items),
+                                   "titel": (items[0].findtext("title") or "")[:80] if items else None,
+                                   "beschreibung_laenge": len(items[0].findtext("description") or "") if items else 0}
+        except Exception as ex:
+            diag[f"dod_{host}"] = f"{type(ex).__name__}: {str(ex)[:100]}"
+
+
 SPEKULATIV = re.compile(r"\?|\b(could|might|may|will|should|would|what if|why|how to|prediction|predict)\b", re.I)
 
 
@@ -262,6 +342,12 @@ def main(status_pfad: str = "waechter_status/status.json", ziel: str = "waechter
         diag["fehler"].append(f"8-K gesamt: {type(ex).__name__}: {str(ex)[:100]}")
     ev += pruefe_fed(gesehen, diag)
     ev += pruefe_news(E.STANDARD_AKTIEN, E.STANDARD_KRYPTO, gesehen, diag)
+    namen = {t: NAMEN.get(t, t) for t in E.STANDARD_AKTIEN if len(NAMEN.get(t, t)) >= 4}
+    namen.update(kandidaten_namen(status, diag))
+    ev += pruefe_auftraege(namen, gesehen, diag)
+    if not status.get("dod_probe"):
+        probe_dod(diag)
+        status["dod_probe"] = {k: v for k, v in diag.items() if k.startswith("dod_")}
     diag["neu"] = len(ev)
 
     topic = os.environ.get("NTFY_TOPIC", "").strip()
