@@ -35,6 +35,12 @@ jobs:
       - run: python export_signals.py ausgabe vorher
         env:
           SEC_IDENTITY: ${{ secrets.SEC_IDENTITY }}
+      - name: Push-Benachrichtigung bei wichtigen Änderungen
+        continue-on-error: true
+        run: python benachrichtigung.py vorher ausgabe
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          TEST_PUSH: ${{ contains(github.event.head_commit.message, 'TESTPUSH') }}
       - name: Ergebnis auf Branch "signale" speichern
         run: |
           cd ausgabe

@@ -1,0 +1,4 @@
+# Ein Ticker pro Zeile – Werte, die du besitzt (strengere Warnungen)
+# Beispiel:
+# AAPL
+# BTC-USD
