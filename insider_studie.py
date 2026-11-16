@@ -117,19 +117,18 @@ def lade_kurse(tickers: list[str], diag: dict):
     import yfinance as yf
     logging.getLogger("yfinance").setLevel(logging.CRITICAL)
     C, V = {}, {}
-    for i in range(0, len(tickers), 60):
-        block = tickers[i:i + 60]
-        for versuch in range(2):
-            try:
-                raw = yf.download(block, period="10y", interval="1d", auto_adjust=True, group_by="ticker", threads=True, progress=False)
-            except Exception:
-                raw = None
-            if raw is not None and not raw.empty:
-                break
-            time.sleep(15)
-        if raw is None or raw.empty or not isinstance(raw.columns, pd.MultiIndex):
-            continue
+
+    def block_laden(block) -> int:
+        try:
+            raw = yf.download(block, period="10y", interval="1d", auto_adjust=True, group_by="ticker", threads=True, progress=False)
+        except Exception:
+            return -1
+        if raw is None or raw.empty:
+            return -1
+        if not isinstance(raw.columns, pd.MultiIndex):
+            raw = pd.concat({block[0]: raw}, axis=1)
         lt = 0 if set(block) & set(raw.columns.get_level_values(0)) else 1
+        n = 0
         for t in block:
             try:
                 sub = raw.xs(t, axis=1, level=lt)
@@ -137,9 +136,30 @@ def lade_kurse(tickers: list[str], diag: dict):
                 if len(c) >= 60:
                     C[t] = c.astype("float32")
                     V[t] = sub["Volume"].reindex(c.index).fillna(0).astype("float32")
+                    n += 1
             except Exception:
                 continue
-        time.sleep(0.5)
+        return n
+
+    for versuch in range(4):                       # Benchmarks zuerst und hartnäckig
+        if block_laden(["IWM", "SPY"]) == 2:
+            break
+        time.sleep(30)
+    rest = [t for t in tickers if t not in ("IWM", "SPY")]
+    bloecke = [rest[i:i + 50] for i in range(0, len(rest), 50)]
+    leer = []
+    for b in bloecke:
+        if block_laden(b) <= 0:
+            leer.append(b)
+        time.sleep(1.0)
+    diag["bloecke"] = len(bloecke)
+    diag["bloecke_leer_erster_durchgang"] = len(leer)
+    for runde in range(2):                         # leere Blöcke nach Pause wiederholen (Yahoo bremst zeitweise)
+        if not leer:
+            break
+        time.sleep(90)
+        leer = [b for b in leer if block_laden(b) <= 0 and not time.sleep(2)]
+    diag["bloecke_leer_am_ende"] = len(leer)
     diag["ticker_angefragt"] = len(tickers)
     diag["ticker_mit_kursen"] = len(C)
     return C, V
