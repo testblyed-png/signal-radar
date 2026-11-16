@@ -1,3 +1,4 @@
 -r requirements.txt
 edgartools>=6.0
 ccxt>=4.4
+lxml>=5.0
