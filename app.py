@@ -216,8 +216,8 @@ for t, r in ergebnisse.items():
     })
 tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
 
-tab_ueber, tab_detail, tab_kand, tab_guete, tab_hilfe = st.tabs(
-    ["Übersicht", "Detailanalyse", "Potenzial-Kandidaten", "Wie gut sind die Signale?", "Anleitung"])
+tab_ueber, tab_detail, tab_kand, tab_rot, tab_guete, tab_hilfe = st.tabs(
+    ["Übersicht", "Detailanalyse", "Potenzial-Kandidaten", "ETF-Strategien", "Wie gut sind die Signale?", "Anleitung"])
 
 # ------------------------------------------------------------------ Übersicht
 with tab_ueber:
@@ -484,6 +484,42 @@ with tab_kand:
                        "benachteiligt Strategien, die auf Stärke setzen – das wahre Ergebnis liegt vermutlich weniger weit auseinander. "
                        "Der Test nutzt nur Kurs und Volumen; Gewinnüberraschung, Revisionen und Insider lassen sich mit "
                        "kostenlosen Daten nicht rückwirkend prüfen. Keine Anlageberatung.")
+
+# ------------------------------------------------------------------ ETF-Strategien
+with tab_rot:
+    rot = (kand or {}).get("etf_rotation") or {}
+    if not rot.get("kennzahlen"):
+        st.info("Der ETF-Strategie-Test wird einmal täglich berechnet und ist noch nicht verfügbar.")
+    else:
+        st.subheader("Einfache ETF-Strategien: eine Entscheidung pro Monat")
+        st.markdown("Zwei veröffentlichte Regeln, getestet mit ganzen Anlageklassen statt Einzelaktien. Hier gibt es keine "
+                    "verschwundenen Pleitefirmen – dieser Rückblick ist der **sauberste** im ganzen Radar.\n"
+                    "- **Trendfolge (Meb Faber, 2007):** fünf Anlageklassen zu je 20 %. Jede nur halten, solange sie über ihrem "
+                    "10-Monats-Durchschnitt liegt, sonst Cash.\n"
+                    "- **Dual Momentum (Gary Antonacci, 2014):** Waren US-Aktien in 12 Monaten besser als Cash? Dann die stärkere "
+                    "von US- und Auslandsaktien halten, sonst Anleihen.")
+        akt, namen = rot["aktuell"], rot.get("namen", {})
+        c1, c2 = st.columns(2)
+        with c1:
+            st.markdown(f"**Trendfolge – aktuelle Aufteilung** (Signal vom {pd.Timestamp(akt['signal_vom']):%d.%m.%Y})")
+            for t, g in sorted(akt["gtaa"].items(), key=lambda x: -x[1]):
+                st.markdown(f"- {g:.0%} {namen.get(t, t)}")
+        with c2:
+            st.markdown("**Dual Momentum – aktuelle Position**")
+            for t, g in akt["gem"].items():
+                st.markdown(f"- {g:.0%} {namen.get(t, t)}")
+            st.caption(f"Unverändert seit {pd.Timestamp(akt['gem_seit']):%d.%m.%Y} · {akt['gem_wechsel_gesamt']} Wechsel im ganzen Testzeitraum")
+        test_anzeige(rot, "Dual Momentum (Antonacci)")
+        jr = pd.DataFrame(rot.get("jahresrenditen", {}))
+        if len(jr):
+            with st.expander("Rendite je Kalenderjahr"):
+                jr.index.name = "Jahr"
+                st.dataframe(jr.reset_index(), hide_index=True, width="stretch",
+                             column_config={c: st.column_config.NumberColumn(format="percent") for c in jr.columns})
+        st.warning("Einordnung: Solche Regeln haben historisch vor allem **Crashs abgefedert**, nicht die Rendite erhöht. "
+                   "In Österreich fällt bei jedem Wechsel mit Gewinn 27,5 % KESt an – beim Sparplan erst beim Verkauf. "
+                   "Getestet mit US-ETFs in Dollar; in der EU bräuchtest du vergleichbare UCITS-ETFs, und der Euro-Dollar-Kurs "
+                   "verändert das Ergebnis. Keine Anlageberatung.")
 
 # ------------------------------------------------------------------ Güte gesamt
 with tab_guete:

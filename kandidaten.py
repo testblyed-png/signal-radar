@@ -319,6 +319,80 @@ def radar_test(daten: dict, fred) -> dict:
             "kurven": {k: kurve(x) for k, (x, _) in reihen.items()}}
 
 
+# ---------------------------------------------------------------- ETF-Rotation (veröffentlichte Regeln, 1 Entscheidung pro Monat)
+ROT = ["SPY", "EFA", "EEM", "IEF", "VNQ", "GLD", "SHY"]
+ROT_NAMEN = {"SPY": "US-Aktien (S&P 500)", "EFA": "Aktien Industrieländer ohne USA", "EEM": "Aktien Schwellenländer",
+             "IEF": "US-Staatsanleihen 7–10 Jahre", "VNQ": "US-Immobilien (REITs)", "GLD": "Gold", "SHY": "Cash (kurze US-Anleihen)"}
+
+
+def sim_gewichte(ret: pd.DataFrame, plan: list) -> pd.Series:
+    """Wie simuliere(), aber mit Gewichten je Wert. Signal Tag i, Kauf Schluss i+1, Rendite ab i+2."""
+    n = len(ret)
+    out = pd.Series(0.0, index=ret.index)
+    alt = {}
+    for j, (i, w) in enumerate(plan):
+        a = i + 2
+        b = plan[j + 1][0] + 2 if j + 1 < len(plan) else n
+        if a >= n:
+            break
+        umsatz = sum(abs(w.get(t, 0.0) - alt.get(t, 0.0)) for t in set(w) | set(alt))
+        seg = ret.iloc[a:b]
+        r = sum(seg[t].fillna(0.0) * g for t, g in w.items())
+        r = r.copy()
+        if len(r):
+            r.iloc[0] -= KOSTEN * umsatz
+        out.iloc[a:b] = r.values
+        alt = w
+    return out.iloc[plan[0][0] + 2:]
+
+
+def etf_rotation(d: dict) -> dict:
+    """Faber GTAA-5 (10-Monats-Trend je Anlageklasse) und Antonacci Dual Momentum (12-Monats-Vergleich)."""
+    if any(t not in d for t in ROT):
+        return {"fehler": "fehlende ETFs: " + ", ".join(t for t in ROT if t not in d)}
+    C = pd.DataFrame({t: d[t]["Close"] for t in ROT}).dropna()
+    ret = C.pct_change(fill_method=None)
+    me = [i for i in range(252, len(C) - 1) if C.index[i].month != C.index[i + 1].month]
+    plaene = {k: [] for k in ["gtaa", "gem", "welt", "6040", "spy"]}
+    for i in me:
+        w = {}
+        for t in ["SPY", "EFA", "IEF", "VNQ", "GLD"]:
+            ziel = t if C[t].iloc[i] > C[t].iloc[i - 209:i + 1].mean() else "SHY"
+            w[ziel] = w.get(ziel, 0.0) + 0.2
+        plaene["gtaa"].append((i, w))
+        r12 = C.iloc[i] / C.iloc[i - 252] - 1
+        if r12["SPY"] > r12["SHY"]:
+            plaene["gem"].append((i, {"SPY" if r12["SPY"] >= r12["EFA"] else "EFA": 1.0}))
+        else:
+            plaene["gem"].append((i, {"IEF": 1.0}))
+        plaene["welt"].append((i, {"SPY": 0.6, "EFA": 0.3, "EEM": 0.1}))
+        plaene["6040"].append((i, {"SPY": 0.6, "IEF": 0.4}))
+        plaene["spy"].append((i, {"SPY": 1.0}))
+    reihen = {
+        "Trendfolge 5 Anlageklassen (Faber)": (sim_gewichte(ret, plaene["gtaa"]), "jaehrlich"),
+        "Dual Momentum (Antonacci)": (sim_gewichte(ret, plaene["gem"]), "jaehrlich"),
+        "Welt-Aktien halten (60/30/10)": (sim_gewichte(ret, plaene["welt"]), "ende"),
+        "60 % Aktien / 40 % Anleihen": (sim_gewichte(ret, plaene["6040"]), "ende"),
+        "S&P 500 (SPY) halten": (sim_gewichte(ret, plaene["spy"]), "ende"),
+    }
+    gem = plaene["gem"]
+    seit = gem[-1][0]
+    for i, w in reversed(gem):
+        if w != gem[-1][1]:
+            break
+        seit = i
+    wechsel = sum(1 for a, b in zip(gem[:-1], gem[1:]) if a[1] != b[1])
+    jahr = {k: {str(y): float(v) for y, v in ((1 + r).groupby(r.index.year).prod() - 1).items()} for k, (r, _) in reihen.items()}
+    return {"von": str(reihen["S&P 500 (SPY) halten"][0].index[0].date()), "bis": str(C.index[-1].date()),
+            "kennzahlen": {k: kennzahlen(r, st) for k, (r, st) in reihen.items()},
+            "kurven": {k: kurve(r) for k, (r, _) in reihen.items()},
+            "jahresrenditen": jahr,
+            "aktuell": {"signal_vom": str(C.index[me[-1]].date()),
+                        "gtaa": plaene["gtaa"][-1][1], "gem": gem[-1][1],
+                        "gem_seit": str(C.index[seit].date()), "gem_wechsel_gesamt": wechsel},
+            "namen": ROT_NAMEN}
+
+
 # ---------------------------------------------------------------- Stufe 2 (Fundamentaldaten, nur heutige Top 40)
 def stufe2(t: str, identitaet: str) -> dict:
     import yfinance as yf
@@ -501,6 +575,11 @@ def main(ziel: str = "kandidaten_neu", vorher: str = "kandidaten_alt"):
     except Exception as ex:
         rtest = {}
         diag["fehler"].append(f"Radar-Test: {type(ex).__name__}: {str(ex)[:120]}")
+    try:
+        rot = etf_rotation(E.lade_yahoo(ROT, period="max"))
+    except Exception as ex:
+        rot = {}
+        diag["fehler"].append(f"ETF-Rotation: {type(ex).__name__}: {str(ex)[:120]}")
     reg = E.regime_aktien(daten, E.STANDARD_AKTIEN, fred)
     regime = E.regime_label(float(reg["score"].iloc[-1])) if len(reg) else "UNBEKANNT"
 
@@ -613,7 +692,7 @@ def main(ziel: str = "kandidaten_neu", vorher: str = "kandidaten_alt"):
     out = {"erstellt_utc": jetzt().isoformat(timespec="seconds"), "daten_bis": str(idx[-1].date()), "regime": regime,
            "universum_anzahl": len(tick), "gewichte": GEWICHTE, "faktor_namen": FAKTOR_NAMEN,
            "kandidaten": top, "faktor_check": check, "portfolio_test": test, "radar_test": rtest,
-           "live_bilanz": live, "verlauf": verlauf,
+           "live_bilanz": live, "verlauf": verlauf, "etf_rotation": rot,
            "diagnose": diag, "universum": uni, "stufe2_cache": s2}
     os.makedirs(ziel, exist_ok=True)
     with open(os.path.join(ziel, "kandidaten.json"), "w", encoding="utf-8") as fh:
