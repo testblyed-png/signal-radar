@@ -1,0 +1,50 @@
+name: Insider-Radar
+
+on:
+  schedule:
+    - cron: "40 */3 * * *"
+  workflow_dispatch:
+  push:
+    branches: [insider-start]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: insider
+  cancel-in-progress: false
+
+jobs:
+  lauf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-actions.txt
+      - name: Bisherigen Stand holen
+        run: git clone -q --depth 1 --branch insider "https://github.com/${{ github.repository }}.git" insider_neu || mkdir -p insider_neu
+      - run: rm -rf insider_neu/.git && pip install -q -r requirements-actions.txt
+      - name: Lauf
+        run: |
+          MSG="${{ github.event.head_commit.message }}"
+          if [[ "$MSG" == *PROBE* ]]; then python insider_probe.py;
+          elif [[ "$MSG" == *STUDIE* ]]; then python insider_studie.py insider_neu;
+          else python insider_scan.py insider_neu; fi
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          SEC_IDENTITY: ${{ secrets.SEC_IDENTITY }}
+      - name: Ergebnis speichern
+        run: |
+          cd insider_neu
+          git init -q -b insider
+          git config user.name "signal-radar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -qm "Insider $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" insider
