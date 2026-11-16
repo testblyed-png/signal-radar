@@ -39,6 +39,36 @@ def kurs(x):
     return "–" if x is None else (f"{x:,.4f}" if abs(x) < 1 else f"{x:,.2f}")
 
 
+TOP_SCORE = 55
+TOP_CRV = 2.0
+
+
+def ist_top(w, regime):
+    """Sehr gute Kaufchance: alles muss passen."""
+    if not w or w.get("signal") != "STARK KAUFEN":
+        return False
+    markt = "Krypto" if w.get("gruppe") == "Krypto" else "Aktien"
+    if (regime.get(markt) or {}).get("label") == "RISK-OFF":
+        return False
+    ex = w.get("extras") or {}
+    h = w.get("hist") or {}
+    tk, ta = h.get("treffer_kauf"), h.get("treffer_alle_tage")
+    return ((w.get("score") or 0) >= TOP_SCORE
+            and (w.get("crv") or 0) >= TOP_CRV
+            and not ex.get("earnings_sperre")
+            and (w.get("ext_pct") is None or w["ext_pct"] < 0.9)
+            and tk is not None and ta is not None and tk >= ta + 0.05)
+
+
+def top_text(w):
+    h = w["hist"]
+    ins = (w.get("extras") or {}).get("insider") or {}
+    zusatz = f" · Insiderkäufe {ins['kaeufer']}×" if ins.get("kaeufe") else ""
+    return (f"⭐ TOP-CHANCE {w['ticker']}: Score {w['score']:+.0f} · Kurs {kurs(w['kurs'])} · Stop {kurs(w['stop'])} · "
+            f"Ziel {kurs(w['ziel'])} · CRV {w['crv']:.1f} · früher {h['treffer_kauf']:.0%} Treffer nach Kaufsignal "
+            f"(sonst {h['treffer_alle_tage']:.0%}){zusatz}")
+
+
 def ereignisse(alt, neu, mein):
     """Liste aus (Priorität 1-5, Text)."""
     ev = []
@@ -63,6 +93,10 @@ def ereignisse(alt, neu, mein):
             continue
         ps = p.get("signal")
         im_bestand = t in mein
+        # Top-Chance (strengste Stufe, höchste Priorität)
+        if ist_top(w, rn) and not ist_top(p, ra):
+            ev.append((5, top_text(w)))
+            continue
         # Neue Kaufchance
         if s == "STARK KAUFEN" and ps != "STARK KAUFEN" and not w.get("extras", {}).get("earnings_sperre"):
             crv = w.get("crv")
