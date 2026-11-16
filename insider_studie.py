@@ -160,6 +160,20 @@ def lade_kurse(tickers: list[str], diag: dict):
         time.sleep(90)
         leer = [b for b in leer if block_laden(b) <= 0 and not time.sleep(2)]
     diag["bloecke_leer_am_ende"] = len(leer)
+    # Fehlende Einzelwerte nachladen: Yahoo liefert unter Last oft nur einen Teil eines Blocks
+    diag["nachladen"] = []
+    for runde in range(3):
+        fehlend = [t for t in rest if t not in C]
+        if not fehlend:
+            break
+        vorher = len(C)
+        time.sleep(60)
+        for i in range(0, len(fehlend), 25):
+            block_laden(fehlend[i:i + 25])
+            time.sleep(1.5)
+        diag["nachladen"].append({"fehlend": len(fehlend), "gefunden": len(C) - vorher})
+        if len(C) - vorher < 0.01 * len(fehlend):
+            break
     diag["ticker_angefragt"] = len(tickers)
     diag["ticker_mit_kursen"] = len(C)
     return C, V
