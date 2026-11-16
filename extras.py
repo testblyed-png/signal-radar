@@ -117,7 +117,8 @@ def insider_punkte(d: dict | None) -> tuple[float, str | None]:
         return 0.0, None
     k, s = d.get("kaeufer", 0), d.get("summe_usd", 0)
     if k >= 2 or s >= 1_000_000:
-        return PUNKTE_INSIDER, f"Insiderkäufe: {k} Manager kauften in 90 Tagen für ${s:,.0f} am offenen Markt"
+        wer = "ein Manager kaufte" if k == 1 else f"{k} Manager kauften"
+        return PUNKTE_INSIDER, f"Insiderkäufe: {wer} in 90 Tagen für ${s:,.0f} am offenen Markt"
     if k == 1 and s >= 100_000:
         return PUNKTE_INSIDER / 2, f"Insiderkauf: ein Manager kaufte für ${s:,.0f} am offenen Markt"
     return 0.0, None
