@@ -117,6 +117,11 @@ def main(ziel="ausgabe", vorher="vorher"):
     with open(os.path.join(ziel, "signale.md"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(md) + "\n")
     print(f"OK: {len(werte)} Werte, {jetzt:%Y-%m-%d %H:%M} UTC")
+    try:
+        import krypto
+        krypto.main(ziel, vorher)
+    except Exception as ex:
+        print("Krypto-Strategie fehlgeschlagen:", repr(ex)[:300])
     print("Diagnose Zusatzdaten:", json.dumps(extras["diagnose"], ensure_ascii=False)[:2000])
 
 
