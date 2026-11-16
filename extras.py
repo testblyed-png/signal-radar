@@ -28,6 +28,7 @@ PUNKTE_SEKTOR = 6
 PUNKTE_FUNDING = 8
 EARNINGS_SPERRE_TAGE = 7          # Kalendertage vor Quartalszahlen: kein Neukauf
 INSIDER_TAGE = 90
+INSIDER_VERSION = 2               # erhöhen, wenn sich die Insider-Logik ändert (Cache wird verworfen)
 
 # Ablaufzeiten des Caches (Stunden)
 TTL = {"insider": 20, "info": 24, "earnings": 12}
@@ -221,9 +222,9 @@ def sammle(aktien: list[str], krypto: list[str], cache: dict | None, identitaet:
         e = dict(alt.get(t, {}))
         # Insider
         if t in us and t not in KEIN_FORM4:
-            if not (e.get("insider") and _frisch(e["insider"], "insider")):
+            if not (e.get("insider") and e["insider"].get("version") == INSIDER_VERSION and _frisch(e["insider"], "insider")):
                 try:
-                    e["insider"] = _stempel(insider_kaeufe(t, identitaet))
+                    e["insider"] = _stempel({**insider_kaeufe(t, identitaet), "version": INSIDER_VERSION})
                     diag["insider_neu"] += 1
                 except Exception as ex:
                     diag["fehler"].append(f"insider {t}: {type(ex).__name__}: {str(ex)[:120]}")
@@ -277,7 +278,7 @@ def anwenden(ergebnisse: dict, extras: dict | None, daten: dict) -> None:
             punkte += p
             gruende.append(("+", txt))
         if e.get("insider"):
-            info["insider"] = {k: v for k, v in e["insider"].items() if not k.startswith("_")}
+            info["insider"] = {k: v for k, v in e["insider"].items() if not k.startswith("_") and k != "version"}
 
         # Qualität
         q = e.get("qualitaet")
