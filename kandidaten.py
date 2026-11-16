@@ -581,24 +581,39 @@ def main(ziel: str = "kandidaten_neu", vorher: str = "kandidaten_alt"):
         for z in top:
             z["hinweise"].insert(0, "Markt im RISK-OFF – keine neuen Käufe")
 
-    # Push: neue Namen unter den besten 5
-    alt_top = [k["ticker"] for k in alt.get("kandidaten", [])][:10]
-    neu5 = [z for z in top[:5] if z["ticker"] not in alt_top]
-    topic = os.environ.get("NTFY_TOPIC", "").strip()
-    if topic and alt_top and neu5 and regime != "RISK-OFF":
-        try:
-            import benachrichtigung as B
-            txt = "\n".join(f"• {z['ticker']} ({z['name']}): {z['punkte']:.0f} Punkte · Kurs {B.kurs(z.get('kurs'))} · "
-                            f"Stop {B.kurs(z.get('stop'))}" + (f" · {z['hinweise'][0]}" if z["hinweise"] else "") for z in neu5)
-            B.senden(topic, f"Signal-Radar: {len(neu5)} neue Potenzial-Kandidaten", txt + "\n\nKeine Anlageberatung.", 3)
-            diag["push"] = len(neu5)
-        except Exception as ex:
-            diag["fehler"].append(f"Push: {type(ex).__name__}: {str(ex)[:80]}")
+    # Echtzeit-Protokoll: jede Tagesliste merken und später ehrlich auswerten (einziger sauberer Test
+    # für den Gesamt-Score inkl. Gewinnüberraschung, Revisionen und Insidern)
+    verlauf = alt.get("verlauf", [])
+    heute_s = str(idx[-1].date())
+    if top and (not verlauf or verlauf[-1]["datum"] != heute_s):
+        verlauf.append({"datum": heute_s, "top": [z["ticker"] for z in top]})
+    verlauf = verlauf[-500:]
+    eintraege = []
+    for e in verlauf:
+        d0 = pd.Timestamp(e["datum"])
+        if d0 not in C.index:
+            continue
+        a = C.index.get_loc(d0) + 1                      # Kauf am Folgetag
+        b = min(a + HALTE_TAGE, len(C) - 1)
+        tk = [t for t in e["top"] if t in C.columns]
+        if a >= len(C) or b - a < 5 or not tk:
+            continue
+        eintraege.append({"datum": e["datum"], "tage": int(b - a), "fertig": bool(b - a >= HALTE_TAGE),
+                          "liste": float((C[tk].iloc[b] / C[tk].iloc[a] - 1).mean()),
+                          "universum": float((C.iloc[b] / C.iloc[a] - 1).mean()),
+                          "spy": float(spy.iloc[b] / spy.iloc[a] - 1)})
+    fertig = [e for e in eintraege if e["fertig"]]
+    live = {"seit": verlauf[0]["datum"] if verlauf else None, "listen": len(verlauf), "fertig": len(fertig),
+            "mittel_liste": float(np.mean([e["liste"] for e in fertig])) if fertig else None,
+            "mittel_universum": float(np.mean([e["universum"] for e in fertig])) if fertig else None,
+            "mittel_spy": float(np.mean([e["spy"] for e in fertig])) if fertig else None,
+            "eintraege": eintraege[-40:]}
 
     diag["fehler"] = diag["fehler"][:30]
     out = {"erstellt_utc": jetzt().isoformat(timespec="seconds"), "daten_bis": str(idx[-1].date()), "regime": regime,
            "universum_anzahl": len(tick), "gewichte": GEWICHTE, "faktor_namen": FAKTOR_NAMEN,
            "kandidaten": top, "faktor_check": check, "portfolio_test": test, "radar_test": rtest,
+           "live_bilanz": live, "verlauf": verlauf,
            "diagnose": diag, "universum": uni, "stufe2_cache": s2}
     os.makedirs(ziel, exist_ok=True)
     with open(os.path.join(ziel, "kandidaten.json"), "w", encoding="utf-8") as fh:

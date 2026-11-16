@@ -392,6 +392,15 @@ with tab_kand:
         st.subheader("Potenzial-Kandidaten: mittelgroße US-Firmen")
         st.caption(f"Stand: Kurse bis {pd.Timestamp(kand['daten_bis']):%d.%m.%Y} · {kand['universum_anzahl']} Aktien geprüft "
                    f"(S&P 1500) · Kandidaten nur aus Mid und Small Caps · Marktampel {kand['regime']} · höchstens 3 Werte pro Sektor")
+        fc_roh = kand.get("faktor_check", [])
+        belegt = [r["name"] for r in fc_roh if r["urteil"].startswith("wirkt (") and r.get("gewicht")]
+        pt = (kand.get("portfolio_test") or {}).get("kennzahlen", {})
+        s_top, s_uni = pt.get("Top 15 nach Score", {}), pt.get("Alle Aktien des Universums (gleichgewichtet)", {})
+        if s_top and s_uni and s_top["cagr"] < s_uni["cagr"]:
+            st.error(f"**Ehrliches Testergebnis:** Im Rückblick hat der Kurs-Teil dieses Scores **keinen Vorteil** gebracht "
+                     f"({s_top['cagr']:+.1%} pro Jahr gegenüber {s_uni['cagr']:+.1%} für alle Aktien des Universums). "
+                     + ("Kein einzelner Kurs-Faktor zeigte einen belegten Zusammenhang mit späteren Gewinnen. " if not belegt else "")
+                     + "Nutze die Liste als **Ideensammlung zum Selbst-Prüfen**, nicht als Kaufsignal. Details unten.")
         st.markdown("Hier sucht das Radar **abseits der bekannten Riesen**. Punkte (0–100): bis 60 aus Kurs und Volumen "
                     "(Momentum, Nähe zum Hoch, Kurssprünge nach Nachrichten, ruhiger Verlauf, Kaufdruck), dazu Zu- und Abschläge für "
                     "Gewinnüberraschung, Analysten-Revisionen, Insiderkäufe, Wachstum und Qualität.")
@@ -455,11 +464,24 @@ with tab_kand:
             st.caption("Die Gewichte wurden vorab aus der Forschung übernommen und nicht an diese Daten angepasst. "
                        "Faktoren ohne Gewicht dienen nur dem Vergleich.")
 
+        lb = kand.get("live_bilanz") or {}
+        st.subheader("Echtzeit-Protokoll: Was bringt die Liste wirklich?")
+        if lb.get("fertig"):
+            c1, c2, c3 = st.columns(3)
+            c1.metric("Ø Liste nach 1 Monat", f"{lb['mittel_liste']:+.1%}")
+            c2.metric("Ø alle Aktien", f"{lb['mittel_universum']:+.1%}")
+            c3.metric("Ø S&P 500", f"{lb['mittel_spy']:+.1%}")
+            st.caption(f"{lb['fertig']} abgeschlossene Tageslisten seit {lb['seit']}. Aussagekräftig erst ab etwa 6–12 Monaten.")
+        else:
+            st.info(f"Seit {lb.get('seit') or 'heute'} wird jede Tagesliste gespeichert und nach einem Monat mit dem Markt verglichen. "
+                    "Das ist der einzige saubere Test für den Gesamt-Score (inklusive Gewinnüberraschung, Analysten und Insidern), "
+                    "weil er nicht in die Vergangenheit schauen kann. Erste Ergebnisse in etwa einem Monat.")
         if kand.get("portfolio_test", {}).get("kennzahlen"):
             st.subheader("Portfolio-Test: jeden Monat die besten 15 kaufen")
             test_anzeige(kand["portfolio_test"], "Top 15 nach Score")
-            st.warning("Der faire Vergleich ist **„Alle Aktien des Universums“**, nicht der ETF: Die Liste enthält nur Firmen, die "
-                       "heute im Index sind – Pleiten und Absteiger fehlen, das schönt alle Zeilen aus diesem Universum gleichermaßen. "
+            st.warning("Der faire Vergleich ist **„Alle Aktien des Universums“**, nicht der ETF: Das Universum enthält nur Firmen, die "
+                       "heute im S&P 1500 sind. Pleiten und Rauswürfe fehlen. Das hebt den Durchschnitt aller Aktien künstlich an und "
+                       "benachteiligt Strategien, die auf Stärke setzen – das wahre Ergebnis liegt vermutlich weniger weit auseinander. "
                        "Der Test nutzt nur Kurs und Volumen; Gewinnüberraschung, Revisionen und Insider lassen sich mit "
                        "kostenlosen Daten nicht rückwirkend prüfen. Keine Anlageberatung.")
 
@@ -468,8 +490,9 @@ with tab_guete:
     if kand and kand.get("radar_test", {}).get("kennzahlen"):
         st.subheader("Portfolio-Test: jeden Monat die 5 Werte mit dem höchsten Radar-Score")
         test_anzeige(kand["radar_test"], "Radar Top 5 (monatlich)")
-        st.caption("Aktien und ETFs der Watchlist, nur Werte mit Kaufsignal, sonst Cash. Fairer Vergleich: „Watchlist gleichgewichtet“ "
-                   "(gleiche Auswahl heutiger Gewinner).")
+        st.warning("Vorsicht bei diesem Ergebnis: Die Watchlist wurde aus den **heutigen Gewinnern** zusammengestellt (Nvidia, AMD, "
+                   "Palantir …). Wer unter lauter späteren Gewinnern die jeweils stärksten kauft, sieht im Rückblick zwangsläufig gut aus. "
+                   "Das ist **kein Beleg**, dass das Radar künftige Gewinner findet. Fairer Vergleich: „Watchlist gleichgewichtet“.")
         st.divider()
     st.subheader("Alle Werte zusammen: Was haben die Signale früher gebracht?")
     teile = []
