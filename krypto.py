@@ -82,6 +82,57 @@ def kurve(r: pd.Series) -> dict:
     return {"monat": [str(p) for p in m.index], "wert": [round(float(v), 4) for v in m.values]}
 
 
+MVRV_HOCH, MVRV_TIEF = 3.5, 1.0        # klassische Zonen: über 3,5 überhitzt, unter 1 unter Einstandspreis aller Coins
+MVRV_VARIANTEN = ["Ensemble + Gewinnmitnahme bei MVRV über 3,5", "Ensemble + Mindestanteil 40 % bei MVRV unter 1",
+                  "Ensemble + beide MVRV-Regeln"]
+
+
+def lade_mvrv(asset: str, diag: dict) -> pd.Series | None:
+    """Market Value / Realized Value von Coin Metrics (kostenlose Community-Schnittstelle)."""
+    try:
+        url = (f"https://community-api.coinmetrics.io/v4/timeseries/asset-metrics?assets={asset}"
+               "&metrics=CapMVRVCur&frequency=1d&page_size=10000")
+        werte = {}
+        for _ in range(3):
+            d = json.loads(urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Signal-Radar)"}), timeout=40).read())
+            for x in d.get("data", []):
+                if x.get("CapMVRVCur") not in (None, ""):
+                    werte[pd.Timestamp(x["time"][:10])] = float(x["CapMVRVCur"])
+            url = d.get("next_page_url")
+            if not url:
+                break
+        s = pd.Series(werte).sort_index()
+        return s if len(s) > 500 else None
+    except Exception as ex:
+        diag["fehler"].append(f"MVRV {asset}: {type(ex).__name__}: {str(ex)[:100]}")
+        return None
+
+
+def mvrv_varianten(ens: pd.Series, mvrv: pd.Series) -> dict[str, pd.Series]:
+    m = mvrv.reindex(ens.index).ffill().shift(1)            # Wert des Vortags (steht erst nach Tagesende fest)
+    hoch, tief = (m > MVRV_HOCH).fillna(False), (m < MVRV_TIEF).fillna(False)
+    v1 = ens.where(~hoch, ens * 0.5)
+    v2 = ens.where(~tief, np.maximum(ens, 0.4))
+    v3 = v1.where(~tief, np.maximum(v1, 0.4))
+    return dict(zip(MVRV_VARIANTEN, [v1, v2, v3]))
+
+
+def trade_statistik(c: pd.Series, pos: pd.Series) -> dict:
+    """Einzelne Trades einer An/Aus-Regel: Trefferquote, Ø Gewinn, Ø Verlust."""
+    ret = c.pct_change(fill_method=None).fillna(0.0)
+    p = pos.shift(2).fillna(0.0).iloc[WARM + 2:]
+    r = ret.reindex(p.index)
+    gruppe = (p != p.shift()).cumsum()
+    trades = [(float((1 + r[g.index]).prod() - 1 - 2 * KOSTEN), len(g)) for _, g in p.groupby(gruppe) if g.iloc[0] == 1]
+    if not trades:
+        return {}
+    x = np.array([t[0] for t in trades])
+    gew, verl = x[x > 0], x[x <= 0]
+    return {"trades": int(len(x)), "trefferquote": float((x > 0).mean()),
+            "gewinn_mittel": float(gew.mean()) if len(gew) else None, "verlust_mittel": float(verl.mean()) if len(verl) else None,
+            "groesster_gewinn": float(x.max()), "dauer_median_tage": float(np.median([t[1] for t in trades]))}
+
+
 def fear_greed(diag: dict) -> pd.Series | None:
     try:
         req = urllib.request.Request("https://api.alternative.me/fng/?limit=0&format=json", headers={"User-Agent": "Mozilla/5.0 (Signal-Radar)"})
@@ -147,8 +198,25 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
         for rn, pos in R.items():
             r = simuliere(c, pos)
             kz[rn] = kennzahlen(r, pos)
+            if rn != ENS_NAME:
+                kz[rn]["trades"] = trade_statistik(c, pos)
             if rn in (ENS_NAME, "SMA 200"):
                 kv[rn] = kurve(r)
+        # MVRV-Varianten (vorab festgelegte Schwellen)
+        mv = lade_mvrv(t.split("-")[0].lower(), diag)
+        mvrv_info = None
+        if mv is not None:
+            mv = mv[mv.index <= c.index[-1]]
+            for vn, pos in mvrv_varianten(R[ENS_NAME], mv).items():
+                kz[vn] = kennzahlen(simuliere(c, pos), pos)
+            tage = mv.reindex(c.index).ffill().iloc[WARM + 2:]
+            mvrv_info = {"aktuell": float(mv.iloc[-1]), "datum": str(mv.index[-1].date()),
+                         "tage_ueber_hoch": int((tage > MVRV_HOCH).sum()), "tage_unter_tief": int((tage < MVRV_TIEF).sum()),
+                         "hoch": MVRV_HOCH, "tief": MVRV_TIEF}
+            e0 = kz[ENS_NAME]
+            mvrv_info["verbessert"] = {vn: bool(kz[vn]["sharpe"] > e0["sharpe"] and kz[vn]["sharpe_haelfte1"] >= e0["sharpe_haelfte1"]
+                                                and kz[vn]["sharpe_haelfte2"] >= e0["sharpe_haelfte2"] and kz[vn]["mdd"] >= e0["mdd"])
+                                       for vn in MVRV_VARIANTEN}
         # Robustheit: jede SMA-Länge von 20 bis 250
         gitter = []
         for n in range(20, 260, 10):
@@ -178,7 +246,7 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
                 break
             seit = d
         out["coins"][t] = {"name": name, "von": str(r_halten.index[0].date()), "bis": str(letzte.date()), "kurs": float(c.iloc[-1]),
-                           "kennzahlen": kz, "kurven": kv, "gitter": gitter, "urteil": urteil,
+                           "kennzahlen": kz, "kurven": kv, "gitter": gitter, "urteil": urteil, "mvrv": mvrv_info,
                            "aktuell": {"anteil": float(ens.iloc[-1]), "seit": str(seit.date()), "einzel": einzel,
                                        "ausbruch": bool(R["Ausbruch 20/10"].iloc[-1] > 0), "kreuz": bool(R["Kreuz 50/200"].iloc[-1] > 0)}}
         if t == "BTC-USD" and fg is not None:
@@ -196,15 +264,20 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
     topic = os.environ.get("NTFY_TOPIC", "").strip()
     meldungen = []
     for t, d in out["coins"].items():
-        a = ((alt.get("coins") or {}).get(t) or {}).get("aktuell", {}).get("anteil")
-        n = d["aktuell"]["anteil"]
-        if a is not None and abs(a - n) > 1e-9:
-            richtung = "erhöhen" if n > a else "verringern"
-            meldungen.append(f"Krypto-Strategie {d['name']}: Anteil {richtung} von {a:.0%} auf {n:.0%} (Kurs {d['kurs']:,.0f} $)")
+        alt_akt = ((alt.get("coins") or {}).get(t) or {}).get("aktuell", {})
+        a, n = alt_akt.get("anteil"), d["aktuell"]["anteil"]
+        if a is None or abs(a - n) < 1e-9:
+            continue
+        alt_an = {e["regel"]: e["an"] for e in alt_akt.get("einzel", [])}
+        gekippt = [f"{e['regel']} {'an' if e['an'] else 'aus'}" for e in d["aktuell"]["einzel"] if alt_an.get(e["regel"]) != e["an"]]
+        wort = "KAUFEN" if n > a else "VERKAUFEN"
+        meldungen.append(f"{wort} {d['name']}: Anteil von {a:.0%} auf {n:.0%} deines Krypto-Budgets bringen "
+                         f"(Kurs {d['kurs']:,.0f} $). Grund: {', '.join(gekippt) or 'Regel hat umgeschaltet'}. "
+                         f"Beispiel bei 1.000 € Budget: {abs(n - a) * 1000:.0f} € {'kaufen' if n > a else 'verkaufen'}.")
     if topic and meldungen:
         try:
             import benachrichtigung as B
-            B.senden(topic, "Signal-Radar: Krypto-Strategie ändert sich", "\n".join(f"• {m}" for m in meldungen) + "\n\nKeine Anlageberatung.", 3)
+            B.senden(topic, "Krypto-Strategie: " + ("KAUFEN" if any(m.startswith("KAUFEN") for m in meldungen) else "VERKAUFEN"), "\n".join(f"• {m}" for m in meldungen) + "\n\nKeine Anlageberatung.", 3)
             diag["push"] = len(meldungen)
         except Exception as ex:
             diag["fehler"].append(f"Push: {type(ex).__name__}: {str(ex)[:80]}")
