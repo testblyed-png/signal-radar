@@ -11,6 +11,7 @@ import engine as E
 import extras as X
 
 EXTRAS_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/extras.json"
+KAND_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/kandidaten/kandidaten.json"
 
 st.set_page_config(page_title="Signal-Radar", layout="wide")
 
@@ -77,6 +78,36 @@ def lade_extras():
             return json.loads(fh.read().decode("utf-8"))
     except Exception:
         return None
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def lade_kandidaten():
+    try:
+        import json, urllib.request
+        with urllib.request.urlopen(KAND_URL, timeout=20) as fh:
+            return json.loads(fh.read().decode("utf-8"))
+    except Exception:
+        return None
+
+
+def test_anzeige(test: dict, hauptreihe: str):
+    """Kurven + Kennzahlen eines Portfolio-Tests."""
+    fig = go.Figure()
+    for name, k in test["kurven"].items():
+        fig.add_trace(go.Scatter(x=k["monat"], y=k["wert"], name=name,
+                                 line=dict(width=3 if name == hauptreihe else 1.5)))
+    fig.update_layout(height=380, margin=dict(l=10, r=10, t=10, b=10), yaxis_type="log",
+                      yaxis_title="Wert von 1 € (log)", legend=dict(orientation="h", y=-0.2))
+    st.plotly_chart(fig, width="stretch")
+    kz = pd.DataFrame([{"Strategie": n, "Rendite p.a.": v.get("cagr"), "nach KESt p.a. (grob)": v.get("cagr_nach_steuer"),
+                        "Größter Rückgang": v.get("mdd"), "Sharpe": v.get("sharpe"),
+                        "1. Hälfte p.a.": v.get("cagr_haelfte1"), "2. Hälfte p.a.": v.get("cagr_haelfte2")}
+                       for n, v in test["kennzahlen"].items() if v])
+    st.dataframe(kz, hide_index=True, width="stretch", column_config={
+        **{c: st.column_config.NumberColumn(format="percent") for c in kz.columns if c not in ("Strategie", "Sharpe")},
+        "Sharpe": st.column_config.NumberColumn(format="%.2f", help="Rendite pro Risiko; über 1 ist sehr gut")})
+    st.caption(f"Zeitraum {test['von']} bis {test['bis']} · monatliche Umschichtung · 0,1 % Kosten je Kauf/Verkauf · "
+               "Kauf einen Tag nach dem Signal · KESt 27,5 %: bei aktiven Strategien jährlich auf Gewinne, bei Halten erst am Ende (Näherung).")
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
@@ -185,7 +216,8 @@ for t, r in ergebnisse.items():
     })
 tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
 
-tab_ueber, tab_detail, tab_guete, tab_hilfe = st.tabs(["Übersicht", "Detailanalyse", "Wie gut sind die Signale?", "Anleitung"])
+tab_ueber, tab_detail, tab_kand, tab_guete, tab_hilfe = st.tabs(
+    ["Übersicht", "Detailanalyse", "Potenzial-Kandidaten", "Wie gut sind die Signale?", "Anleitung"])
 
 # ------------------------------------------------------------------ Übersicht
 with tab_ueber:
@@ -351,8 +383,94 @@ with tab_detail:
         st.caption("Strategie: kaufen ab Signal KAUFEN, verkaufen wenn Score unter −5 fällt, "
                    "Ausführung am nächsten Tag, 0,1 % Kosten je Wechsel.")
 
+# ------------------------------------------------------------------ Potenzial-Kandidaten
+kand = lade_kandidaten()
+with tab_kand:
+    if not kand:
+        st.info("Die Kandidaten-Liste wird einmal täglich nach US-Börsenschluss berechnet und ist noch nicht verfügbar.")
+    else:
+        st.subheader("Potenzial-Kandidaten: mittelgroße US-Firmen")
+        st.caption(f"Stand: Kurse bis {pd.Timestamp(kand['daten_bis']):%d.%m.%Y} · {kand['universum_anzahl']} Aktien geprüft "
+                   f"(S&P MidCap 400) · Marktampel {kand['regime']} · höchstens 3 Werte pro Sektor")
+        st.markdown("Hier sucht das Radar **abseits der bekannten Riesen**. Punkte (0–100): bis 60 aus Kurs und Volumen "
+                    "(Momentum, Nähe zum Hoch, Kurssprünge nach Nachrichten, ruhiger Verlauf, Kaufdruck), dazu Zu- und Abschläge für "
+                    "Gewinnüberraschung, Analysten-Revisionen, Insiderkäufe, Wachstum und Qualität.")
+        kz = []
+        for z in kand["kandidaten"]:
+            stueck, wert = E.positionsgroesse(z.get("kurs") or float("nan"), z.get("stop") or float("nan"), konto, risiko)
+            ins = z.get("insider") or {}
+            kz.append({
+                "Ticker": z["ticker"], "Firma": z["name"], "Sektor": z["sektor"], "Punkte": round(z["punkte"]),
+                "Kurs": z.get("kurs"), "Stop": z.get("stop"), "Ziel": z.get("ziel"), "CRV": z.get("crv"),
+                "Stück": stueck, "Positionswert": wert,
+                "Börsenwert Mrd $": z.get("marktwert_mrd"),
+                "Gewinn vs. Erwartung %": z.get("ueberraschung_pct"),
+                "Schätzungen ↑/↓": (f"{z['rev_hoch']}/{z['rev_runter']}" if z.get("rev_hoch") is not None else ""),
+                "Insider 90T": insider_text(ins) if ins else "",
+                "Nächste Zahlen": z.get("naechste_zahlen") or "",
+                "Hinweis": " · ".join(z.get("hinweise") or []),
+            })
+        kdf = pd.DataFrame(kz)
+        st.dataframe(kdf, hide_index=True, width="stretch", height=min(38 * (len(kdf) + 1), 640), column_config={
+            "Punkte": st.column_config.ProgressColumn("Punkte", min_value=0, max_value=100, format="%d"),
+            "Kurs": st.column_config.NumberColumn(format="%.2f"), "Stop": st.column_config.NumberColumn(format="%.2f"),
+            "Ziel": st.column_config.NumberColumn(format="%.2f"), "CRV": st.column_config.NumberColumn(format="%.1f"),
+            "Stück": st.column_config.NumberColumn(format="%.1f"), "Positionswert": st.column_config.NumberColumn(format="%.0f"),
+            "Börsenwert Mrd $": st.column_config.NumberColumn(format="%.1f"),
+            "Gewinn vs. Erwartung %": st.column_config.NumberColumn(format="%+.0f", help="Letzte Quartalszahlen: Gewinn je Aktie gegenüber der Analystenschätzung"),
+            "Schätzungen ↑/↓": st.column_config.TextColumn(help="Analysten, die ihre Gewinnschätzung in 30 Tagen angehoben / gesenkt haben"),
+        })
+        if len(kdf):
+            kw = st.selectbox("Begründung für", kdf["Ticker"].tolist(), key="kand_wahl")
+            z = next(x for x in kand["kandidaten"] if x["ticker"] == kw)
+            extra = []
+            if z.get("branche"):
+                extra.append(z["branche"])
+            if z.get("boerse_seit_jahren"):
+                extra.append(f"an der Börse seit ca. {z['boerse_seit_jahren']:.0f} Jahren")
+            st.markdown(f"**{z['name']} ({kw})** – {z['punkte']:.0f} Punkte = {z['preis_punkte']:.0f} aus Kurs/Volumen "
+                        f"{z['zusatz_punkte']:+.0f} aus Fundamentaldaten" + (" · " + " · ".join(extra) if extra else ""))
+            for g in z["gruende"]:
+                sym, col = {"+": ("▲", "#0f7b3f"), "-": ("▼", "#c62828")}.get(g["richtung"], ("●", "#8a8f98"))
+                st.markdown(f"<span style='color:{col};font-weight:700'>{sym}</span> {g['text']}", unsafe_allow_html=True)
+            for h in z.get("hinweise") or []:
+                st.warning(h)
+            st.markdown(f"[Chart bei Yahoo](https://finance.yahoo.com/quote/{kw}) · "
+                        f"[Insider bei OpenInsider](http://openinsider.com/screener?s={kw.replace('-', '.')})")
+
+        st.divider()
+        st.subheader("Welche Faktoren hingen wirklich mit Gewinnen zusammen?")
+        st.markdown("Für jeden Monat der letzten Jahre wurden alle Aktien nach dem Faktor sortiert und mit der Rendite des "
+                    "**Folgemonats** verglichen. **Vorsprung** = bestes Fünftel minus schlechtestes Fünftel. "
+                    "**t-Wert** über 2 heißt: wahrscheinlich kein Zufall.")
+        fc = pd.DataFrame([{"Faktor": r["name"], "Gewicht im Score": r.get("gewicht"), "Vorsprung pro Monat": r["spread_monat"],
+                            "Zusammenhang (IC)": r["ic"], "t-Wert": r["t"], "IC 1. Hälfte": r["ic_haelfte1"],
+                            "IC 2. Hälfte": r["ic_haelfte2"], "Urteil": r["urteil"]} for r in kand.get("faktor_check", [])])
+        if len(fc):
+            st.dataframe(fc, hide_index=True, width="stretch", column_config={
+                "Gewicht im Score": st.column_config.NumberColumn(format="percent"),
+                "Vorsprung pro Monat": st.column_config.NumberColumn(format="percent"),
+                "Zusammenhang (IC)": st.column_config.NumberColumn(format="%.3f"), "t-Wert": st.column_config.NumberColumn(format="%.1f"),
+                "IC 1. Hälfte": st.column_config.NumberColumn(format="%.3f"), "IC 2. Hälfte": st.column_config.NumberColumn(format="%.3f")})
+            st.caption("Die Gewichte wurden vorab aus der Forschung übernommen und nicht an diese Daten angepasst. "
+                       "Faktoren ohne Gewicht dienen nur dem Vergleich.")
+
+        if kand.get("portfolio_test", {}).get("kennzahlen"):
+            st.subheader("Portfolio-Test: jeden Monat die besten 15 kaufen")
+            test_anzeige(kand["portfolio_test"], "Kandidaten Top 15")
+            st.warning("Der faire Vergleich ist **„Alle Aktien des Universums“**, nicht der ETF: Die Liste enthält nur Firmen, die "
+                       "heute im Index sind – Pleiten und Absteiger fehlen, das schönt alle Zeilen aus diesem Universum gleichermaßen. "
+                       "Der Test nutzt nur Kurs und Volumen; Gewinnüberraschung, Revisionen und Insider lassen sich mit "
+                       "kostenlosen Daten nicht rückwirkend prüfen. Keine Anlageberatung.")
+
 # ------------------------------------------------------------------ Güte gesamt
 with tab_guete:
+    if kand and kand.get("radar_test", {}).get("kennzahlen"):
+        st.subheader("Portfolio-Test: jeden Monat die 5 Werte mit dem höchsten Radar-Score")
+        test_anzeige(kand["radar_test"], "Radar Top 5 (monatlich)")
+        st.caption("Aktien und ETFs der Watchlist, nur Werte mit Kaufsignal, sonst Cash. Fairer Vergleich: „Watchlist gleichgewichtet“ "
+                   "(gleiche Auswahl heutiger Gewinner).")
+        st.divider()
     st.subheader("Alle Werte zusammen: Was haben die Signale früher gebracht?")
     teile = []
     for r in ergebnisse.values():

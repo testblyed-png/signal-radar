@@ -445,6 +445,18 @@ def main(ziel: str = "kandidaten_neu", vorher: str = "kandidaten_alt"):
     mdy = daten["MDY"]["Close"].reindex(idx) if "MDY" in daten else None
     sektor = {t: uni[t].get("sektor", "?") for t in tick}
 
+    # Datenqualität: größte Tagessprünge und Monatsrenditen protokollieren
+    r0 = C.pct_change(fill_method=None)
+    st_ = r0.stack()
+    gr = st_.abs().sort_values(ascending=False).head(25)
+    diag["groesste_tagesspruenge"] = [f"{t} {d.date()} {st_[(d, t)]:+.0%} ({C[t].shift(1)[d]:.3f}->{C[t][d]:.3f})" for (d, t) in gr.index]
+    diag["anzahl_tage_ueber_50pct"] = int((st_.abs() > 0.5).sum())
+    diag["min_kurs"] = float(C.min().min())
+    diag["ticker_min_kurs_unter_1"] = [f"{t}:{C[t].min():.4f}" for t in C.columns if C[t].min() < 1][:30]
+    m21 = (C.shift(-21) / C - 1).iloc[::21]
+    diag["monatsrendite_mittel_vs_median"] = [float(m21.mean(axis=1).mean()), float(m21.median(axis=1).mean())]
+    diag["startjahr_verteilung"] = pd.Series([daten[t].index[0].year for t in tick]).value_counts().sort_index().to_dict()
+
     f, sma200, ret = faktoren(C, V)
     komp = komposit(f)
     check = faktor_check(f, C, komp)
@@ -556,7 +568,7 @@ def main(ziel: str = "kandidaten_neu", vorher: str = "kandidaten_alt"):
     os.makedirs(ziel, exist_ok=True)
     with open(os.path.join(ziel, "kandidaten.json"), "w", encoding="utf-8") as fh:
         json.dump(sauber(out), fh, ensure_ascii=False, indent=1)
-    print("Diagnose:", json.dumps(sauber(diag), ensure_ascii=False)[:2500])
+    print("Diagnose:", json.dumps(sauber(diag), ensure_ascii=False)[:6000])
     print("Top:", [(z["ticker"], round(z["punkte"])) for z in top])
 
 
