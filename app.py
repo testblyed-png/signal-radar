@@ -141,6 +141,16 @@ with st.expander("Was bedeutet die Marktampel?"):
         "- **RISK-OFF**: Markt im Stress – Kaufsignale werden automatisch abgeschwächt, Vorsicht."
     )
 
+def insider_text(i):
+    if not i:
+        return ""
+    if not i.get("kaeufe"):
+        return "keine Käufe"
+    k, s = i.get("kaeufer", 0), i.get("summe_usd", 0)
+    betrag = f"{s / 1e6:.1f} Mio $" if s >= 1e6 else f"{s / 1e3:.0f} Tsd $"
+    return f"{k} Käufer · {betrag}"
+
+
 # ------------------------------------------------------------------ Tabelle bauen
 zeilen = []
 for t, r in ergebnisse.items():
@@ -170,6 +180,7 @@ for t, r in ergebnisse.items():
         "Stop": lv["stop"] if kauf else np.nan, "Ziel": lv["ziel"] if kauf else np.nan,
         "CRV": lv["crv"] if kauf else np.nan,
         "Stück": stueck if kauf else np.nan, "Positionswert": wert if kauf else np.nan,
+        "Insider 90T": insider_text(ex.get("insider")),
         "Hist. Treffer Kauf": tq, "Nächste Zahlen": ex.get("earnings") or "", "Hinweis": hinweis,
     })
 tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
@@ -282,6 +293,23 @@ with tab_detail:
         for richtung, txt in r.gruende:
             sym, col = {"+": ("▲", "#0f7b3f"), "-": ("▼", "#c62828"), "0": ("●", "#8a8f98")}[richtung]
             st.markdown(f"<span style='color:{col};font-weight:700'>{sym}</span> {txt}", unsafe_allow_html=True)
+
+        st.subheader("Insiderkäufe (90 Tage)")
+        ins = (r.extras or {}).get("insider")
+        if r.gruppe != "Aktien" or wahl in ("ASML", "TSM", "SAP", "NVO") or "." in wahl:
+            st.caption("Nur für US-Aktien verfügbar (SEC Form 4).")
+        elif not ins:
+            st.caption("Noch keine Daten – werden einmal täglich von der SEC geladen.")
+        else:
+            if ins.get("kaeufe"):
+                st.markdown(f"**{ins['kaeufer']} Manager** haben für **${ins['summe_usd']:,.0f}** eigene Aktien "
+                            f"am offenen Markt gekauft ({ins['kaeufe']} Meldungen).")
+            else:
+                st.markdown(f"Keine Käufe am offenen Markt ({ins.get('filings_geprueft', 0)} Meldungen geprüft). "
+                            "Verkäufe sind meist geplant (Vergütung, 10b5-1) und zählen nicht.")
+        if r.gruppe == "Aktien" and "." not in wahl:
+            st.markdown(f"[Alle Insider-Meldungen bei OpenInsider](http://openinsider.com/screener?s={wahl.replace('-', '.')}) · "
+                        f"[SEC Form 4](https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={wahl}&type=4&owner=include&count=40)")
 
         st.subheader("Bausteine des Scores")
         k_last = r.komponenten.iloc[-1]
