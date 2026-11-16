@@ -1,7 +1,7 @@
 """
 Signal-Radar – Potenzial-Kandidaten (läuft täglich in GitHub Actions)
 =====================================================================
-1. Universum: S&P MidCap 400 (mittelgroße US-Firmen, Liste von Wikipedia)
+1. Universum: S&P 1500 (Large, Mid, Small – Listen von Wikipedia); Kandidaten nur aus Mid und Small
 2. Faktoren aus Kurs und Volumen (10 Jahre) – alle kausal
 3. Faktor-Check: Welche Faktoren hingen wirklich mit der Rendite des Folgemonats zusammen?
 4. Portfolio-Test: jeden Monat die besten 15 kaufen – gegen gleichgewichtetes Universum, MDY, SPY
@@ -76,34 +76,50 @@ def sauber(o):
 
 
 # ---------------------------------------------------------------- Universum
+SEITEN = [("Large", "List_of_S%26P_500_companies"), ("Mid", "List_of_S%26P_400_companies"), ("Small", "List_of_S%26P_600_companies")]
+KANDIDATEN_SEGMENTE = ("Mid", "Small")
+
+
 def lade_universum(alt: dict, diag: dict) -> dict:
-    try:
-        req = urllib.request.Request("https://en.wikipedia.org/wiki/List_of_S%26P_400_companies",
-                                     headers={"User-Agent": "SignalRadar/1.0 (github.com/testblyed-png/signal-radar)"})
-        html = urllib.request.urlopen(req, timeout=30).read().decode("utf-8")
-        for tab in pd.read_html(io.StringIO(html)):
-            cols = {str(c).lower(): c for c in tab.columns}
-            sym = next((cols[c] for c in cols if c in ("symbol", "ticker symbol", "ticker")), None)
-            if sym is None or len(tab) < 300:
-                continue
-            sek = next((cols[c] for c in cols if "sector" in c), None)
-            name = next((cols[c] for c in cols if c in ("security", "company")), None)
-            uni = {}
-            for _, z in tab.iterrows():
-                t = str(z[sym]).strip().upper().replace(".", "-")
-                if t and t != "NAN":
-                    uni[t] = {"name": str(z[name]) if name is not None else t,
-                              "sektor": str(z[sek]) if sek is not None else "?"}
-            if len(uni) >= 300:
-                diag["universum_quelle"] = "Wikipedia S&P MidCap 400"
-                return uni
-    except Exception as ex:
-        diag["fehler"].append(f"Universum: {type(ex).__name__}: {str(ex)[:120]}")
-    if alt.get("universum") and len(alt["universum"]) >= 100:
+    """S&P 1500 (500 + 400 + 600). Das breite Universum ist nötig, damit Auf- und Absteiger zwischen den
+    Indizes im Test bleiben – sonst fehlen genau die Gewinner, die in den S&P 500 aufgestiegen sind."""
+    uni, zahl = {}, {}
+    for segment, seite in SEITEN:
+        try:
+            req = urllib.request.Request(f"https://en.wikipedia.org/wiki/{seite}",
+                                         headers={"User-Agent": "SignalRadar/1.0 (github.com/testblyed-png/signal-radar)"})
+            html = urllib.request.urlopen(req, timeout=30).read().decode("utf-8")
+            for tab in pd.read_html(io.StringIO(html)):
+                cols = {str(c).lower(): c for c in tab.columns}
+                sym = next((cols[c] for c in cols if c in ("symbol", "ticker symbol", "ticker")), None)
+                if sym is None or len(tab) < 300:
+                    continue
+                sek = next((cols[c] for c in cols if "sector" in c), None)
+                name = next((cols[c] for c in cols if c in ("security", "company")), None)
+                n = 0
+                for _, z in tab.iterrows():
+                    t = str(z[sym]).strip().upper().replace(".", "-")
+                    if t and t != "NAN" and t not in uni:
+                        uni[t] = {"name": str(z[name]) if name is not None else t,
+                                  "sektor": str(z[sek]) if sek is not None else "?", "segment": segment}
+                        n += 1
+                zahl[segment] = n
+                break
+        except Exception as ex:
+            diag["fehler"].append(f"Universum {segment}: {type(ex).__name__}: {str(ex)[:120]}")
+        time.sleep(1)
+    diag["universum_segmente"] = zahl
+    if len(uni) >= 1000:
+        diag["universum_quelle"] = "Wikipedia S&P 1500"
+        return uni
+    if alt.get("universum") and len(alt["universum"]) >= max(100, len(uni)):
         diag["universum_quelle"] = "Cache vom letzten Lauf"
         return alt["universum"]
+    if len(uni) >= 300:
+        diag["universum_quelle"] = "Wikipedia (unvollständig)"
+        return uni
     diag["universum_quelle"] = "Notliste (50 Werte)"
-    return {t: {"name": t, "sektor": "?"} for t in FALLBACK}
+    return {t: {"name": t, "sektor": "?", "segment": "Mid"} for t in FALLBACK}
 
 
 # ---------------------------------------------------------------- Faktoren (kausal)
@@ -259,8 +275,8 @@ def portfolio_test(C, ret, komp, sma200, sektor, spy, mdy) -> dict:
     idx = r_s.index
     r_ew = ret.mean(axis=1).reindex(idx).fillna(0.0)
     reihen = {
-        "Kandidaten Top 15": (r_s, "jaehrlich"),
-        "Kandidaten Top 15 + Marktfilter": (r_f, "jaehrlich"),
+        "Top 15 nach Score": (r_s, "jaehrlich"),
+        "Top 15 nach Score + Marktfilter": (r_f, "jaehrlich"),
         "Alle Aktien des Universums (gleichgewichtet)": (r_ew, "ende"),
         "S&P 500 (SPY) halten": (spy.pct_change(fill_method=None).reindex(idx).fillna(0.0), "ende"),
         "S&P 500 nur über 200-Tage-Linie": (spy_regel(spy).reindex(idx).fillna(0.0), "jaehrlich"),
@@ -428,10 +444,17 @@ def main(ziel: str = "kandidaten_neu", vorher: str = "kandidaten_alt"):
     alle = list(dict.fromkeys(list(uni) + extra))
     daten = {}
     for i in range(0, len(alle), 50):
-        try:
-            daten.update(E.lade_yahoo(alle[i:i + 50]))
-        except Exception as ex:
-            diag["fehler"].append(f"Download Block {i}: {type(ex).__name__}: {str(ex)[:80]}")
+        block = alle[i:i + 50]
+        for versuch in range(2):
+            try:
+                neu = E.lade_yahoo(block)
+            except Exception as ex:
+                neu = {}
+                diag["fehler"].append(f"Download Block {i}: {type(ex).__name__}: {str(ex)[:80]}")
+            if len(neu) >= 0.6 * len(block):
+                break
+            time.sleep(20)          # Yahoo bremst – kurz warten und Block wiederholen
+        daten.update(neu)
         time.sleep(1)
     tick = [t for t in uni if t in daten and len(daten[t]) >= 300]
     diag.update(universum=len(uni), mit_daten=len(tick))
@@ -484,7 +507,8 @@ def main(ziel: str = "kandidaten_neu", vorher: str = "kandidaten_alt"):
     # Heutige Kandidaten
     heute = komp.iloc[-1]
     rang_heute = heute.rank(pct=True)
-    pool = auswahl_heute(heute, C.iloc[-1] > sma200.iloc[-1], {}, STUFE2_N)
+    erlaubt = pd.Series({t: uni[t].get("segment", "Mid") in KANDIDATEN_SEGMENTE for t in tick})
+    pool = auswahl_heute(heute, (C.iloc[-1] > sma200.iloc[-1]) & erlaubt.reindex(C.columns).fillna(False), {}, STUFE2_N)
     identitaet = os.environ.get("SEC_IDENTITY") or "Signal-Radar Bot signal-radar-bot@users.noreply.github.com"
     cache = alt.get("stufe2_cache", {})
     s2 = {}
@@ -520,6 +544,7 @@ def main(ziel: str = "kandidaten_neu", vorher: str = "kandidaten_alt"):
         jahre_boerse = (idx[-1] - erste).days / 365.25
         zeilen.append({
             "ticker": t, "name": info.get("shortName") or uni[t].get("name", t), "sektor": sektor.get(t, "?"),
+            "segment": uni[t].get("segment"),
             "branche": info.get("industry"), "punkte": float(np.clip(preis + zp, 0, 100)),
             "preis_punkte": preis, "zusatz_punkte": zp,
             "marktwert_mrd": (info.get("marketCap") or 0) / 1e9 or None,

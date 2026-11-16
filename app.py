@@ -391,7 +391,7 @@ with tab_kand:
     else:
         st.subheader("Potenzial-Kandidaten: mittelgroße US-Firmen")
         st.caption(f"Stand: Kurse bis {pd.Timestamp(kand['daten_bis']):%d.%m.%Y} · {kand['universum_anzahl']} Aktien geprüft "
-                   f"(S&P MidCap 400) · Marktampel {kand['regime']} · höchstens 3 Werte pro Sektor")
+                   f"(S&P 1500) · Kandidaten nur aus Mid und Small Caps · Marktampel {kand['regime']} · höchstens 3 Werte pro Sektor")
         st.markdown("Hier sucht das Radar **abseits der bekannten Riesen**. Punkte (0–100): bis 60 aus Kurs und Volumen "
                     "(Momentum, Nähe zum Hoch, Kurssprünge nach Nachrichten, ruhiger Verlauf, Kaufdruck), dazu Zu- und Abschläge für "
                     "Gewinnüberraschung, Analysten-Revisionen, Insiderkäufe, Wachstum und Qualität.")
@@ -400,7 +400,7 @@ with tab_kand:
             stueck, wert = E.positionsgroesse(z.get("kurs") or float("nan"), z.get("stop") or float("nan"), konto, risiko)
             ins = z.get("insider") or {}
             kz.append({
-                "Ticker": z["ticker"], "Firma": z["name"], "Sektor": z["sektor"], "Punkte": round(z["punkte"]),
+                "Ticker": z["ticker"], "Firma": z["name"], "Sektor": z["sektor"], "Größe": z.get("segment") or "", "Punkte": round(z["punkte"]),
                 "Kurs": z.get("kurs"), "Stop": z.get("stop"), "Ziel": z.get("ziel"), "CRV": z.get("crv"),
                 "Stück": stueck, "Positionswert": wert,
                 "Börsenwert Mrd $": z.get("marktwert_mrd"),
@@ -457,7 +457,7 @@ with tab_kand:
 
         if kand.get("portfolio_test", {}).get("kennzahlen"):
             st.subheader("Portfolio-Test: jeden Monat die besten 15 kaufen")
-            test_anzeige(kand["portfolio_test"], "Kandidaten Top 15")
+            test_anzeige(kand["portfolio_test"], "Top 15 nach Score")
             st.warning("Der faire Vergleich ist **„Alle Aktien des Universums“**, nicht der ETF: Die Liste enthält nur Firmen, die "
                        "heute im Index sind – Pleiten und Absteiger fehlen, das schönt alle Zeilen aus diesem Universum gleichermaßen. "
                        "Der Test nutzt nur Kurs und Volumen; Gewinnüberraschung, Revisionen und Insider lassen sich mit "
