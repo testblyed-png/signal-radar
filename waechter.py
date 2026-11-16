@@ -105,21 +105,123 @@ def kurzname(name: str) -> str:
     return SUFFIX.sub("", n).strip(" ,.")
 
 
-def kandidaten_namen(status: dict, diag: dict) -> dict:
-    """Ticker -> Kurzname der aktuellen Potenzial-Kandidaten (täglich aktualisiert)."""
+def lade_kandidaten_daten(status: dict, diag: dict) -> None:
+    """Holt alle 12 h Kandidaten-Namen und das Universum (Name -> Ticker, Größe) aus dem Kandidaten-Lauf."""
     alt = status.get("kand_namen_zeit")
-    if status.get("kand_namen") and alt and datetime.fromisoformat(alt) > datetime.now(timezone.utc) - timedelta(hours=12):
-        return status["kand_namen"]
+    if status.get("uni_index") and alt and datetime.fromisoformat(alt) > datetime.now(timezone.utc) - timedelta(hours=12):
+        return
     try:
-        d = json.loads(holen(KAND_URL, timeout=40))
-        namen = {k["ticker"]: kurzname(k.get("name") or "") for k in d.get("kandidaten", [])}
-        namen = {t: n for t, n in namen.items() if len(n) >= 4}
+        d = json.loads(holen(KAND_URL, timeout=60))
+        uni = d.get("universum", {})
+        namen = {}
+        for k in d.get("kandidaten", []):
+            n = kurzname((uni.get(k["ticker"]) or {}).get("name") or k.get("name") or "")
+            if len(n) >= 4:
+                namen[k["ticker"]] = n
+        index = {}
+        for t, u in uni.items():
+            n = kurzname(u.get("name") or "").lower()
+            if len(n) >= 5:
+                index[n] = [t, u.get("segment") or "Large"]
         status["kand_namen"] = namen
+        status["uni_index"] = index
         status["kand_namen_zeit"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
-        return namen
     except Exception as ex:
-        diag["fehler"].append(f"Kandidaten-Namen: {type(ex).__name__}: {str(ex)[:80]}")
-        return status.get("kand_namen") or {}
+        diag["fehler"].append(f"Kandidaten-Daten: {type(ex).__name__}: {str(ex)[:80]}")
+
+
+# Tochterfirmen und gängige Schreibweisen in den Auftragslisten
+DOD_ALIAS = {"raytheon": "RTX", "sikorsky": "LMT", "lockheed martin": "LMT", "bell textron": "TXT", "textron": "TXT",
+             "electric boat": "GD", "bath iron works": "GD", "general dynamics": "GD", "pratt & whitney": "RTX",
+             "collins aerospace": "RTX", "northrop grumman": "NOC", "boeing": "BA", "l3harris": "LHX", "leidos": "LDOS",
+             "booz allen hamilton": "BAH", "caci": "CACI", "science applications international": "SAIC",
+             "kratos": "KTOS", "aerovironment": "AVAV", "palantir": "PLTR", "huntington ingalls": "HII",
+             "oshkosh": "OSK", "honeywell": "HON", "general electric": "GE", "ge aerospace": "GE", "amentum": "AMTM",
+             "parsons": "PSN", "mercury systems": "MRCY", "curtiss-wright": "CW", "bwx technologies": "BWXT",
+             "fluor": "FLR", "jacobs": "J", "kbr": "KBR", "microsoft": "MSFT", "amazon web services": "AMZN",
+             "oracle": "ORCL", "google": "GOOGL", "dell": "DELL", "hewlett packard enterprise": "HPE",
+             "international business machines": "IBM", "rocket lab": "RKLB", "howmet": "HWM", "moog": "MOG-A"}
+DOD_MIN = {"Large": 1e9, "Mid": 2e8, "Small": 5e7}
+BETRAG_DOD = re.compile(r"\$\s?([\d,]+(?:\.\d+)?)(\s?(million|billion))?", re.I)
+
+
+def dod_absaetze(html: str) -> list[str]:
+    import html as _h
+    out = []
+    for m in re.finditer(r"<p[^>]*>(.*?)</p>", html, re.S | re.I):
+        t = _h.unescape(re.sub(r"<[^>]+>", " ", m.group(1)))
+        t = re.sub(r"\s+", " ", t).strip()
+        if "$" in t and re.search(r"award|modif", t, re.I) and len(t) > 80:
+            out.append(t)
+    return out
+
+
+def dod_treffer(absatz: str, index: dict) -> tuple | None:
+    kopf = re.sub(r"^the\s+", "", absatz[:90].lower())
+    best = None
+    for n, tk in DOD_ALIAS.items():
+        if kopf.startswith(n) and (best is None or len(n) > len(best[0])):
+            best = (n, tk, None)
+    for n, (tk, seg) in index.items():
+        if kopf.startswith(n) and not kopf[len(n):len(n) + 1].isalpha() and (best is None or len(n) > len(best[0])):
+            best = (n, tk, seg)
+    if not best:
+        return None
+    m = BETRAG_DOD.search(absatz)
+    if not m:
+        return None
+    try:
+        wert = float(m.group(1).replace(",", "")) * {"million": 1e6, "billion": 1e9}.get((m.group(3) or "").lower(), 1)
+    except ValueError:
+        return None
+    return best[1], best[2], wert
+
+
+def pruefe_dod(status: dict, gesehen: set, diag: dict) -> list:
+    """Tägliche Auftragsliste des US-Verteidigungsministeriums (Aufträge ab 7,5 Mio. $, werktags 17 Uhr US-Ostküste)."""
+    ev = []
+    index = status.get("uni_index") or {}
+    seg_von = {tk: seg for tk, seg in index.values()}
+    try:
+        root = ET.fromstring(holen("https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=400&Site=945&max=3"))
+    except Exception as ex:
+        diag["fehler"].append(f"DoD-Liste: {type(ex).__name__}: {str(ex)[:100]}")
+        return ev
+    jetzt = datetime.now(timezone.utc)
+    for it in root.iter("item"):
+        link = (it.findtext("link") or "").strip()
+        titel = (it.findtext("title") or "").strip()
+        key = "dod:" + link
+        if not link or key in gesehen:
+            continue
+        try:
+            alt = jetzt - parsedate_to_datetime((it.findtext("pubDate") or "").strip()) > timedelta(hours=36)
+        except Exception:
+            alt = False
+        try:
+            absaetze = dod_absaetze(holen(link, timeout=30).decode("utf-8", "ignore"))
+        except Exception as ex:
+            diag["fehler"].append(f"DoD-Artikel: {type(ex).__name__}: {str(ex)[:100]}")
+            continue
+        gesehen.add(key)
+        alle = []
+        for a in absaetze:
+            tr = dod_treffer(a, index)
+            if not tr or not tr[0]:
+                continue
+            tk, seg, wert = tr
+            seg = seg or seg_von.get(tk, "Large")
+            alle.append(f"{tk} ${wert / 1e6:,.0f} Mio")
+            if wert >= DOD_MIN.get(seg, 1e9) and not alt:
+                betrag = f"${wert / 1e9:.1f} Mrd" if wert >= 1e9 else f"${wert / 1e6:.0f} Mio"
+                ev.append((3, f"Staatsauftrag {tk}: {betrag} vom US-Verteidigungsministerium – {a[:150]}…", link))
+        diag.setdefault("dod", []).append({"liste": titel, "absaetze": len(absaetze), "zugeordnet": alle[:25], "alt": alt})
+    return ev
+
+
+def kandidaten_namen(status: dict, diag: dict) -> dict:
+    lade_kandidaten_daten(status, diag)
+    return status.get("kand_namen") or {}
 
 
 def pruefe_auftraege(namen: dict, gesehen: set, diag: dict) -> list:
@@ -153,21 +255,6 @@ def pruefe_auftraege(namen: dict, gesehen: set, diag: dict) -> list:
             diag["fehler"].append(f"Aufträge: {type(ex).__name__}: {str(ex)[:100]}")
         time.sleep(1.0)
     return ev
-
-
-def probe_dod(diag: dict) -> None:
-    """Test, ob die tägliche Auftragsliste des US-Verteidigungsministeriums maschinell erreichbar ist."""
-    for host in ("www.war.gov", "www.defense.gov"):
-        url = f"https://{host}/DesktopModules/ArticleCS/RSS.ashx?ContentType=400&Site=945&max=3"
-        try:
-            roh = holen(url, timeout=20)
-            root = ET.fromstring(roh)
-            items = list(root.iter("item"))
-            diag[f"dod_{host}"] = {"bytes": len(roh), "items": len(items),
-                                   "titel": (items[0].findtext("title") or "")[:80] if items else None,
-                                   "beschreibung_laenge": len(items[0].findtext("description") or "") if items else 0}
-        except Exception as ex:
-            diag[f"dod_{host}"] = f"{type(ex).__name__}: {str(ex)[:100]}"
 
 
 SPEKULATIV = re.compile(r"\?|\b(could|might|may|will|should|would|what if|why|how to|prediction|predict)\b", re.I)
@@ -345,9 +432,7 @@ def main(status_pfad: str = "waechter_status/status.json", ziel: str = "waechter
     namen = {t: NAMEN.get(t, t) for t in E.STANDARD_AKTIEN if len(NAMEN.get(t, t)) >= 4}
     namen.update(kandidaten_namen(status, diag))
     ev += pruefe_auftraege(namen, gesehen, diag)
-    if not status.get("dod_probe"):
-        probe_dod(diag)
-        status["dod_probe"] = {k: v for k, v in diag.items() if k.startswith("dod_")}
+    ev += pruefe_dod(status, gesehen, diag)
     diag["neu"] = len(ev)
 
     topic = os.environ.get("NTFY_TOPIC", "").strip()
