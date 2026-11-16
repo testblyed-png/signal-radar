@@ -8,6 +8,9 @@ import plotly.graph_objects as go
 import streamlit as st
 
 import engine as E
+import extras as X
+
+EXTRAS_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/extras.json"
 
 st.set_page_config(page_title="Signal-Radar", layout="wide")
 
@@ -67,14 +70,28 @@ def lade(tickers: tuple, demo: bool):
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
+def lade_extras():
+    try:
+        import json, urllib.request
+        with urllib.request.urlopen(EXTRAS_URL, timeout=15) as fh:
+            return json.loads(fh.read().decode("utf-8"))
+    except Exception:
+        return None
+
+
+@st.cache_data(ttl=3600, show_spinner=False)
 def rechne(tickers: tuple, demo: bool, gruppen_key: tuple):
     daten = lade(tickers, demo)
     gr = {g: list(l) for g, l in gruppen_key}
-    return E.analysiere(daten, gr)
+    fred = None if demo else X.lade_fred()
+    erg, reg = E.analysiere(daten, gr, fred)
+    ex = None if demo else lade_extras()
+    X.anwenden(erg, ex, daten)
+    return erg, reg, (ex or {}).get("erstellt_utc")
 
 
 with st.spinner("Lade Kurse und berechne Signale … (beim ersten Start ca. 30–60 Sekunden)"):
-    ergebnisse, regime = rechne(tuple(alle), demo, tuple((g, tuple(l)) for g, l in gruppen.items()))
+    ergebnisse, regime, extras_stand = rechne(tuple(alle), demo, tuple((g, tuple(l)) for g, l in gruppen.items()))
 
 if not ergebnisse:
     st.error("Keine Daten geladen. Internetverbindung prüfen, kurz warten und auf „Daten neu laden“ klicken. "
@@ -84,7 +101,8 @@ if not ergebnisse:
 # ------------------------------------------------------------------ Kopf + Marktampel
 st.title("Signal-Radar")
 stand = max(r.merkmale.index[-1] for r in ergebnisse.values())
-st.caption(f"Stand: Schlusskurse bis {stand:%d.%m.%Y}" + ("  ·  DEMO-DATEN – keine echten Kurse!" if demo else ""))
+st.caption(f"Stand: Schlusskurse bis {stand:%d.%m.%Y}" + ("  ·  DEMO-DATEN – keine echten Kurse!" if demo else "")
+           + (f"  ·  Zusatzdaten vom {pd.Timestamp(extras_stand).tz_convert('Europe/Vienna'):%d.%m. %H:%M}" if extras_stand else ""))
 
 c1, c2 = st.columns(2)
 for spalte, name, key in [(c1, "Aktienmarkt (S&P 500)", "Aktien"), (c2, "Kryptomarkt (Bitcoin)", "Krypto")]:
@@ -103,6 +121,14 @@ for spalte, name, key in [(c1, "Aktienmarkt (S&P 500)", "Aktien"), (c2, "Kryptom
             txt.append("Angst kurzfristig niedrig" if last["vix_struktur"] < 1 else "Angst kurzfristig erhöht")
         if "breite" in r.columns and np.isfinite(last.get("breite", np.nan)):
             txt.append(f"{last['breite']:.0%} der Aktien im Aufwärtstrend")
+        if "hy_spread" in r.columns and np.isfinite(last.get("hy_spread", np.nan)):
+            ks = last.get("kredit_stufe", 0)
+            txt.append(f"Kreditaufschlag {last['hy_spread']:.2f} % ({'entspannt' if ks > 0 else 'Stress' if ks < 0 else 'normal'})")
+        if "zinskurve" in r.columns and np.isfinite(last.get("zinskurve", np.nan)):
+            txt.append(f"Zinskurve 10J–2J {last['zinskurve']:+.2f} %")
+        if key == "Krypto" and "BTC-USD" in ergebnisse and (ergebnisse["BTC-USD"].extras or {}).get("funding"):
+            fr = ergebnisse["BTC-USD"].extras["funding"]["rate_8h_avg"] * 3 * 365
+            txt.append(f"BTC-Funding {fr:+.0%} p.a.")
         if "vola" in r.columns:
             txt.append("Schwankung normal" if last["vola"] >= 0 else "Schwankung extrem")
         st.markdown(f"**{name}**&nbsp;&nbsp;{badge(lab, REGIME_FARBE[lab], gross=True)}", unsafe_allow_html=True)
@@ -118,7 +144,7 @@ with st.expander("Was bedeutet die Marktampel?"):
 # ------------------------------------------------------------------ Tabelle bauen
 zeilen = []
 for t, r in ergebnisse.items():
-    last_score = float(r.score.dropna().iloc[-1])
+    last_score = float(r.score_aktuell if r.score_aktuell is not None else r.score.dropna().iloc[-1])
     kurs = float(r.merkmale["close"].iloc[-1])
     lv = r.levels
     kauf = r.signal in KAUF_SIGNALE
@@ -129,7 +155,10 @@ for t, r in ergebnisse.items():
     tq = float((treffer_kauf * n_kauf).sum() / n_kauf.sum()) if n_kauf.sum() > 0 else np.nan
     hinweis = ""
     ep = r.merkmale["ext_pct"].iloc[-1]
-    if np.isfinite(ep) and ep > 0.95:
+    ex = r.extras or {}
+    if ex.get("earnings_sperre"):
+        hinweis = f"Quartalszahlen {pd.Timestamp(ex['earnings']):%d.%m.} – abwarten"
+    elif np.isfinite(ep) and ep > 0.95:
         hinweis = "überdehnt – Gewinne sichern"
     elif kauf and np.isfinite(lv["crv"]) and lv["crv"] < 1.5:
         hinweis = "Chance/Risiko knapp – Rücksetzer abwarten"
@@ -141,7 +170,7 @@ for t, r in ergebnisse.items():
         "Stop": lv["stop"] if kauf else np.nan, "Ziel": lv["ziel"] if kauf else np.nan,
         "CRV": lv["crv"] if kauf else np.nan,
         "Stück": stueck if kauf else np.nan, "Positionswert": wert if kauf else np.nan,
-        "Hist. Treffer Kauf": tq, "Hinweis": hinweis,
+        "Hist. Treffer Kauf": tq, "Nächste Zahlen": ex.get("earnings") or "", "Hinweis": hinweis,
     })
 tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
 
@@ -205,7 +234,7 @@ with tab_detail:
     st.markdown(f"## {wahl} &nbsp; {badge(r.signal, SIGNAL_FARBE[r.signal], gross=True)}", unsafe_allow_html=True)
     m = st.columns(6)
     m[0].metric("Kurs", fmt_kurs(zeile["Kurs"]), fmt_pct(zeile["Heute"]))
-    m[1].metric("Score", f"{zeile['Score']:+d}")
+    m[1].metric("Score", f"{zeile['Score']:+d}", f"Zusatzfaktoren {r.zusatzpunkte:+.0f}" if r.zusatzpunkte else None, delta_color="off")
     m[2].metric("Stop", fmt_kurs(r.levels["stop"]))
     m[3].metric("Ziel", fmt_kurs(r.levels["ziel"]))
     m[4].metric("Chance/Risiko", f"{r.levels['crv']:.1f}" if np.isfinite(r.levels["crv"]) else "–")
@@ -258,11 +287,12 @@ with tab_detail:
         k_last = r.komponenten.iloc[-1]
         namen = {"trend": "Trend", "momentum": "Momentum", "rel_staerke": "Relative Stärke",
                  "akkumulation": "Akkumulation", "zone": "Kauf-/Verkaufszone", "volatilitaet": "Volatilität"}
-        werte = [k_last[n] * E.GEWICHTE[n] * 100 for n in namen]
-        fig3 = go.Figure(go.Bar(x=werte, y=list(namen.values()), orientation="h",
+        werte = [k_last[n] * E.GEWICHTE[n] * 100 for n in namen] + [r.zusatzpunkte]
+        fig3 = go.Figure(go.Bar(x=werte, y=list(namen.values()) + ["Zusatzfaktoren*"], orientation="h",
                                 marker_color=["#0f7b3f" if w >= 0 else "#c62828" for w in werte]))
         fig3.update_layout(height=260, margin=dict(l=10, r=10, t=10, b=10), xaxis_title="Beitrag zum Score")
         st.plotly_chart(fig3, width="stretch")
+        st.caption("*Insider, Qualität, Sektorstärke, Funding – nur aktuell verfügbar, daher nicht im Backtest.")
 
     st.subheader(f"So haben die Signale bei {wahl} früher funktioniert")
     a = r.auswertung
@@ -351,13 +381,19 @@ with tab_hilfe:
 | Akkumulation | 15 % | Wo im Tagesbereich schließt der Kurs bei hohem Volumen |
 | Kauf-/Verkaufszone | 15 % | Anchored VWAP, Volumenprofil (POC/VAL/VAH), Liquiditäts-Sweeps, Überdehnung |
 | Volatilität | 10 % | Kompression (gut) oder Stress (schlecht) |
-| Marktampel | ±10 Punkte | Gesamtmarkt; bei RISK-OFF werden Kaufsignale um 40 % abgeschwächt |
+| Marktampel | ±10 Punkte | S&P-500-Trend, VIX, Marktbreite, Kreditaufschläge (FRED); bei RISK-OFF werden Kaufsignale um 40 % abgeschwächt |
+| Insiderkäufe | bis +8 | Manager kaufen eigene Aktien am offenen Markt (SEC Form 4, 90 Tage, nur US-Aktien) |
+| Qualität | ±6 | Eigenkapitalrendite, Marge, Verschuldung im Vergleich zur Watchlist |
+| Sektorstärke | ±6 | 3 Monate besser/schlechter als der eigene Sektor-ETF |
+| Funding (Krypto) | ±8 | Überhitzte Futures (viele gehebelte Käufer) = Abzug |
+| Earnings-Sperre | – | 7 Tage vor Quartalszahlen wird aus KAUFEN ein HALTEN |
 
 Die Gewichte sind **bewusst nicht** auf historische Daten optimiert – sonst sähe der Backtest toll aus und würde live versagen.
 
 ### Grenzen
 - Kostenlose Yahoo-Daten: gelegentlich Lücken oder Verzögerungen. Kein Intraday, kein echter Orderflow.
-- Unternehmensnachrichten, Earnings-Termine und Politik fließen nicht direkt ein – nur über Kurs, Volumen und Marktampel.
+- Nachrichten und Politik fließen nicht direkt ein – nur über Kurs, Volumen, Kreditmarkt und Marktampel.
+- Zusatzfaktoren werden alle 3 Stunden über GitHub Actions aktualisiert (SEC, Yahoo, Krypto-Börsen).
 - **Keine Anlageberatung.** Nutze das Radar als Filter und Entscheidungshilfe, nicht als Autopilot.
 """)
 

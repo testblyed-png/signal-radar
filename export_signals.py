@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 import numpy as np
 
 import engine as E
+import extras as X
 
 KONTO, RISIKO = 10000.0, 1.0  # Referenzwerte für Stückzahl in der Übersicht
 
@@ -24,14 +25,27 @@ def z(x, n=4):
     return round(x, n) if np.isfinite(x) else None
 
 
-def main(ziel="ausgabe"):
+def main(ziel="ausgabe", vorher="vorher"):
     gruppen = {"Aktien": E.STANDARD_AKTIEN, "ETFs": E.STANDARD_ETFS, "Krypto": E.STANDARD_KRYPTO}
     alle = list(dict.fromkeys(sum(gruppen.values(), []) + E.HILFS_TICKER))
     daten = E.lade_yahoo(alle)
     if len(daten) < 10:
         print(f"Zu wenige Daten geladen ({len(daten)}). Abbruch.", file=sys.stderr)
         sys.exit(1)
-    ergebnisse, regime = E.analysiere(daten, gruppen)
+    fred = X.lade_fred()
+    ergebnisse, regime = E.analysiere(daten, gruppen, fred)
+
+    # Zusatzdaten mit Cache aus dem letzten Lauf
+    cache = None
+    try:
+        with open(os.path.join(vorher, "extras.json"), encoding="utf-8") as fh:
+            cache = json.load(fh)
+    except Exception:
+        pass
+    identitaet = os.environ.get("SEC_IDENTITY", "Signal-Radar Bot signal-radar-bot@users.noreply.github.com")
+    extras = X.sammle(gruppen["Aktien"], gruppen["Krypto"], cache, identitaet)
+    extras["diagnose"]["fred_spalten"] = list(fred.columns) if len(fred) else []
+    X.anwenden(ergebnisse, extras, daten)
 
     reg_out = {}
     for name, r in regime.items():
@@ -42,7 +56,7 @@ def main(ziel="ausgabe"):
             "datum": str(r.index[-1].date()),
             "label": E.regime_label(float(last["score"])),
             "score": z(last["score"], 2),
-            **{k: z(last.get(k), 3) for k in ["trend", "kreuz", "vix", "vix_struktur", "breite", "vola"] if k in r.columns},
+            **{k: z(last.get(k), 3) for k in ["trend", "kreuz", "vix", "vix_struktur", "breite", "vola", "kredit_stufe", "hy_spread", "zinskurve"] if k in r.columns},
         }
 
     werte = []
@@ -57,7 +71,9 @@ def main(ziel="ausgabe"):
         n = kt["Anzahl Tage"].sum()
         werte.append({
             "ticker": t, "gruppe": r.gruppe, "signal": r.signal,
-            "score": z(r.score.dropna().iloc[-1], 1),
+            "score": z(r.score_aktuell if r.score_aktuell is not None else r.score.dropna().iloc[-1], 1),
+            "basis_score": z(r.score.dropna().iloc[-1], 1), "zusatzpunkte": z(r.zusatzpunkte, 1),
+            "extras": r.extras or {},
             "datum": str(f.index[-1].date()), "kurs": z(kurs), "tag_pct": z(r.tag_pct),
             "stop": z(lv["stop"]), "ziel": z(lv["ziel"]), "crv": z(lv["crv"], 2),
             "stueck_10k_1pct": z(stueck, 3), "positionswert_10k_1pct": z(wert, 0),
@@ -96,9 +112,12 @@ def main(ziel="ausgabe"):
                   f"{k(w['stop']) if w['stueck_10k_1pct'] else '–'} | {k(w['ziel']) if w['stueck_10k_1pct'] else '–'} | "
                   f"{w['crv'] if w['stueck_10k_1pct'] and w['crv'] is not None else '–'} | "
                   f"{'–' if tq is None else f'{tq:.0%}'} |")
+    with open(os.path.join(ziel, "extras.json"), "w", encoding="utf-8") as fh:
+        json.dump(extras, fh, ensure_ascii=False, indent=1, default=str)
     with open(os.path.join(ziel, "signale.md"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(md) + "\n")
     print(f"OK: {len(werte)} Werte, {jetzt:%Y-%m-%d %H:%M} UTC")
+    print("Diagnose Zusatzdaten:", json.dumps(extras["diagnose"], ensure_ascii=False)[:2000])
 
 
 if __name__ == "__main__":

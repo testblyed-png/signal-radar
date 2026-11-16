@@ -27,7 +27,8 @@ STANDARD_KRYPTO = [
     "BTC-USD", "ETH-USD", "SOL-USD", "XRP-USD", "BNB-USD",
     "ADA-USD", "DOGE-USD", "AVAX-USD", "LINK-USD",
 ]
-HILFS_TICKER = ["SPY", "^VIX", "^VIX3M", "BTC-USD"]
+HILFS_TICKER = ["SPY", "^VIX", "^VIX3M", "BTC-USD",
+                "XLK", "XLF", "XLV", "XLE", "XLY", "XLC", "XLI", "XLB", "XLU", "XLRE", "XLP"]  # Sektor-ETFs
 
 FORWARD_TAGE = 20          # Haltedauer für die historische Auswertung (Handelstage/Bars)
 KAUF_SCHWELLE = 15         # Score ab dem "KAUFEN"
@@ -323,7 +324,7 @@ def merkmale(df: pd.DataFrame, ticker: str, bench: pd.DataFrame | None) -> pd.Da
 # --------------------------------------------------------------------------------------
 # MARKTREGIME
 # --------------------------------------------------------------------------------------
-def regime_aktien(daten: dict[str, pd.DataFrame], aktien: list[str]) -> pd.DataFrame:
+def regime_aktien(daten: dict[str, pd.DataFrame], aktien: list[str], fred: pd.DataFrame | None = None) -> pd.DataFrame:
     spy = daten.get("SPY")
     if spy is None:
         return pd.DataFrame()
@@ -365,8 +366,18 @@ def regime_aktien(daten: dict[str, pd.DataFrame], aktien: list[str]) -> pd.DataF
         r["breite_stufe"] = np.select([breite > 0.6, breite < 0.4], [1.0, -1.0], 0.0)
     else:
         r["breite_stufe"] = 0.0
-    r["score"] = (0.35 * r["trend"] + 0.15 * r["kreuz"] + 0.15 * r["vix_stufe"]
-                  + 0.15 * r["struktur"] + 0.20 * r["breite_stufe"])
+    # Kreditmarkt (FRED, Hochzins-Aufschlag): steigt er deutlich, ist das ein frühes Stresssignal
+    r["kredit_stufe"] = 0.0
+    if fred is not None and len(fred) and "BAMLH0A0HYM2" in fred.columns:
+        oas = fred["BAMLH0A0HYM2"].dropna().reindex(r.index, method="ffill")
+        med = oas.rolling(252, min_periods=60).median()
+        chg = oas - oas.shift(20)
+        r["hy_spread"] = oas
+        r["kredit_stufe"] = np.select([(oas > med + 1.0) | (chg > 0.75), (oas < med) & (chg <= 0)], [-1.0, 1.0], 0.0)
+    if fred is not None and len(fred) and "T10Y2Y" in fred.columns:
+        r["zinskurve"] = fred["T10Y2Y"].dropna().reindex(r.index, method="ffill")
+    r["score"] = (0.30 * r["trend"] + 0.10 * r["kreuz"] + 0.15 * r["vix_stufe"]
+                  + 0.10 * r["struktur"] + 0.20 * r["breite_stufe"] + 0.15 * r["kredit_stufe"])
     return r
 
 
@@ -616,11 +627,14 @@ class Ergebnis:
     regime_label: str
     tag_pct: float
     daten: pd.DataFrame = field(repr=False, default=None)
+    score_aktuell: float | None = None
+    zusatzpunkte: float = 0.0
+    extras: dict | None = None
 
 
-def analysiere(daten: dict[str, pd.DataFrame], gruppen: dict[str, list[str]]) -> tuple[dict[str, Ergebnis], dict]:
+def analysiere(daten: dict[str, pd.DataFrame], gruppen: dict[str, list[str]], fred: pd.DataFrame | None = None) -> tuple[dict[str, Ergebnis], dict]:
     aktien_liste = gruppen.get("Aktien", [])
-    reg_a = regime_aktien(daten, aktien_liste)
+    reg_a = regime_aktien(daten, aktien_liste, fred)
     reg_k = regime_krypto(daten)
     ergebnisse: dict[str, Ergebnis] = {}
     for gruppe, liste in gruppen.items():
