@@ -29,7 +29,7 @@ jobs:
           cache-dependency-path: requirements-actions.txt
       - name: Bisherigen Stand holen
         run: git clone -q --depth 1 --branch insider "https://github.com/${{ github.repository }}.git" insider_neu || mkdir -p insider_neu
-      - run: rm -rf insider_neu/.git insider_neu/probe.json && pip install -q -r requirements-actions.txt
+      - run: rm -rf insider_neu/.git insider_neu/probe.json insider_neu/studie_fehler.json && pip install -q -r requirements-actions.txt
       - name: Lauf
         run: |
           MSG="${{ github.event.head_commit.message }}"

@@ -12,6 +12,7 @@ import extras as X
 
 EXTRAS_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/extras.json"
 KAND_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/kandidaten/kandidaten.json"
+INSIDER_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/insider/"
 
 st.set_page_config(page_title="Signal-Radar", layout="wide")
 
@@ -85,6 +86,16 @@ def lade_kandidaten():
     try:
         import json, urllib.request
         with urllib.request.urlopen(KAND_URL, timeout=20) as fh:
+            return json.loads(fh.read().decode("utf-8"))
+    except Exception:
+        return None
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def lade_insider(datei: str):
+    try:
+        import json, urllib.request
+        with urllib.request.urlopen(INSIDER_URL + datei, timeout=20) as fh:
             return json.loads(fh.read().decode("utf-8"))
     except Exception:
         return None
@@ -216,8 +227,8 @@ for t, r in ergebnisse.items():
     })
 tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
 
-tab_ueber, tab_detail, tab_kand, tab_rot, tab_guete, tab_hilfe = st.tabs(
-    ["Übersicht", "Detailanalyse", "Potenzial-Kandidaten", "ETF-Strategien", "Wie gut sind die Signale?", "Anleitung"])
+tab_ueber, tab_detail, tab_ins, tab_kand, tab_rot, tab_guete, tab_hilfe = st.tabs(
+    ["Übersicht", "Detailanalyse", "Insider-Radar", "Potenzial-Kandidaten", "ETF-Strategien", "Wie gut sind die Signale?", "Anleitung"])
 
 # ------------------------------------------------------------------ Übersicht
 with tab_ueber:
@@ -382,6 +393,96 @@ with tab_detail:
             f"| Zeitraum | {a['jahre']:.1f} Jahre | |")
         st.caption("Strategie: kaufen ab Signal KAUFEN, verkaufen wenn Score unter −5 fällt, "
                    "Ausführung am nächsten Tag, 0,1 % Kosten je Wechsel.")
+
+# ------------------------------------------------------------------ Insider-Radar
+with tab_ins:
+    ins, stu = lade_insider("insider.json"), lade_insider("studie.json")
+    st.subheader("Insider-Radar: Wo kaufen Manager gerade ihre eigene Aktie?")
+    st.markdown("Der Scanner liest **alle** Insider-Meldungen des US-Marktes bei der SEC, nicht nur die Watchlist. "
+                "**Cluster** = mindestens 3 verschiedene Manager oder Aufsichtsräte kaufen innerhalb von 30 Tagen am offenen Markt, "
+                "zusammen für mindestens 100.000 $. **Chef-Großkauf** = CEO, CFO, President oder Chairman kauft für mindestens 250.000 $.")
+    if not ins:
+        st.info("Der Scanner läuft alle 3 Stunden und hat noch kein Ergebnis geliefert.")
+    else:
+        if not ins.get("vollstaendig"):
+            st.warning(f"Der Scanner füllt die letzten 30 Tage noch auf (bisher lückenlos: {ins.get('abgedeckte_tage', 0)} Tage). "
+                       "Bis dahin können Cluster fehlen oder zu klein erscheinen.")
+        st.caption(f"Stand {pd.Timestamp(ins['erstellt_utc']).tz_convert('Europe/Vienna'):%d.%m.%Y %H:%M} · "
+                   f"{ins.get('kaeufe_im_speicher', 0)} Insiderkäufe der letzten Wochen im Speicher")
+        zeilen = []
+        for c in ins.get("cluster", []):
+            stueck, wert = E.positionsgroesse(c.get("kurs") or float("nan"), c.get("stop") or float("nan"), konto, risiko)
+            hinw = []
+            if c.get("handelbar") is False:
+                hinw.append("zu wenig Handel")
+            if c.get("handelbar") is None:
+                hinw.append("keine Kursdaten")
+            if c.get("ueber_200") is False:
+                hinw.append("im Abwärtstrend")
+            if c.get("zum_kaufpreis") is not None and c["zum_kaufpreis"] > 0.15:
+                hinw.append("schon deutlich über Insider-Preis")
+            zeilen.append({"Art": "Cluster" if c["typ"] == "A" else "Chef-Großkauf", "Ticker": c["ticker"], "Firma": c["firma"],
+                           "Datum": c["datum"], "Käufer": c["kaeufer_anzahl"], "Summe $": c["summe"],
+                           "Insider-Preis": c.get("kaufpreis_mittel"), "Kurs": c.get("kurs"), "Kurs vs. Insider": c.get("zum_kaufpreis"),
+                           "Stop": c.get("stop"), "Stück": stueck or None,
+                           "Tagesumsatz Mio $": (c.get("umsatz_usd") or 0) / 1e6 or None, "Hinweis": " · ".join(hinw)})
+        if zeilen:
+            idf = pd.DataFrame(zeilen)
+            st.dataframe(idf, hide_index=True, width="stretch", height=min(38 * (len(idf) + 1), 560), column_config={
+                "Summe $": st.column_config.NumberColumn(format="%.0f"), "Insider-Preis": st.column_config.NumberColumn(format="%.2f"),
+                "Kurs": st.column_config.NumberColumn(format="%.2f"), "Stop": st.column_config.NumberColumn(format="%.2f"),
+                "Kurs vs. Insider": st.column_config.NumberColumn(format="percent", help="Aktueller Kurs gegenüber dem Durchschnittspreis der Insider"),
+                "Stück": st.column_config.NumberColumn(format="%.1f"), "Tagesumsatz Mio $": st.column_config.NumberColumn(format="%.1f")})
+            wahl_i = st.selectbox("Wer hat gekauft?", [f"{c['ticker']} · {c['datum']}" for c in ins["cluster"]], key="ins_wahl")
+            c = ins["cluster"][[f"{x['ticker']} · {x['datum']}" for x in ins["cluster"]].index(wahl_i)]
+            for kf in c.get("kaeufer", []):
+                st.markdown(f"- **{kf['name']}** ({kf['titel']}): ${kf['wert']:,.0f} zu {kf['preis']:.2f} $, gemeldet am {pd.Timestamp(kf['gemeldet']):%d.%m.}")
+            st.markdown(f"[Alle Meldungen bei OpenInsider](http://openinsider.com/screener?s={c['ticker'].replace('-', '.')}) · "
+                        f"[Chart bei Yahoo](https://finance.yahoo.com/quote/{c['ticker']})")
+        else:
+            st.write("Aktuell kein Cluster und kein Chef-Großkauf in den letzten 30 Tagen.")
+
+    st.divider()
+    st.subheader("Hat das früher funktioniert? Studie über alle Insiderkäufe")
+    if not stu:
+        st.info("Die Studie ist noch nicht berechnet.")
+    else:
+        st.caption(f"Alle Form-4-Käufe der SEC, Kurse {stu['zeitraum'][0]} bis {stu['zeitraum'][1]}. Kauf am Tag nach der Meldung, "
+                   f"Vergleich mit dem Small-Cap-Index (IWM), {stu['regeln']['KOSTEN_RUNDE']:.1%} Kosten je Trade abgezogen.")
+        zs = []
+        for typ, z in stu["ergebnis"].items():
+            for h, e in z["horizonte"].items():
+                zs.append({"Ereignis": z["name"], "Haltedauer": {"21": "1 Monat", "63": "3 Monate", "126": "6 Monate"}.get(h, h),
+                           "Fälle": e["n"], "Ø Vorsprung": e["mittel"], "Median": e["median"], "Trefferquote": e["treffer"],
+                           "t-Wert": e["t_monate"], "1. Hälfte": e["haelfte1"], "2. Hälfte": e["haelfte2"]})
+        if zs:
+            sdf = pd.DataFrame(zs)
+            st.dataframe(sdf, hide_index=True, width="stretch", column_config={
+                **{c_: st.column_config.NumberColumn(format="percent") for c_ in ["Ø Vorsprung", "Median", "Trefferquote", "1. Hälfte", "2. Hälfte"]},
+                "t-Wert": st.column_config.NumberColumn(format="%.1f", help="Über 2: wahrscheinlich kein Zufall (nach Monaten gebündelt)")})
+            st.caption("Vorsprung = Rendite der Aktie minus Rendite des Small-Cap-Index im selben Zeitraum, nach Kosten. "
+                       "Trefferquote = Anteil der Fälle, die besser liefen als der Index.")
+        fig = go.Figure()
+        for typ, z in stu["ergebnis"].items():
+            if z.get("pfad"):
+                fig.add_trace(go.Scatter(x=z["pfad"]["tag"], y=[v * 100 for v in z["pfad"]["ueberrendite"]], name=z["name"]))
+        if fig.data:
+            fig.add_hline(y=0, line=dict(color="#888", width=1))
+            fig.update_layout(height=320, margin=dict(l=10, r=10, t=30, b=10), title="Durchschnittlicher Vorsprung nach der Meldung (vor Kosten)",
+                              xaxis_title="Handelstage nach der Meldung", yaxis_title="Vorsprung in %", legend=dict(orientation="h", y=-0.3))
+            st.plotly_chart(fig, width="stretch")
+        for typ, pf in (stu.get("portfolio") or {}).items():
+            st.markdown(f"**Portfolio-Test „{stu['typen'][typ]}“** – jede Aktie 6 Monate halten, alle gleich gewichtet "
+                        f"(im Schnitt {pf['positionen_mittel']:.0f} Positionen)")
+            test_anzeige(pf, next(iter(pf["kurven"])))
+        a_ = stu["ergebnis"].get("A", {})
+        h6 = a_.get("horizonte", {}).get("126", {})
+        if a_:
+            st.warning(f"Grenzen der Studie: Von {a_['ereignisse_gesamt']} Cluster-Fällen ließen sich {a_['mit_kursen_handelbar']} auswerten. "
+                       f"Für {a_['ohne_kurse']} fehlen Kurse, meist weil die Firma nicht mehr existiert (übernommen oder pleite). "
+                       + (f"Hätten alle fehlenden Fälle 30 % schlechter abgeschnitten als der Index, läge der Vorsprung nach 6 Monaten bei "
+                          f"{h6['pessimistisch']:+.1%} statt {h6['mittel']:+.1%}. " if h6.get("pessimistisch") is not None else "")
+                       + "Kleine Aktien schwanken stark und sind teurer zu handeln. Keine Anlageberatung.")
 
 # ------------------------------------------------------------------ Potenzial-Kandidaten
 kand = lade_kandidaten()

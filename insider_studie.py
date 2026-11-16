@@ -29,6 +29,7 @@ import kandidaten as K
 UA = os.environ.get("SEC_IDENTITY") or "Signal-Radar Bot signal-radar-bot@users.noreply.github.com"
 BASIS = "https://www.sec.gov/files/structureddata/data/insider-transactions-data-sets/{q}_form345.zip"
 KURZ = {"A": "Cluster", "B": "Chef-Großkauf", "C": "Einzelkauf"}
+FORTSCHRITT = {}
 TYPEN = {"A": "Cluster: 3+ Manager kaufen in 30 Tagen", "B": "Großkauf eines Chefs (ab 250.000 $)",
          "C": "Vergleich: irgendein Einzelkauf ab 25.000 $"}
 
@@ -161,17 +162,19 @@ def main(ziel="insider_neu"):
         teile.append(d)
         diag["quartale"].append(q)
         time.sleep(0.3)
+    FORTSCHRITT["quartale"] = len(teile); FORTSCHRITT["t_quartale"] = time.time()
     k = pd.concat(teile, ignore_index=True).drop_duplicates("ACCESSION_NUMBER")
     diag["kaeufe"] = len(k)
     diag["kaeufe_bis"] = str(k["filed"].max().date())
     ev = finde_ereignisse(k)
     diag["ereignisse"] = ev["typ"].value_counts().to_dict()
+    FORTSCHRITT.update(kaeufe=len(k), ereignisse=diag["ereignisse"], t_ereignisse=time.time(), ticker=int(ev["ticker"].nunique()))
 
     ticks = sorted(set(ev["ticker"]))
     C, V = lade_kurse(ticks + ["IWM", "SPY"], diag)
+    FORTSCHRITT.update(kurse=len(C), t_kurse=time.time())
     if "IWM" not in C or "SPY" not in C:
-        print("Keine Benchmark-Kurse", file=sys.stderr)
-        sys.exit(1)
+        raise RuntimeError("Keine Benchmark-Kurse (IWM/SPY)")
     idx = C["IWM"].index
     iwm, spy = C["IWM"].values.astype(float), C["SPY"].reindex(idx).ffill().values.astype(float)
     H = max(R.HORIZONTE)
@@ -216,6 +219,7 @@ def main(ziel="insider_neu"):
                     z["seit"] = float(c.ffill().iloc[-1]) / p0 - 1
         zeilen.append(z)
     df = pd.DataFrame(zeilen)
+    FORTSCHRITT.update(zeilen=len(df), t_zeilen=time.time())
     diag["status"] = df.groupby(["typ", "status"]).size().unstack(fill_value=0).to_dict("index")
 
     # ---- Ereignisstudie
@@ -296,4 +300,13 @@ def main(ziel="insider_neu"):
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:])
+    _ziel = sys.argv[1] if len(sys.argv) > 1 else "insider_neu"
+    try:
+        main(_ziel)
+    except BaseException as _ex:            # Fehler sichtbar machen (Logs sind von außen nicht lesbar)
+        import traceback
+        os.makedirs(_ziel, exist_ok=True)
+        with open(os.path.join(_ziel, "studie_fehler.json"), "w", encoding="utf-8") as _fh:
+            json.dump({"zeit": datetime.now(timezone.utc).isoformat(), "fehler": repr(_ex)[:500],
+                       "spur": traceback.format_exc()[-3000:], "fortschritt": FORTSCHRITT}, _fh, indent=1)
+        print(traceback.format_exc())
