@@ -144,6 +144,7 @@ def faktor_check(f: dict, C: pd.DataFrame, komp: pd.DataFrame) -> list[dict]:
             if m.sum() < min_n:
                 continue
             xr, yv = x[m].rank(method="first"), y[m]
+            yv = yv.clip(yv.quantile(0.01), yv.quantile(0.99))   # Ausreißer kappen
             ic = np.corrcoef(x[m].rank(), yv.rank())[0, 1]
             if not np.isfinite(ic):
                 continue
@@ -445,7 +446,16 @@ def main(ziel: str = "kandidaten_neu", vorher: str = "kandidaten_alt"):
     mdy = daten["MDY"]["Close"].reindex(idx) if "MDY" in daten else None
     sektor = {t: uni[t].get("sektor", "?") for t in tick}
 
-    # Datenqualität: größte Tagessprünge und Monatsrenditen protokollieren
+    # Datenbrüche bereinigen: Tagessprung über +300 % oder unter -90 % ist kein echter Handel
+    # (z. B. Neuauflage nach Insolvenz) -> Historie davor für diesen Wert verwerfen
+    r_roh = C.pct_change(fill_method=None)
+    bruch = (r_roh > 3.0) | (r_roh < -0.9)
+    diag["datenbrueche"] = []
+    for t in C.columns[bruch.any()]:
+        d = bruch.index[bruch[t]][-1]
+        diag["datenbrueche"].append(f"{t} {d.date()} {r_roh.loc[d, t]:+.0%}")
+        C.loc[C.index < d, t] = np.nan
+        V.loc[V.index < d, t] = 0.0
     r0 = C.pct_change(fill_method=None)
     st_ = r0.stack()
     gr = st_.abs().sort_values(ascending=False).head(25)
