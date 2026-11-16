@@ -79,7 +79,9 @@ def insider_kaeufe(ticker: str, identitaet: str, max_filings: int = 25) -> dict:
     from edgar import Company, set_identity
     set_identity(identitaet)
     start = (_jetzt() - timedelta(days=INSIDER_TAGE)).strftime("%Y-%m-%d")
-    fs = Company(ticker).get_filings(form="4", filing_date=f"{start}:", trigger_full_load=False)
+    firma = Company(ticker)
+    eigene_cik = str(int(firma.cik))
+    fs = firma.get_filings(form="4", filing_date=f"{start}:", trigger_full_load=False)
     kaeufer, summe, n_kauf, n_filings = set(), 0.0, 0, 0
     for i, f in enumerate(fs):
         if i >= max_filings:
@@ -87,6 +89,12 @@ def insider_kaeufe(ticker: str, identitaet: str, max_filings: int = 25) -> dict:
         n_filings += 1
         try:
             f4 = f.obj()
+            # Nur Meldungen über Aktien DIESER Firma (nicht Käufe der Firma in anderen Unternehmen)
+            try:
+                if str(int(f4.issuer.cik)) != eigene_cik:
+                    continue
+            except Exception:
+                continue
             mt = f4.market_trades
             if mt is None or mt.empty or "Code" not in mt.columns:
                 continue
