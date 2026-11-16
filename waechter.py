@@ -17,6 +17,7 @@ import time
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
+from email.utils import parsedate_to_datetime
 from datetime import datetime, timedelta, timezone
 
 import engine as E
@@ -59,6 +60,15 @@ ALARM_MARKT = ['"circuit breaker"', '"market-wide trading halt"', '"emergency ra
 ALARM_KRYPTO = ['"exchange hack"', '"hacked"', 'exploit', 'depeg', '"withdrawals halted"', '"withdrawals paused"',
                 '"SEC sues"', '"crypto crash"']
 # Spekulative Schlagzeilen ausfiltern
+NEWS_MAX_ALTER_H = 6
+ALARM_REGEX = {
+    "firma": re.compile(r"trading halted|halts trading|bankruptcy|chapter 11|SEC (charges|sues)|fraud|accounting irregularit|"
+                        r"CEO (resigns|steps down|ousted|fired)|recall|antitrust lawsuit|(cuts|slashes|lowers) (guidance|forecast)|"
+                        r"profit warning|short[- ]seller", re.I),
+    "markt": re.compile(r"circuit breaker|market-wide (trading )?halt|emergency rate cut|(stocks?|stock market|Dow|S&P 500|Nasdaq) "
+                        r"(plunges?|crash(es)?|tumbles?|sinks?)", re.I),
+    "krypto": re.compile(r"hack(ed)?|exploit|depeg|withdrawals (halted|paused|suspended)|SEC (sues|charges)|crypto crash", re.I),
+}
 SPEKULATIV = re.compile(r"\?|\b(could|might|may|will|should|would|what if|why|how to|prediction|predict)\b", re.I)
 
 
@@ -136,7 +146,9 @@ def pruefe_fed(gesehen: set, diag: dict) -> list:
             if key in gesehen:
                 continue
             gesehen.add(key)
-            if re.search(r"monetary policy", kat, re.I) or re.search(r"FOMC|discount rate|emergency|liquidity facility", titel, re.I):
+            if re.search(r"minutes|schedule|meeting calendar", titel, re.I):
+                continue
+            if re.search(r"FOMC statement|emergency|liquidity facility|announces .*(facility|action)|approves .*discount rate|implementation note", titel, re.I):
                 ev.append((4, f"Fed: {titel}", link))
         diag["fed_ok"] = True
     except Exception as ex:
@@ -172,18 +184,24 @@ def pruefe_news(aktien: list[str], krypto: list[str], gesehen: set, diag: dict) 
     anfragen.append(("krypto", f"({' OR '.join(coins)}) ({' OR '.join(ALARM_KRYPTO)})"))
     for art, q in anfragen:
         try:
-            for titel, link, _ in google_news(q):
+            jetzt = datetime.now(timezone.utc)
+            for titel, link, pub in google_news(q):
                 key = titel_key(titel)
                 if key in gesehen:
                     continue
-                gesehen.add(key)
-                if SPEKULATIV.search(titel):
+                try:
+                    if jetzt - parsedate_to_datetime(pub) > timedelta(hours=NEWS_MAX_ALTER_H):
+                        continue
+                except Exception:
+                    continue
+                if SPEKULATIV.search(titel) or not ALARM_REGEX[art].search(titel):
                     continue
                 prio = 4 if art in ("markt", "krypto") else 3
                 betroffen = [t for t in aktien if NAMEN.get(t, t).lower() in titel.lower()]
                 vorsatz = f"{', '.join(betroffen)}: " if betroffen else ("Markt: " if art == "markt" else "Krypto: " if art == "krypto" else "")
                 if art == "firma" and not betroffen:
                     continue
+                gesehen.add(key)
                 ev.append((prio, f"{vorsatz}{titel}", link))
             diag["news_ok"] += 1
         except Exception as ex:
