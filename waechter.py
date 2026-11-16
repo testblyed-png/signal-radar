@@ -1,0 +1,247 @@
+"""
+Signal-Radar – Wächter (läuft alle 15 Minuten in GitHub Actions)
+================================================================
+Prüft offizielle, kostenlose Quellen und schickt bei NEUEN wichtigen Ereignissen eine Push-Nachricht (ntfy):
+  1. SEC 8-K-Pflichtmeldungen der US-Watchlist (Übernahme, CEO-Wechsel, Insolvenz, Bilanzkorrektur …)
+  2. Fed-Pressemitteilungen zur Geldpolitik
+  3. Google-News-Schlagzeilen mit Alarmbegriffen (Handelsstopp, Insolvenz, SEC-Klage, Börsen-Hack …)
+Gesehene Meldungen werden im Branch "waechter" gespeichert, damit nichts doppelt kommt.
+"""
+from __future__ import annotations
+
+import json
+import os
+import re
+import sys
+import time
+import urllib.parse
+import urllib.request
+import xml.etree.ElementTree as ET
+from datetime import datetime, timedelta, timezone
+
+import engine as E
+
+UA = os.environ.get("SEC_IDENTITY") or "Signal-Radar Bot signal-radar-bot@users.noreply.github.com"
+APP_URL = "https://testblyed-png-signal-radar-app-2f1kx1.streamlit.app/"
+
+# 8-K-Punkte: Bedeutung und Priorität (5 = dringend). Nicht gelistete Punkte (7.01, 8.01, 9.01 …) werden ignoriert.
+ITEMS_8K = {
+    "1.01": ("Wichtiger Vertrag abgeschlossen", 3),
+    "1.02": ("Wichtiger Vertrag beendet", 3),
+    "1.03": ("INSOLVENZ / Gläubigerschutz", 5),
+    "1.05": ("Cyberangriff gemeldet", 4),
+    "2.01": ("Übernahme/Verkauf abgeschlossen", 3),
+    "2.02": ("Quartalszahlen veröffentlicht", 3),
+    "2.04": ("Kreditklausel ausgelöst / Schulden fällig gestellt", 5),
+    "2.05": ("Restrukturierung / Stellenabbau", 3),
+    "2.06": ("Wertberichtigung (Abschreibung)", 4),
+    "3.01": ("Delisting-Warnung der Börse", 5),
+    "4.01": ("Wirtschaftsprüfer gewechselt", 4),
+    "4.02": ("Frühere Bilanzen nicht mehr verlässlich (Korrektur)", 5),
+    "5.01": ("Kontrollwechsel im Unternehmen", 4),
+    "5.02": ("Wechsel im Vorstand/Aufsichtsrat", 3),
+}
+
+NAMEN = {
+    "AAPL": "Apple", "MSFT": "Microsoft", "NVDA": "Nvidia", "AMZN": "Amazon", "GOOGL": "Alphabet", "META": "Meta Platforms",
+    "AVGO": "Broadcom", "TSLA": "Tesla", "BRK-B": "Berkshire Hathaway", "JPM": "JPMorgan", "LLY": "Eli Lilly",
+    "V": "Visa", "MA": "Mastercard", "UNH": "UnitedHealth", "XOM": "Exxon Mobil", "COST": "Costco", "NFLX": "Netflix",
+    "AMD": "AMD", "ORCL": "Oracle", "CRM": "Salesforce", "ADBE": "Adobe", "PLTR": "Palantir", "WMT": "Walmart",
+    "HD": "Home Depot", "PG": "Procter & Gamble", "JNJ": "Johnson & Johnson", "ASML": "ASML", "TSM": "TSMC",
+    "SAP": "SAP", "NVO": "Novo Nordisk",
+}
+
+ALARM_FIRMA = ['"trading halted"', '"halts trading"', 'bankruptcy', '"chapter 11"', '"SEC charges"', '"SEC sues"',
+               'fraud', '"accounting irregularities"', '"CEO resigns"', '"CEO steps down"', '"recall"',
+               '"antitrust lawsuit"', '"guidance cut"', '"profit warning"', '"short seller report"']
+ALARM_MARKT = ['"circuit breaker"', '"market-wide trading halt"', '"emergency rate cut"', '"stock market plunges"',
+               '"Dow plunges"', '"S&P 500 plunges"']
+ALARM_KRYPTO = ['"exchange hack"', '"hacked"', 'exploit', 'depeg', '"withdrawals halted"', '"withdrawals paused"',
+                '"SEC sues"', '"crypto crash"']
+# Spekulative Schlagzeilen ausfiltern
+SPEKULATIV = re.compile(r"\?|\b(could|might|may|will|should|would|what if|why|how to|prediction|predict)\b", re.I)
+
+
+def holen(url: str, sec: bool = False, timeout: int = 20) -> bytes:
+    req = urllib.request.Request(url, headers={"User-Agent": UA if sec else "Mozilla/5.0 (Signal-Radar RSS reader)",
+                                               "Accept-Encoding": "identity"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return r.read()
+
+
+def lade_status(pfad: str) -> dict:
+    try:
+        with open(pfad, encoding="utf-8") as fh:
+            return json.load(fh)
+    except Exception:
+        return {}
+
+
+# ------------------------------------------------------------ 1. SEC 8-K
+def cik_karte(status: dict) -> dict:
+    karte = status.get("cik_karte") or {}
+    alt = status.get("cik_karte_zeit")
+    if karte and alt and datetime.fromisoformat(alt) > datetime.now(timezone.utc) - timedelta(days=7):
+        return karte
+    d = json.loads(holen("https://www.sec.gov/files/company_tickers.json", sec=True))
+    karte = {v["ticker"].upper(): int(v["cik_str"]) for v in d.values()}
+    status["cik_karte"] = karte
+    status["cik_karte_zeit"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return karte
+
+
+def pruefe_8k(tickers: list[str], status: dict, gesehen: set, diag: dict) -> list:
+    ev = []
+    karte = cik_karte(status)
+    grenze = (datetime.now(timezone.utc) - timedelta(days=3)).date().isoformat()
+    for t in tickers:
+        cik = karte.get(t.upper()) or karte.get(t.upper().replace("-", "."))
+        if not cik:
+            continue
+        try:
+            d = json.loads(holen(f"https://data.sec.gov/submissions/CIK{cik:010d}.json", sec=True))
+            r = d["filings"]["recent"]
+            for i in range(min(len(r["form"]), 40)):
+                if r["form"][i] not in ("8-K", "8-K/A") or r["filingDate"][i] < grenze:
+                    continue
+                acc = r["accessionNumber"][i]
+                if acc in gesehen:
+                    continue
+                gesehen.add(acc)
+                items = [x.strip() for x in (r.get("items", [""] * 99)[i] or "").split(",") if x.strip()]
+                wichtig = [(ITEMS_8K[x][0], ITEMS_8K[x][1]) for x in items if x in ITEMS_8K]
+                if not wichtig:
+                    continue
+                link = f"https://www.sec.gov/Archives/edgar/data/{cik}/{acc.replace('-', '')}/{r['primaryDocument'][i]}"
+                prio = max(p for _, p in wichtig)
+                txt = "; ".join(w for w, _ in wichtig)
+                ev.append((prio, f"{t} ({NAMEN.get(t, t)}) – SEC-Meldung: {txt}", link))
+            diag["sec_ok"] += 1
+        except Exception as ex:
+            diag["fehler"].append(f"8-K {t}: {type(ex).__name__}: {str(ex)[:100]}")
+        time.sleep(0.15)
+    return ev
+
+
+# ------------------------------------------------------------ 2. Fed
+def pruefe_fed(gesehen: set, diag: dict) -> list:
+    ev = []
+    try:
+        root = ET.fromstring(holen("https://www.federalreserve.gov/feeds/press_all.xml"))
+        for it in root.iter("item"):
+            titel = (it.findtext("title") or "").strip()
+            link = (it.findtext("link") or "").strip()
+            kat = " ".join((c.text or "") for c in it.findall("category"))
+            key = "fed:" + link
+            if key in gesehen:
+                continue
+            gesehen.add(key)
+            if re.search(r"monetary policy", kat, re.I) or re.search(r"FOMC|discount rate|emergency|liquidity facility", titel, re.I):
+                ev.append((4, f"Fed: {titel}", link))
+        diag["fed_ok"] = True
+    except Exception as ex:
+        diag["fehler"].append(f"Fed: {type(ex).__name__}: {str(ex)[:100]}")
+    return ev
+
+
+# ------------------------------------------------------------ 3. Google News
+def google_news(query: str) -> list[tuple[str, str, str]]:
+    url = "https://news.google.com/rss/search?" + urllib.parse.urlencode(
+        {"q": query + " when:1d", "hl": "en-US", "gl": "US", "ceid": "US:en"})
+    root = ET.fromstring(holen(url))
+    out = []
+    for it in root.iter("item"):
+        out.append(((it.findtext("title") or "").strip(), (it.findtext("link") or "").strip(),
+                    (it.findtext("pubDate") or "").strip()))
+    return out
+
+
+def titel_key(titel: str) -> str:
+    t = re.sub(r"\s+-\s+[^-]+$", "", titel)          # Quelle am Ende entfernen
+    return "news:" + re.sub(r"[^a-z0-9]+", "", t.lower())[:70]
+
+
+def pruefe_news(aktien: list[str], krypto: list[str], gesehen: set, diag: dict) -> list:
+    ev = []
+    anfragen = []
+    namen = [f'"{NAMEN.get(t, t)}"' for t in aktien]
+    for i in range(0, len(namen), 8):  # Firmen in Blöcken
+        anfragen.append(("firma", f"({' OR '.join(namen[i:i + 8])}) ({' OR '.join(ALARM_FIRMA)})"))
+    anfragen.append(("markt", f"({' OR '.join(ALARM_MARKT)})"))
+    coins = ["bitcoin", "ethereum", "crypto", "Binance", "Coinbase", "Solana", "XRP"]
+    anfragen.append(("krypto", f"({' OR '.join(coins)}) ({' OR '.join(ALARM_KRYPTO)})"))
+    for art, q in anfragen:
+        try:
+            for titel, link, _ in google_news(q):
+                key = titel_key(titel)
+                if key in gesehen:
+                    continue
+                gesehen.add(key)
+                if SPEKULATIV.search(titel):
+                    continue
+                prio = 4 if art in ("markt", "krypto") else 3
+                betroffen = [t for t in aktien if NAMEN.get(t, t).lower() in titel.lower()]
+                vorsatz = f"{', '.join(betroffen)}: " if betroffen else ("Markt: " if art == "markt" else "Krypto: " if art == "krypto" else "")
+                if art == "firma" and not betroffen:
+                    continue
+                ev.append((prio, f"{vorsatz}{titel}", link))
+            diag["news_ok"] += 1
+        except Exception as ex:
+            diag["fehler"].append(f"News {art}: {type(ex).__name__}: {str(ex)[:100]}")
+        time.sleep(1.0)
+    return ev
+
+
+# ------------------------------------------------------------ Senden
+def senden(topic: str, ev: list) -> None:
+    ev = sorted(ev, key=lambda e: -e[0])
+    prio = max(p for p, _, _ in ev)
+    titel = "Signal-Radar Wächter: " + (ev[0][1][:70] if len(ev) == 1 else f"{len(ev)} neue Meldungen")
+    text = "\n".join(f"• {t}" for _, t, _ in ev[:12])
+    body = {"topic": topic, "title": titel, "message": text, "priority": int(prio), "tags": ["rotating_light"],
+            "click": ev[0][2] or APP_URL,
+            "actions": [{"action": "view", "label": "Signal-Radar", "url": APP_URL}]}
+    req = urllib.request.Request("https://ntfy.sh/", data=json.dumps(body).encode("utf-8"), method="POST",
+                                 headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=20) as r:
+        r.read()
+
+
+def main(status_pfad: str = "waechter_status/status.json", ziel: str = "waechter_neu"):
+    status = lade_status(status_pfad)
+    erster_lauf = not status.get("gesehen")
+    gesehen = set(status.get("gesehen", []))
+    diag = {"sec_ok": 0, "fed_ok": False, "news_ok": 0, "fehler": [], "neu": 0, "gesendet": False}
+
+    aktien_us = [t for t in E.STANDARD_AKTIEN if t not in ("ASML", "TSM", "SAP", "NVO")]
+    ev = []
+    try:
+        ev += pruefe_8k(aktien_us, status, gesehen, diag)
+    except Exception as ex:
+        diag["fehler"].append(f"8-K gesamt: {type(ex).__name__}: {str(ex)[:100]}")
+    ev += pruefe_fed(gesehen, diag)
+    ev += pruefe_news(E.STANDARD_AKTIEN, E.STANDARD_KRYPTO, gesehen, diag)
+    diag["neu"] = len(ev)
+
+    topic = os.environ.get("NTFY_TOPIC", "").strip()
+    if ev and topic and not erster_lauf:
+        try:
+            senden(topic, ev)
+            diag["gesendet"] = True
+        except Exception as ex:
+            diag["fehler"].append(f"ntfy: {type(ex).__name__}: {str(ex)[:100]}")
+    if erster_lauf:
+        diag["hinweis"] = "Erster Lauf: bestehende Meldungen nur gemerkt, nichts gesendet."
+
+    status["gesehen"] = list(gesehen)[-5000:]
+    status["letzter_lauf"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    status["diagnose"] = diag
+    status["letzte_meldungen"] = [{"prio": p, "text": t, "link": l} for p, t, l in ev][:30] or status.get("letzte_meldungen", [])
+    os.makedirs(ziel, exist_ok=True)
+    with open(os.path.join(ziel, "status.json"), "w", encoding="utf-8") as fh:
+        json.dump(status, fh, ensure_ascii=False, indent=1)
+    print(json.dumps(diag, ensure_ascii=False)[:1500])
+
+
+if __name__ == "__main__":
+    main(*sys.argv[1:])
