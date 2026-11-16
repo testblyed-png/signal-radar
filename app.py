@@ -13,6 +13,7 @@ import extras as X
 EXTRAS_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/extras.json"
 KAND_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/kandidaten/kandidaten.json"
 INSIDER_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/insider/"
+KRYPTO_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/krypto.json"
 
 st.set_page_config(page_title="Signal-Radar", layout="wide")
 
@@ -96,6 +97,16 @@ def lade_insider(datei: str):
     try:
         import json, urllib.request
         with urllib.request.urlopen(INSIDER_URL + datei, timeout=20) as fh:
+            return json.loads(fh.read().decode("utf-8"))
+    except Exception:
+        return None
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def lade_krypto():
+    try:
+        import json, urllib.request
+        with urllib.request.urlopen(KRYPTO_URL, timeout=20) as fh:
             return json.loads(fh.read().decode("utf-8"))
     except Exception:
         return None
@@ -227,8 +238,9 @@ for t, r in ergebnisse.items():
     })
 tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
 
-tab_ueber, tab_detail, tab_ins, tab_kand, tab_rot, tab_guete, tab_hilfe = st.tabs(
-    ["Übersicht", "Detailanalyse", "Insider-Radar", "Potenzial-Kandidaten", "ETF-Strategien", "Wie gut sind die Signale?", "Anleitung"])
+tab_ueber, tab_detail, tab_kry, tab_ins, tab_kand, tab_rot, tab_guete, tab_hilfe = st.tabs(
+    ["Übersicht", "Detailanalyse", "Krypto-Strategie", "Insider-Radar", "Potenzial-Kandidaten", "ETF-Strategien",
+     "Wie gut sind die Signale?", "Anleitung"])
 
 # ------------------------------------------------------------------ Übersicht
 with tab_ueber:
@@ -393,6 +405,81 @@ with tab_detail:
             f"| Zeitraum | {a['jahre']:.1f} Jahre | |")
         st.caption("Strategie: kaufen ab Signal KAUFEN, verkaufen wenn Score unter −5 fällt, "
                    "Ausführung am nächsten Tag, 0,1 % Kosten je Wechsel.")
+
+# ------------------------------------------------------------------ Krypto-Strategie
+with tab_kry:
+    kr = lade_krypto()
+    st.subheader("Krypto-Strategie für Bitcoin und Ethereum")
+    if not kr or not kr.get("coins"):
+        st.info("Die Krypto-Strategie wird alle 3 Stunden berechnet und ist noch nicht verfügbar.")
+    else:
+        st.markdown("**Trendfolge mit fünf Regeln:** Jede Regel, die „an“ ist, steht für 20 % Anteil. Sind alle fünf an, bist du "
+                    "voll investiert, ist keine an, hältst du Cash. Geprüft wird nur der Tagesschlusskurs, einmal täglich reicht.")
+        spalten = st.columns(len(kr["coins"]))
+        for sp, (t, c) in zip(spalten, kr["coins"].items()):
+            a_ = c["aktuell"]
+            farbe = "#0f7b3f" if a_["anteil"] >= 0.6 else "#b58900" if a_["anteil"] >= 0.4 else "#c62828"
+            with sp:
+                anteil_txt = "{:.0%} investiert".format(a_["anteil"])
+                st.markdown(f"**{c['name']}** · Kurs {c['kurs']:,.0f} $&nbsp;&nbsp;" + badge(anteil_txt, farbe, gross=True),
+                            unsafe_allow_html=True)
+                st.caption(f"Unverändert seit {pd.Timestamp(a_['seit']):%d.%m.%Y} · Stand Tagesschluss {pd.Timestamp(c['bis']):%d.%m.%Y}")
+                for e in a_["einzel"]:
+                    sym, col = ("▲", "#0f7b3f") if e["an"] else ("▼", "#c62828")
+                    was = "Durchschnitt" if e["regel"].startswith("SMA") else "Kurs damals"
+                    st.markdown(f"<span style='color:{col};font-weight:700'>{sym}</span> {e['regel']}: {'an' if e['an'] else 'aus'} "
+                                f"· {was} {e['schwelle']:,.0f} $ ({e['abstand']:+.0%})", unsafe_allow_html=True)
+        st.caption("Die Prozentzahl in Klammern zeigt, wie weit der Kurs über (+) oder unter (−) der Schwelle liegt. "
+                   "Kreuzt er sie, schaltet die Regel um, und du bekommst eine Push-Nachricht.")
+
+        st.divider()
+        wahl_k = st.radio("Test anzeigen für", [c["name"] for c in kr["coins"].values()], horizontal=True, key="kr_wahl")
+        t, c = next((t, c) for t, c in kr["coins"].items() if c["name"] == wahl_k)
+        u, kz = c["urteil"], c["kennzahlen"]
+        h_, e_ = kz["Kaufen und Halten"], kz["Ensemble (5 Regeln)"]
+        st.success(f"**Testergebnis {c['name']} ({pd.Timestamp(c['von']):%m/%Y} bis heute):** Die Strategie brachte {e_['cagr']:+.0%} pro Jahr "
+                   f"bei einem größten Rückgang von {e_['mdd']:.0%}. Halten brachte {h_['cagr']:+.0%} bei {h_['mdd']:.0%}. "
+                   f"Rendite pro Risiko war in beiden Zeithälften besser, und {u['sma_laengen_besser_als_halten']} von {u['sma_laengen']} "
+                   "getesteten Durchschnittslängen schlugen das Halten. Das Ergebnis hängt also nicht an einer Glückszahl.")
+        zk = pd.DataFrame([{"Regel": n, "Rendite p.a.": v["cagr"], "nach KESt p.a. (grob)": v["cagr_nach_steuer"],
+                            "Größter Rückgang": v["mdd"], "Sharpe": v["sharpe"], "Schlechtestes Jahr": v["schlechtestes_jahr"],
+                            "2. Hälfte p.a.": v["cagr_haelfte2"], "Zeit investiert": v.get("zeit_investiert"),
+                            "Wechsel pro Jahr": v.get("umschichtungen_pro_jahr")} for n, v in kz.items()])
+        st.dataframe(zk, hide_index=True, width="stretch", column_config={
+            **{c_: st.column_config.NumberColumn(format="percent") for c_ in ["Rendite p.a.", "nach KESt p.a. (grob)", "Größter Rückgang",
+                                                                             "Schlechtestes Jahr", "2. Hälfte p.a.", "Zeit investiert"]},
+            "Sharpe": st.column_config.NumberColumn(format="%.2f", help="Rendite pro Risiko"),
+            "Wechsel pro Jahr": st.column_config.NumberColumn(format="%.0f", help="Summe der Umschichtungen in vollen Positionen")})
+        figk = go.Figure()
+        for n, k in c["kurven"].items():
+            figk.add_trace(go.Scatter(x=k["monat"], y=k["wert"], name=n, line=dict(width=3 if n.startswith("Ensemble") else 1.5)))
+        figk.update_layout(height=360, margin=dict(l=10, r=10, t=10, b=10), yaxis_type="log", yaxis_title="Wert von 1 $ (log)",
+                           legend=dict(orientation="h", y=-0.2))
+        st.plotly_chart(figk, width="stretch")
+        jr = pd.DataFrame({"Halten": h_["jahresrenditen"], "Strategie": e_["jahresrenditen"]})
+        jr.index.name = "Jahr"
+        with st.expander("Rendite je Kalenderjahr"):
+            st.dataframe(jr.reset_index(), hide_index=True, width="stretch",
+                         column_config={c_: st.column_config.NumberColumn(format="percent") for c_ in jr.columns})
+        st.caption(f"Signal aus dem Tagesschluss, Handel am Folgetag, {kr['kosten']:.2%} Kosten je Umschichtung. "
+                   "KESt-Näherung: Gewinne werden jedes Jahr versteuert, beim Halten erst am Ende.")
+
+        fg = kr.get("fear_greed")
+        if fg:
+            st.divider()
+            st.subheader(f"Fear & Greed Index: aktuell {fg['aktuell']:.0f}")
+            st.markdown("Oft heißt es: „Kaufen, wenn alle Angst haben.“ Die Daten seit 2018 stützen das **nicht**:")
+            fdf = pd.DataFrame([{"Stimmung": x["stufe"], "Tage": x["tage"], "Ø Rendite 30 Tage": x["mittel_30"], "Median 30 Tage": x["median_30"],
+                                 "Ø Rendite 90 Tage": x["mittel_90"], "Median 90 Tage": x["median_90"], "Gewinn nach 90 Tagen in": x["treffer_90"]}
+                                for x in fg["stufen"]])
+            st.dataframe(fdf, hide_index=True, width="stretch",
+                         column_config={c_: st.column_config.NumberColumn(format="percent") for c_ in fdf.columns[2:]})
+            st.caption("Bitcoin-Rendite nach Tagen mit der jeweiligen Stimmung. Nach extremer Gier lief es im Schnitt besser als nach "
+                       "extremer Angst. Das passt zur Trendfolge. Der Index fließt deshalb nicht in die Strategie ein.")
+        st.warning("Grenzen: Krypto hat erst wenige vollständige Zyklen hinter sich, die Vergangenheit ist keine Garantie. "
+                   "Auch die Strategie hatte Verlustjahre und Rückgänge von über 50 %. Nach Steuern lag sie bei Bitcoin hinter dem "
+                   "Halten, weil jeder Verkauf mit Gewinn Steuer auslöst. Nur Geld einsetzen, dessen Verlust du verkraftest. "
+                   "Keine Anlageberatung.")
 
 # ------------------------------------------------------------------ Insider-Radar
 with tab_ins:
