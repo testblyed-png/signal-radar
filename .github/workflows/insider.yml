@@ -29,12 +29,11 @@ jobs:
           cache-dependency-path: requirements-actions.txt
       - name: Bisherigen Stand holen
         run: git clone -q --depth 1 --branch insider "https://github.com/${{ github.repository }}.git" insider_neu || mkdir -p insider_neu
-      - run: rm -rf insider_neu/.git && pip install -q -r requirements-actions.txt
+      - run: rm -rf insider_neu/.git insider_neu/probe.json && pip install -q -r requirements-actions.txt
       - name: Lauf
         run: |
           MSG="${{ github.event.head_commit.message }}"
-          if [[ "$MSG" == *PROBE* ]]; then python insider_probe.py;
-          elif [[ "$MSG" == *STUDIE* ]]; then python insider_studie.py insider_neu;
+          if [[ "$MSG" == *STUDIE* ]]; then python insider_studie.py insider_neu;
           else python insider_scan.py insider_neu; fi
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
