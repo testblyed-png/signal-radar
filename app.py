@@ -176,11 +176,11 @@ for t, r in ergebnisse.items():
         hinweis = "Sweep zurückerobert"
     zeilen.append({
         "Ticker": t, "Gruppe": r.gruppe, "Signal": r.signal, "Score": round(last_score),
+        "Insider 90T": insider_text(ex.get("insider")),
         "Kurs": kurs, "Heute": r.tag_pct,
         "Stop": lv["stop"] if kauf else np.nan, "Ziel": lv["ziel"] if kauf else np.nan,
         "CRV": lv["crv"] if kauf else np.nan,
         "Stück": stueck if kauf else np.nan, "Positionswert": wert if kauf else np.nan,
-        "Insider 90T": insider_text(ex.get("insider")),
         "Hist. Treffer Kauf": tq, "Nächste Zahlen": ex.get("earnings") or "", "Hinweis": hinweis,
     })
 tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
