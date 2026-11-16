@@ -20,4 +20,4 @@ TICKER_OK = re.compile(r"^[A-Z]{1,5}(-[A-Z])?$")
 
 def ticker_norm(t) -> str | None:
     t = str(t or "").strip().upper().replace(".", "-").replace("/", "-")
-    return t if TICKER_OK.match(t) else None
+    return t if TICKER_OK.match(t) and t not in ("NONE", "NA", "N-A", "NULL") else None

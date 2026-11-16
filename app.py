@@ -401,6 +401,12 @@ with tab_ins:
     st.markdown("Der Scanner liest **alle** Insider-Meldungen des US-Marktes bei der SEC, nicht nur die Watchlist. "
                 "**Cluster** = mindestens 3 verschiedene Manager oder Aufsichtsräte kaufen innerhalb von 30 Tagen am offenen Markt, "
                 "zusammen für mindestens 100.000 $. **Chef-Großkauf** = CEO, CFO, President oder Chairman kauft für mindestens 250.000 $.")
+    h6_ = ((stu or {}).get("ergebnis", {}).get("A", {}).get("horizonte", {}) or {}).get("126")
+    if h6_ and h6_["t_monate"] < 2:
+        st.error(f"**Ehrliches Testergebnis:** In {h6_['n']} auswertbaren Cluster-Fällen seit 2016 lag der Vorsprung gegenüber dem "
+                 f"Small-Cap-Index nach 6 Monaten im Schnitt bei {h6_['mittel']:+.1%} (Median {h6_['median']:+.1%}, "
+                 f"Trefferquote {h6_['treffer']:.0%}). Das ist **kein belegbarer Vorteil**. Die Liste zeigt, wo Manager kaufen – "
+                 "sie ist eine Ideensammlung, kein Kaufsignal.")
     if not ins:
         st.info("Der Scanner läuft alle 3 Stunden und hat noch kein Ergebnis geliefert.")
     else:
@@ -419,7 +425,9 @@ with tab_ins:
                 hinw.append("keine Kursdaten")
             if c.get("ueber_200") is False:
                 hinw.append("im Abwärtstrend")
-            if c.get("zum_kaufpreis") is not None and c["zum_kaufpreis"] > 0.15:
+            if c.get("zum_kaufpreis") is not None and abs(c["zum_kaufpreis"]) > 0.5:
+                hinw.append("Preis passt nicht zum Kurs (andere Aktiengattung oder Auslandsbörse)")
+            elif c.get("zum_kaufpreis") is not None and c["zum_kaufpreis"] > 0.15:
                 hinw.append("schon deutlich über Insider-Preis")
             zeilen.append({"Art": "Cluster" if c["typ"] == "A" else "Chef-Großkauf", "Ticker": c["ticker"], "Firma": c["firma"],
                            "Datum": c["datum"], "Käufer": c["kaeufer_anzahl"], "Summe $": c["summe"],
