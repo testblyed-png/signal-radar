@@ -40,7 +40,7 @@ def kurs(x):
 
 
 TOP_SCORE = 55
-TOP_CRV = 2.0
+TOP_CRV = 1.5
 
 
 def ist_top(w, regime):
