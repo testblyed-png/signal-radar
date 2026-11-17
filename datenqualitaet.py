@@ -40,7 +40,7 @@ def pruefe_reihe(t: str, df: pd.DataFrame, kalender: pd.DatetimeIndex | None) ->
     if kaputt:
         p.append(f"{kaputt} unmögliche Kerzen")
     r = d["Close"].pct_change(fill_method=None)
-    sprung = r[r.abs() > (0.8 if krypto else 0.5)]
+    sprung = r[r.abs() > (0.8 if krypto else 0.5)] if not t.startswith("^") else r.iloc[:0]   # VIX & Co. springen real
     if len(sprung):
         p.append("Sprünge: " + ", ".join(f"{i:%d.%m.%y} {v:+.0%}" for i, v in sprung.items())[:120])
     gleich = (d["Close"].diff() == 0).astype(int)
