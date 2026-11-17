@@ -115,6 +115,21 @@ def lade_yahoo(tickers: list[str], period: str = "10y") -> dict[str, pd.DataFram
     return out
 
 
+def nur_fertige_tage(daten: dict) -> dict:
+    """Unfertigen Handelstag entfernen: Aktien/ETFs vor 21:15 UTC (nach US-Schluss), Krypto den laufenden UTC-Tag.
+    So zeigen App, Push-Nachrichten und Protokoll immer dieselben Signale aus abgeschlossenen Tagen."""
+    from datetime import datetime, timezone
+    jetzt = datetime.now(timezone.utc)
+    heute = jetzt.date()
+    aktien_fertig = jetzt.hour * 60 + jetzt.minute >= 21 * 60 + 15
+    out = {}
+    for t, df in daten.items():
+        if len(df) and df.index[-1].date() >= heute and (ist_krypto(t) or not aktien_fertig):
+            df = df.iloc[:-1]
+        out[t] = df
+    return out
+
+
 def demo_daten(tickers: list[str], jahre: int = 8, seed: int = 7) -> dict[str, pd.DataFrame]:
     """Synthetische, realistische Kursdaten (Regimewechsel, Volumen) – nur zum Ausprobieren."""
     out = {}

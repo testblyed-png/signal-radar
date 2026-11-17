@@ -70,7 +70,7 @@ alle = list(dict.fromkeys(sum(gruppen.values(), []) + E.HILFS_TICKER))
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def lade(tickers: tuple, demo: bool):
-    return E.demo_daten(list(tickers)) if demo else E.lade_yahoo(list(tickers))
+    return E.demo_daten(list(tickers)) if demo else E.nur_fertige_tage(E.lade_yahoo(list(tickers)))
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
@@ -165,7 +165,7 @@ if not ergebnisse:
 # ------------------------------------------------------------------ Kopf + Marktampel
 st.title("Signal-Radar")
 stand = max(r.merkmale.index[-1] for r in ergebnisse.values())
-st.caption(f"Stand: Schlusskurse bis {stand:%d.%m.%Y}" + ("  ·  DEMO-DATEN – keine echten Kurse!" if demo else "")
+st.caption(f"Stand: abgeschlossene Handelstage bis {stand:%d.%m.%Y} (wie Push-Nachrichten)" + ("  ·  DEMO-DATEN – keine echten Kurse!" if demo else "")
            + (f"  ·  Zusatzdaten vom {pd.Timestamp(extras_stand).tz_convert('Europe/Vienna'):%d.%m. %H:%M}" if extras_stand else ""))
 
 c1, c2 = st.columns(2)

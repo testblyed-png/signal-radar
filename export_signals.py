@@ -25,25 +25,11 @@ def z(x, n=4):
     return round(x, n) if np.isfinite(x) else None
 
 
-def nur_fertige_tage(daten: dict) -> dict:
-    """Unfertigen Handelstag entfernen: Aktien/ETFs vor 21:15 UTC (nach US-Schluss), Krypto den laufenden UTC-Tag."""
-    from datetime import datetime, timezone
-    jetzt = datetime.now(timezone.utc)
-    heute = jetzt.date()
-    aktien_fertig = jetzt.hour * 60 + jetzt.minute >= 21 * 60 + 15
-    out = {}
-    for t, df in daten.items():
-        if len(df) and df.index[-1].date() >= heute and (E.ist_krypto(t) or not aktien_fertig):
-            df = df.iloc[:-1]
-        out[t] = df
-    return out
-
-
 def main(ziel="ausgabe", vorher="vorher"):
     gruppen = {"Aktien": E.STANDARD_AKTIEN, "ETFs": E.STANDARD_ETFS, "Krypto": E.STANDARD_KRYPTO}
     alle = list(dict.fromkeys(sum(gruppen.values(), []) + E.HILFS_TICKER))
     daten = E.lade_yahoo(alle)
-    daten = nur_fertige_tage(daten)
+    daten = E.nur_fertige_tage(daten)
     if len(daten) < 10:
         print(f"Zu wenige Daten geladen ({len(daten)}). Abbruch.", file=sys.stderr)
         sys.exit(1)
