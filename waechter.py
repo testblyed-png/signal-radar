@@ -65,7 +65,7 @@ ALARM_REGEX = {
     "firma": re.compile(r"trading halted|halts trading|bankruptcy|chapter 11|SEC (charges|sues)|fraud|accounting irregularit|"
                         r"CEO (resigns|steps down|ousted|fired)|recall|antitrust lawsuit|(cuts|slashes|lowers) (guidance|forecast)|"
                         r"profit warning|short[- ]seller", re.I),
-    "markt": re.compile(r"circuit breaker|market-wide (trading )?halt|emergency rate cut|(stocks?|stock market|Dow|S&P 500|Nasdaq) "
+    "markt": re.compile(r"market-wide (circuit breaker|(trading )?halt)|(level [123]|S&P 500|Wall Street|NYSE|Nasdaq|U\.S\. stocks?)[^.]{0,40}circuit breaker|emergency rate cut|(stocks?|stock market|Dow|S&P 500|Nasdaq) "
                         r"(plunges?|crash(es)?|tumbles?|sinks?)", re.I),
     "krypto": re.compile(r"hack(ed)?|exploit|depeg|withdrawals (halted|paused|suspended)|SEC (sues|charges)|crypto crash", re.I),
 }
@@ -290,6 +290,8 @@ def pruefe_news(aktien: list[str], krypto: list[str], gesehen: set, diag: dict) 
                     continue
                 if SPEKULATIV.search(titel) or not ALARM_REGEX[art].search(titel):
                     continue
+                if art == "markt" and re.search(r"equity-based|single[- ]stock|\b[A-Z0-9]{3,6}\.[A-Z]\b", titel):
+                    continue                     # Handelsstopp einer einzelnen (oft ausländischen) Aktie, kein Marktereignis
                 if art == "krypto" and not krypto_wichtig(titel):
                     continue
                 prio = 4 if art in ("markt", "krypto") else 3
