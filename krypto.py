@@ -195,6 +195,54 @@ def fg_auswertung(fg: pd.Series, c: pd.Series) -> dict:
     return out
 
 
+BINANCE_HOSTS = ["https://data-api.binance.vision", "https://api.binance.com"]
+BINANCE_PAAR = {"BTC-USD": "BTCUSDT", "ETH-USD": "ETHUSDT"}
+
+
+def lade_binance(paar: str, diag: dict) -> pd.DataFrame | None:
+    """Komplette Tageskerzen einer Börse (Binance Spot, 00:00–24:00 UTC), nur abgeschlossene Tage."""
+    for host in BINANCE_HOSTS:
+        try:
+            zeilen, start = [], 0
+            jetzt_ms = datetime.now(timezone.utc).timestamp() * 1000
+            for _ in range(10):
+                url = f"{host}/api/v3/klines?symbol={paar}&interval=1d&limit=1000&startTime={start}"
+                roh = json.loads(urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Signal-Radar"}), timeout=30).read())
+                if not roh:
+                    break
+                zeilen += roh
+                start = int(roh[-1][0]) + 86_400_000
+                if len(roh) < 1000:
+                    break
+            df = pd.DataFrame([{"Datum": pd.Timestamp(int(k[0]), unit="ms"), "Open": float(k[1]), "High": float(k[2]), "Low": float(k[3]),
+                                "Close": float(k[4]), "Volume": float(k[5])} for k in zeilen if int(k[6]) < jetzt_ms])
+            df = df.drop_duplicates("Datum").set_index("Datum").sort_index()
+            diag.setdefault("binance_host", host)
+            return df if len(df) > 500 else None
+        except Exception as ex:
+            diag["fehler"].append(f"Binance {paar} über {host}: {type(ex).__name__}: {str(ex)[:80]}")
+    return None
+
+
+def quellenvergleich(c_yahoo: pd.Series, df_b: pd.DataFrame) -> dict:
+    """Gleiche Strategie, gleicher Zeitraum, zwei Datenquellen."""
+    c_b = df_b["Close"]
+    gem = c_yahoo.index.intersection(c_b.index)
+    cy, cb = c_yahoo.loc[gem], c_b.loc[gem]
+    ey, eb = regeln(cy)[ENS_NAME], regeln(cb)[ENS_NAME]
+    ry, rb = simuliere(cy, ey), simuliere(cb, eb)
+    hy = cy.pct_change(fill_method=None).fillna(0.0).iloc[WARM + 2:]
+    hb = cb.pct_change(fill_method=None).fillna(0.0).iloc[WARM + 2:]
+    abw = (cy / cb - 1).abs()
+    gleich = float((ey.iloc[WARM:] == eb.iloc[WARM:]).mean())
+    return {"von": str(gem[0].date()), "bis": str(gem[-1].date()), "tage": int(len(gem)),
+            "kurs_abweichung_median": float(abw.median()), "kurs_abweichung_max": float(abw.max()), "tag_max": str(abw.idxmax().date()),
+            "gleiche_position_tage": gleich,
+            "aktuell_yahoo": float(ey.iloc[-1]), "aktuell_binance": float(eb.iloc[-1]),
+            "kennzahlen": {"Strategie mit Yahoo": kennzahlen(ry, ey), "Strategie mit Binance": kennzahlen(rb, eb),
+                           "Halten (Yahoo)": kennzahlen(hy, halten=True), "Halten (Binance)": kennzahlen(hb, halten=True)}}
+
+
 def sauber(o):
     if isinstance(o, dict):
         return {str(k): sauber(v) for k, v in o.items()}
@@ -286,6 +334,14 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
                            "kennzahlen": kz, "kurven": kv, "gitter": gitter, "urteil": urteil, "mvrv": mvrv_info, "bootstrap": boot,
                            "aktuell": {"anteil": float(ens.iloc[-1]), "seit": str(seit.date()), "einzel": einzel,
                                        "ausbruch": bool(R["Ausbruch 20/10"].iloc[-1] > 0), "kreuz": bool(R["Kreuz 50/200"].iloc[-1] > 0)}}
+        if t in BINANCE_PAAR:
+            dfb = lade_binance(BINANCE_PAAR[t], diag)
+            if dfb is not None:
+                dfb = dfb[dfb.index < pd.Timestamp(heute)]
+                try:
+                    out["coins"][t]["quellenvergleich"] = quellenvergleich(c, dfb)
+                except Exception as ex:
+                    diag["fehler"].append(f"Quellenvergleich {t}: {type(ex).__name__}: {str(ex)[:80]}")
         if t == "BTC-USD" and fg is not None:
             try:
                 out["fear_greed"] = fg_auswertung(fg, c)

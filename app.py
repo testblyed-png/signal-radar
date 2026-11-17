@@ -570,6 +570,17 @@ with tab_kry:
             st.info(f"**Zufallsprüfung (Monte-Carlo, {bo['durchlaeufe']} Durchläufe):** Die Tagesrenditen wurden in {bo['block_tage']}-Tage-Blöcken "
                     f"neu zusammengewürfelt. In {bo['anteil_sharpe_besser']:.0%} der Durchläufe hatte die Strategie die bessere Rendite pro Risiko, "
                     f"in {bo['anteil_rueckgang_kleiner']:.0%} den kleineren größten Rückgang. Ab etwa 95 % gilt ein Vorteil als statistisch gut belegt.")
+        qv = c.get("quellenvergleich")
+        if qv:
+            with st.expander("Datenquellen-Vergleich: dieselbe Strategie mit Yahoo- und mit Binance-Kursen"):
+                kq = qv["kennzahlen"]
+                st.dataframe(pd.DataFrame([{"Variante": n, "Rendite p.a.": v["cagr"], "Größter Rückgang": v["mdd"], "Sharpe": v["sharpe"]}
+                                           for n, v in kq.items()]), hide_index=True, width="stretch", column_config={
+                    "Rendite p.a.": st.column_config.NumberColumn(format="percent"), "Größter Rückgang": st.column_config.NumberColumn(format="percent"),
+                    "Sharpe": st.column_config.NumberColumn(format="%.2f")})
+                st.caption(f"Zeitraum {qv['von']} bis {qv['bis']}. Schlusskurse weichen im Median um {qv['kurs_abweichung_median']:.2%} ab, "
+                           f"maximal {qv['kurs_abweichung_max']:.1%} (am {qv['tag_max']}). An {qv['gleiche_position_tage']:.0%} der Tage hätte die "
+                           f"Strategie mit beiden Quellen dieselbe Position gehalten. Heute: Yahoo {qv['aktuell_yahoo']:.0%}, Binance {qv['aktuell_binance']:.0%}.")
         zk = pd.DataFrame([{"Regel": n, "Rendite p.a.": v["cagr"], "nach KESt p.a. (grob)": v["cagr_nach_steuer"],
                             "Größter Rückgang": v["mdd"], "Sharpe": v["sharpe"], "Schlechtestes Jahr": v["schlechtestes_jahr"],
                             "2. Hälfte p.a.": v["cagr_haelfte2"], "Zeit investiert": v.get("zeit_investiert"),
@@ -998,6 +1009,24 @@ with tab_status:
                    "Status": "❌ fehlt" if zeit is None else ("⚠️ veraltet" if alter > max_h else "✅ aktuell"),
                    "Meldungen": " · ".join(str(x) for x in fehler[:2])[:160]})
     st.dataframe(pd.DataFrame(zs), hide_index=True, width="stretch")
+    dq = lade_json("https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/datenqualitaet.json")
+    if dq:
+        st.markdown(f"**Datenprüfung der Kursreihen:** {dq['ok']} von {dq['anzahl']} ohne Befund "
+                    "(geprüft: Duplikate, fehlende Tage, unmögliche Kerzen, Sprünge, eingefrorene Kurse, Volumen-Ausreißer)")
+        befund = [w for w in dq["werte"] if w["status"] != "ok"]
+        if befund:
+            st.dataframe(pd.DataFrame([{"Wert": w["ticker"], "Letzter Tag": w["letzter_tag"], "Befund": "; ".join(w["probleme"]),
+                                        "Einstufung": "prüfen" if w["status"] == "pruefen" else "Hinweis"} for w in befund]),
+                         hide_index=True, width="stretch")
+        gp = dq.get("krypto_gegenprobe") or {}
+        zeilen_gp = [{"Coin": t, "Zweite Quelle": "Binance" if "quelle" in g else "–", "Tage": g.get("tage"),
+                      "Abweichung Median": g.get("abweichung_median"), "Abweichung max.": g.get("abweichung_max"),
+                      "Status": g.get("status") or g.get("fehler", "")} for t, g in gp.items() if isinstance(g, dict)]
+        if zeilen_gp:
+            st.markdown("**Krypto-Gegenprobe:** Tagesschluss Yahoo gegenüber Binance (letzte 60 Tage)")
+            st.dataframe(pd.DataFrame(zeilen_gp), hide_index=True, width="stretch", column_config={
+                "Abweichung Median": st.column_config.NumberColumn(format="percent"),
+                "Abweichung max.": st.column_config.NumberColumn(format="percent")})
     st.caption(f"Diese Seite rechnet mit Tagesschlusskursen bis {stand:%d.%m.%Y}. Kursquelle Yahoo Finance (kostenlos, inoffiziell, "
                "Kurse um Dividenden und Splits bereinigt). Neue Signale entstehen nur aus abgeschlossenen Handelstagen.")
     fehlend = [t for t in alle if t not in {r.ticker for r in ergebnisse.values()} and not t.startswith("^")

@@ -119,6 +119,12 @@ def main(ziel="ausgabe", vorher="vorher"):
         fh.write("\n".join(md) + "\n")
     print(f"OK: {len(werte)} Werte, {jetzt:%Y-%m-%d %H:%M} UTC")
     try:
+        import datenqualitaet
+        dq = datenqualitaet.pruefe(daten, ziel)
+        print("Datenqualität:", dq["ok"], "von", dq["anzahl"], "ohne Befund")
+    except Exception as ex:
+        print("Datenqualität fehlgeschlagen:", repr(ex)[:300])
+    try:
         import swing
         sw = swing.live(ergebnisse, werte, daten, reg_out, vorher, ziel)
         print("Swing:", len(sw["offen"]), "offen/geplant,", len(sw["geschlossen"]), "abgeschlossen")
