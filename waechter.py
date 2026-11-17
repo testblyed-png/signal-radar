@@ -262,6 +262,38 @@ def google_news(query: str) -> list[tuple[str, str, str]]:
     return out
 
 
+US_MARKT = re.compile(r"S&P 500|S&P|\bDow\b|Nasdaq|Wall Street|NYSE|U\.S\. (stocks?|markets?)|US (stocks?|markets?)|American stocks", re.I)
+
+
+def ignorierliste() -> list:
+    """waechter_ignorieren.txt: ein Suchbegriff oder regulärer Ausdruck pro Zeile (# = Kommentar)."""
+    try:
+        with open("waechter_ignorieren.txt", encoding="utf-8") as fh:
+            return [re.compile(z.strip(), re.I) for z in fh if z.strip() and not z.lstrip().startswith("#")]
+    except Exception:
+        return []
+
+
+IGNORIEREN = ignorierliste()
+
+
+def woerter(titel: str) -> set:
+    t = re.sub(r"\s+-\s+[^-]+$", "", titel.lower())
+    return {w for w in re.findall(r"[a-z0-9]{3,}", t) if w not in {"the", "and", "for", "with", "after", "from", "amid", "over"}}
+
+
+def aehnlich_gemeldet(titel: str, status: dict) -> bool:
+    """True, wenn in den letzten 24 h schon eine Schlagzeile mit ≥ 60 % gleichen Wörtern gemeldet wurde."""
+    w = woerter(titel)
+    grenze = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
+    for e in status.get("gemeldet_24h", []):
+        if e["zeit"] >= grenze and w:
+            alt = set(e["woerter"])
+            if len(w & alt) / max(1, min(len(w), len(alt))) >= 0.6:
+                return True
+    return False
+
+
 def titel_key(titel: str) -> str:
     t = re.sub(r"\s+-\s+[^-]+$", "", titel)          # Quelle am Ende entfernen
     return "news:" + re.sub(r"[^a-z0-9]+", "", t.lower())[:70]
@@ -299,6 +331,10 @@ def pruefe_news(aktien: list[str], krypto: list[str], gesehen: set, diag: dict) 
                 vorsatz = f"{', '.join(betroffen)}: " if betroffen else ("Markt: " if art == "markt" else "Krypto: " if art == "krypto" else "")
                 if art == "firma" and not betroffen:
                     continue
+                if art == "markt" and not betroffen and not US_MARKT.search(titel):
+                    continue                     # Börsen anderer Länder ohne Bezug zur Watchlist
+                if art == "markt" and betroffen and not US_MARKT.search(titel):
+                    prio = 3
                 gesehen.add(key)
                 ev.append((prio, f"{vorsatz}{titel}", link))
             diag["news_ok"] += 1
@@ -342,6 +378,18 @@ def main(status_pfad: str = "waechter_status/status.json", ziel: str = "waechter
     ev += pruefe_auftraege(namen, gesehen, diag)
     diag["neu"] = len(ev)
 
+    gefiltert, aussortiert = [], []
+    for e in ev:
+        if any(r.search(e[1]) for r in IGNORIEREN) or aehnlich_gemeldet(e[1], status):
+            aussortiert.append(e[1][:120])
+            continue
+        gefiltert.append(e)
+        status.setdefault("gemeldet_24h", []).append({"zeit": datetime.now(timezone.utc).isoformat(), "woerter": sorted(woerter(e[1]))})
+    grenze = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
+    status["gemeldet_24h"] = [x for x in status.get("gemeldet_24h", []) if x["zeit"] >= grenze][-300:]
+    diag["aussortiert"] = aussortiert[:20]
+    ev = gefiltert
+    diag["neu"] = len(ev)
     topic = os.environ.get("NTFY_TOPIC", "").strip()
     if ev and topic and not erster_lauf:
         try:

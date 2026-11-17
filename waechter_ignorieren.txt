@@ -1,0 +1,5 @@
+# Schlagzeilen, die der Wächter nie melden soll (ein Begriff oder regulärer Ausdruck pro Zeile).
+# Neue Fehlalarme hier ergänzen.
+equity-based circuit breaker
+\bpenny stock
+sponsored
