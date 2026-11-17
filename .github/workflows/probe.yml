@@ -13,4 +13,5 @@ jobs:
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           TEXT: ${{ github.event.head_commit.message }}
-        run: curl -s -H "Title: Signal-Radar: Probe" -d "$TEXT" "https://ntfy.sh/$NTFY_TOPIC"
+        run: |
+          curl -s -H "Title: Signal-Radar Probe" -d "$TEXT" "https://ntfy.sh/$NTFY_TOPIC"
