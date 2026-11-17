@@ -119,6 +119,13 @@ def main(ziel="ausgabe", vorher="vorher"):
         fh.write("\n".join(md) + "\n")
     print(f"OK: {len(werte)} Werte, {jetzt:%Y-%m-%d %H:%M} UTC")
     try:
+        import swing
+        sw = swing.live(ergebnisse, werte, daten, reg_out, vorher, ziel)
+        print("Swing:", len(sw["offen"]), "offen/geplant,", len(sw["geschlossen"]), "abgeschlossen")
+    except Exception as ex:
+        import traceback
+        print("Swing fehlgeschlagen:", traceback.format_exc()[-800:])
+    try:
         import protokoll
         pr = protokoll.aktualisieren(werte, daten, vorher, ziel)
         print("Protokoll:", len(pr["eintraege"]), "Einträge seit", pr["start"])

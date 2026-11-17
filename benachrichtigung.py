@@ -93,16 +93,7 @@ def ereignisse(alt, neu, mein):
             continue
         ps = p.get("signal")
         im_bestand = t in mein
-        # Top-Chance (strengste Stufe, höchste Priorität)
-        if ist_top(w, rn) and not ist_top(p, ra):
-            ev.append((5, top_text(w)))
-            continue
-        # Neue Kaufchance
-        if s == "STARK KAUFEN" and ps != "STARK KAUFEN" and not w.get("extras", {}).get("earnings_sperre"):
-            crv = w.get("crv")
-            if crv is not None and crv >= 1.5:
-                ev.append((3, f"Neue Kaufchance {t}: STARK KAUFEN (Score {w['score']:+.0f}) · Kurs {kurs(w['kurs'])} · "
-                              f"Stop {kurs(w['stop'])} · Ziel {kurs(w['ziel'])} · CRV {crv:.1f}"))
+        # Kaufsignale (inkl. Top-Chance ⭐) meldet jetzt das Swing-Modelldepot (swing.py) – mit Stop, Ziel und Ausstieg
         # Verschlechterung
         if im_bestand and ps in KAUF and s not in KAUF:
             ev.append((4, f"Dein Bestand {t}: {ps} → {s} (Score {w['score']:+.0f}) – Stop nachziehen oder Teilverkauf prüfen"))
