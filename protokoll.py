@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 
 SIGNALE = ("STARK KAUFEN", "STARK VERKAUFEN")
+VERSION = 2
 HORIZONTE = {"1M": 21, "3M": 63}
 
 
@@ -28,6 +29,8 @@ def aktualisieren(werte: list, daten: dict, vorher: str, ziel: str) -> dict:
             alt = json.load(fh)
     except Exception:
         alt = {}
+    if alt.get("version") != VERSION:
+        alt = {}                                   # neu beginnen (Version 2: nur abgeschlossene Handelstage)
     eintraege = alt.get("eintraege", [])
     letzte_signale = alt.get("letzte_signale", {})
     start = alt.get("start") or (werte[0]["datum"] if werte else None)
@@ -76,7 +79,7 @@ def aktualisieren(werte: list, daten: dict, vorher: str, ziel: str) -> dict:
                         "vorsprung": float(vor.mean()), "treffer": float((vor > 0).mean())}
         bilanz[s] = z
 
-    aus = {"start": start, "eintraege": eintraege[-2000:], "letzte_signale": letzte_signale, "bilanz": bilanz}
+    aus = {"version": VERSION, "start": start, "eintraege": eintraege[-2000:], "letzte_signale": letzte_signale, "bilanz": bilanz}
     os.makedirs(ziel, exist_ok=True)
     with open(os.path.join(ziel, "protokoll.json"), "w", encoding="utf-8") as fh:
         json.dump(aus, fh, ensure_ascii=False, indent=1)
