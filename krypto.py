@@ -65,6 +65,29 @@ def regeln(c: pd.Series) -> dict[str, pd.Series]:
     return r
 
 
+PUFFER = 0.03                           # Regel schaltet erst um, wenn die Schwelle um 3 % über-/unterschritten ist
+RUHIG_VARIANTEN = ["Ensemble nur sonntags prüfen", "Ensemble mit 3 % Puffer", "Ensemble sonntags + 3 % Puffer"]
+
+
+def mit_puffer(c: pd.Series, schwelle: pd.Series, p: float = PUFFER) -> pd.Series:
+    an = np.where(c > schwelle * (1 + p), 1.0, np.where(c < schwelle * (1 - p), 0.0, np.nan))
+    return pd.Series(an, index=c.index).ffill().fillna(0.0)
+
+
+def ensemble_puffer(c: pd.Series) -> pd.Series:
+    teile = [mit_puffer(c, c.rolling(n).mean()) for n in (50, 100, 200)] + [mit_puffer(c, c.shift(n)) for n in (30, 90)]
+    return sum(teile) / len(teile)
+
+
+def nur_sonntags(pos: pd.Series) -> pd.Series:
+    return pos.where(pos.index.dayofweek == 6).ffill().fillna(0.0)
+
+
+def ruhig_varianten(c: pd.Series, ens: pd.Series) -> dict[str, pd.Series]:
+    ep = ensemble_puffer(c)
+    return {RUHIG_VARIANTEN[0]: nur_sonntags(ens), RUHIG_VARIANTEN[1]: ep, RUHIG_VARIANTEN[2]: nur_sonntags(ep)}
+
+
 def simuliere(c: pd.Series, pos: pd.Series) -> pd.Series:
     ret = c.pct_change(fill_method=None).fillna(0.0)
     p = pos.shift(2).fillna(0.0)                       # Signal t, Handel Schluss t+1, Rendite ab t+2
@@ -98,6 +121,7 @@ def kennzahlen(r: pd.Series, pos: pd.Series | None = None, halten: bool = False)
         p = pos.shift(2).fillna(0.0).reindex(r.index)
         out["zeit_investiert"] = float(p.mean())
         out["umschichtungen_pro_jahr"] = float(p.diff().abs().sum() / jahre)
+        out["signale_pro_jahr"] = float((p.diff().fillna(0.0) != 0).sum() / jahre)
     return out
 
 
@@ -304,6 +328,8 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
                 kz[rn]["trades"] = trade_statistik(c, pos)
             if rn in (ENS_NAME, "SMA 200"):
                 kv[rn] = kurve(r)
+        for vn, pos in ruhig_varianten(c, R[ENS_NAME]).items():
+            kz[vn] = kennzahlen(simuliere(c, pos), pos)
         # MVRV-Varianten (vorab festgelegte Schwellen)
         mv = lade_mvrv(t.split("-")[0].lower(), diag) if t in HAUPT else None
         mvrv_info = None
