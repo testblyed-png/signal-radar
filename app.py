@@ -15,6 +15,8 @@ KAND_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/kandida
 INSIDER_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/insider/"
 KRYPTO_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/krypto.json"
 PROTOKOLL_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/protokoll.json"
+SWING_LIVE_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/swing_live.json"
+SWING_TEST_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/swing/swing_test.json"
 
 st.set_page_config(page_title="Signal-Radar", layout="wide")
 
@@ -104,6 +106,16 @@ def lade_insider(datei: str):
 
 
 @st.cache_data(ttl=1800, show_spinner=False)
+def lade_json(url: str):
+    try:
+        import json, urllib.request
+        with urllib.request.urlopen(url, timeout=20) as fh:
+            return json.loads(fh.read().decode("utf-8"))
+    except Exception:
+        return None
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
 def lade_protokoll():
     try:
         import json, urllib.request
@@ -123,6 +135,9 @@ def lade_krypto():
         return None
 
 
+_TEST_ZAEHLER = [0]
+
+
 def test_anzeige(test: dict, hauptreihe: str):
     """Kurven + Kennzahlen eines Portfolio-Tests."""
     fig = go.Figure()
@@ -131,7 +146,8 @@ def test_anzeige(test: dict, hauptreihe: str):
                                  line=dict(width=3 if name == hauptreihe else 1.5)))
     fig.update_layout(height=380, margin=dict(l=10, r=10, t=10, b=10), yaxis_type="log",
                       yaxis_title="Wert von 1 € (log)", legend=dict(orientation="h", y=-0.2))
-    st.plotly_chart(fig, width="stretch")
+    _TEST_ZAEHLER[0] += 1
+    st.plotly_chart(fig, width="stretch", key=f"test_anzeige_{_TEST_ZAEHLER[0]}")
     kz = pd.DataFrame([{"Strategie": n, "Rendite p.a.": v.get("cagr"), "nach KESt p.a. (grob)": v.get("cagr_nach_steuer"),
                         "Größter Rückgang": v.get("mdd"), "Sharpe": v.get("sharpe"),
                         "1. Hälfte p.a.": v.get("cagr_haelfte1"), "2. Hälfte p.a.": v.get("cagr_haelfte2")}
@@ -249,8 +265,8 @@ for t, r in ergebnisse.items():
     })
 tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
 
-tab_ueber, tab_detail, tab_kry, tab_ins, tab_kand, tab_rot, tab_guete, tab_hilfe = st.tabs(
-    ["Übersicht", "Detailanalyse", "Krypto-Strategie", "Insider-Radar", "Potenzial-Kandidaten", "ETF-Strategien",
+tab_ueber, tab_swing, tab_detail, tab_kry, tab_ins, tab_kand, tab_rot, tab_guete, tab_hilfe = st.tabs(
+    ["Übersicht", "Swing-Trades", "Detailanalyse", "Krypto-Strategie", "Insider-Radar", "Potenzial-Kandidaten", "ETF-Strategien",
      "Wie gut sind die Signale?", "Anleitung"])
 
 # ------------------------------------------------------------------ Übersicht
@@ -416,6 +432,90 @@ with tab_detail:
             f"| Zeitraum | {a['jahre']:.1f} Jahre | |")
         st.caption("Strategie: kaufen ab Signal KAUFEN, verkaufen wenn Score unter −5 fällt, "
                    "Ausführung am nächsten Tag, 0,1 % Kosten je Wechsel.")
+
+# ------------------------------------------------------------------ Swing-Trades
+with tab_swing:
+    sl, stt = lade_json(SWING_LIVE_URL), lade_json(SWING_TEST_URL)
+    st.subheader("Swing-Trades: Modell-Depot mit festen Regeln")
+    st.markdown(
+        "- **Einstieg:** STARK KAUFEN, Chance/Risiko mindestens 1,5, nicht überdehnt, Markt nicht RISK-OFF, keine Quartalszahlen in "
+        "7 Tagen → **Kauf zur nächsten Eröffnung**\n"
+        "- **Stop** sofort beim Broker setzen. Er wird mit dem Kurs **nur nach oben** nachgezogen (höchster Schluss minus 3 × ATR)\n"
+        "- **Ziel:** dort **halbe Position** verkaufen, Rest-Stop mindestens auf Einstand\n"
+        "- **Ausstieg** über den Stop, wenn der Score unter −5 fällt oder nach 60 Handelstagen\n"
+        "- Höchstens 10 Positionen. Jede Aktion kommt als Push-Nachricht")
+    sth = stt.get("watchlist") if stt else None
+    stu = stt.get("universum") if stt else None
+    if stu and stu["statistik"].get("trades"):
+        x = stu["statistik"]
+        k_d, k_u = stu["kennzahlen"].get("Swing-Depot (Regeln)", {}), stu["kennzahlen"].get("Alle Werte gleichgewichtet halten", {})
+        besser = k_d.get("cagr", -1) > k_u.get("cagr", 0)
+        (st.success if besser else st.error)(
+            f"**Testergebnis dieser Regeln über {stu['werte']} US-Aktien ({stu['von'][:4]}–{stu['bis'][:4]}):** {x['trades']} Trades, "
+            f"Trefferquote {x['trefferquote']:.0%}, Ø Gewinn {x['gewinn_mittel']:+.1%}, Ø Verlust {x['verlust_mittel']:+.1%}, "
+            f"Ø pro Trade {x['erwartung']:+.2%}. Als Depot: {k_d.get('cagr', 0):+.1%} pro Jahr gegenüber {k_u.get('cagr', 0):+.1%} "
+            "für alle Aktien gleichgewichtet. " + ("" if besser else "Die Regeln haben im Rückblick **keinen Vorteil** gebracht – "
+                                                   "Modell-Depot nur als Disziplin- und Lernwerkzeug verwenden."))
+    if not sl:
+        st.info("Das Modell-Depot startet mit der nächsten Berechnung nach US-Börsenschluss.")
+    else:
+        st.caption(f"Modell-Depot seit {pd.Timestamp(sl['start']):%d.%m.%Y} · zuletzt verarbeitet: Handelstag {pd.Timestamp(sl['letzter_tag']):%d.%m.%Y}")
+        zeilen = []
+        for t in sl.get("offen", []):
+            entry = t.get("entry")
+            akt = t.get("kurs_aktuell")
+            basis = entry or t["kurs_signal"]
+            stueck, wert = E.positionsgroesse(basis, t["stop_start"] if not entry else t["stop"], konto, risiko) \
+                if t["status"] == "geplant" else (None, None)
+            zeilen.append({"Ticker": t["ticker"] + (" ⭐" if t.get("top") else ""),
+                           "Status": {"geplant": "KAUFEN zur Eröffnung", "offen": "offen"}.get(t["status"], t["status"]) +
+                                     (" · Verkauf geplant" if t.get("ausstieg_geplant") else ""),
+                           "Signal vom": t["signal_tag"], "Einstieg": entry, "Kurs": akt,
+                           "Ergebnis": (t.get("wert") - 1) if entry and t.get("wert") else None,
+                           "Stop jetzt": t["stop"], "Ziel (½)": None if t["halb"] else t["ziel"], "½ verkauft": "ja" if t["halb"] else "",
+                           "Tage": t["tage"], "Stück (neu)": stueck})
+        if zeilen:
+            sdf = pd.DataFrame(zeilen)
+            st.dataframe(sdf, hide_index=True, width="stretch", column_config={
+                **{c_: st.column_config.NumberColumn(format="%.2f") for c_ in ["Einstieg", "Kurs", "Stop jetzt", "Ziel (½)", "Stück (neu)"]},
+                "Ergebnis": st.column_config.NumberColumn(format="percent")})
+            st.caption("„Stück (neu)“ gilt für neue Käufe und ist mit deiner Kontogröße und deinem Risiko pro Trade aus der Seitenleiste berechnet.")
+        else:
+            st.write("Aktuell keine offenen oder geplanten Trades.")
+        g = [t for t in sl.get("geschlossen", []) if t.get("status") == "geschlossen"]
+        b_ = sl.get("bilanz", {})
+        if b_.get("trades"):
+            st.markdown(f"**Live-Bilanz:** {b_['trades']} abgeschlossene Trades · Trefferquote {b_['trefferquote']:.0%} · "
+                        f"Ø pro Trade {b_['erwartung']:+.2%}")
+        if g:
+            with st.expander(f"Abgeschlossene Trades ({len(g)})"):
+                gdf = pd.DataFrame([{"Ticker": t["ticker"], "Einstieg": t["einstieg_tag"], "Ausstieg": t["ausstieg_tag"],
+                                     "Kauf": t["entry"], "Verkauf": t["ausstieg_preis"], "Ergebnis": t["ergebnis"],
+                                     "Grund": t["grund"], "Tage": t["tage"]} for t in reversed(g)])
+                st.dataframe(gdf, hide_index=True, width="stretch", column_config={
+                    "Kauf": st.column_config.NumberColumn(format="%.2f"), "Verkauf": st.column_config.NumberColumn(format="%.2f"),
+                    "Ergebnis": st.column_config.NumberColumn(format="percent")})
+    if stt:
+        st.divider()
+        st.subheader("Backtest der Regeln")
+        for teil, titel in ((stu, "Breiter Test: S&P 1500 (aussagekräftiger)"), (sth, "Nur Watchlist (geschönt: heutige Gewinner)")):
+            if not teil or not teil["statistik"].get("trades"):
+                continue
+            x = teil["statistik"]
+            st.markdown(f"**{titel}** – {teil['werte']} Werte, {teil['von']} bis {teil['bis']}")
+            st.dataframe(pd.DataFrame([{
+                "Trades": x["trades"], "Trefferquote": x["trefferquote"], "Ø Gewinn": x["gewinn_mittel"], "Ø Verlust": x["verlust_mittel"],
+                "Ø pro Trade": x["erwartung"], "Profit-Faktor": x["profit_faktor"], "Ø in R": x["r_mittel"], "Haltedauer (Median, Tage)": x["tage_median"],
+                "Ø pro Trade 1. Hälfte": x["erwartung_haelfte1"], "Ø pro Trade 2. Hälfte": x["erwartung_haelfte2"]}]), hide_index=True, width="stretch",
+                column_config={**{c_: st.column_config.NumberColumn(format="percent") for c_ in
+                                  ["Trefferquote", "Ø Gewinn", "Ø Verlust", "Ø pro Trade", "Ø pro Trade 1. Hälfte", "Ø pro Trade 2. Hälfte"]},
+                               "Profit-Faktor": st.column_config.NumberColumn(format="%.2f", help="Summe Gewinne ÷ Summe Verluste; über 1 = profitabel"),
+                               "Ø in R": st.column_config.NumberColumn(format="%.2f", help="Ergebnis in Vielfachen des anfänglichen Risikos")})
+            st.caption("Ausstiegsgründe: " + ", ".join(f"{k} {v}×" for k, v in x["gruende"].items()))
+            test_anzeige(teil, "Swing-Depot (Regeln)")
+        st.caption("Depot-Simulation: 1 % Risiko je Trade, höchstens 20 % je Position und 10 Positionen, Kauf zur Eröffnung nach dem Signal, "
+                   "0,1 % Kosten je Kauf und Verkauf. Quartalszahlen-Sperre und Zusatzfaktoren (Insider usw.) lassen sich rückwirkend nicht "
+                   "prüfen. Keine Anlageberatung.")
 
 # ------------------------------------------------------------------ Krypto-Strategie
 with tab_kry:
