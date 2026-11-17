@@ -1,0 +1,38 @@
+name: Krypto-Test laufende Prüfung
+
+on:
+  schedule:
+    - cron: "37 5 * * 0"        # wöchentlich, Sonntag
+  workflow_dispatch:
+  push:
+    branches: [krypto-test]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: krypto-intraday
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q pandas numpy
+      - run: python krypto_live.py test ergebnis
+      - name: Ergebnis speichern
+        run: |
+          cd ergebnis
+          git init -q -b krypto-intraday
+          git config user.name "signal-radar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -qm "Krypto-Intraday-Test $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" krypto-intraday
