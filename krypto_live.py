@@ -162,7 +162,119 @@ def test_main(ziel: str):
         json.dump(out, fh, ensure_ascii=False, indent=1)
 
 
+# ------------------------------------------------------------------ Live
+VERSION = 1
+REGEL_TEXT = {"SMA 50": "50-Tage-Linie", "SMA 100": "100-Tage-Linie", "SMA 200": "200-Tage-Linie",
+              "Momentum 30 Tage": "Kurs vor 30 Tagen", "Momentum 90 Tage": "Kurs vor 90 Tagen"}
+
+
+def lies(pfad: str) -> dict:
+    try:
+        with open(pfad, encoding="utf-8") as fh:
+            return json.load(fh)
+    except Exception:
+        return {}
+
+
+def preis(paar: str) -> float:
+    for host in HOSTS:
+        try:
+            return float(hole(f"{host}/api/v3/ticker/price?symbol={paar}")["price"])
+        except Exception:
+            continue
+    raise RuntimeError(f"kein Preis für {paar}")
+
+
+def push_coins(signale_dir: str, intraday_dir: str) -> tuple[set, dict]:
+    """Push nur für Coins, die den Langzeit-Test (Tagesschluss, Yahoo) bestanden haben und bei denen die
+    laufende Prüfung im Stunden-Test nicht schlechter war (Rendite pro Risiko höchstens 0,1 niedriger)."""
+    kr = lies(os.path.join(signale_dir, "krypto.json")).get("coins", {})
+    it = lies(os.path.join(intraday_dir, "krypto_intraday.json")).get("coins", {})
+    ok, grund = set(), {}
+    for t in PAARE:
+        if not (kr.get(t) or {}).get("test_bestanden"):
+            grund[t] = "Langzeit-Test nicht bestanden" if t in kr else "noch nicht getestet"
+            continue
+        k = (it.get(t) or {}).get("kennzahlen")
+        if k:
+            d, l = k["Prüfung nur am Tagesschluss"], k["Laufende Prüfung (stündlich)"]
+            if l["sharpe"] < d["sharpe"] - 0.1:
+                grund[t] = "laufende Prüfung im Test schwächer"
+                continue
+        ok.add(t)
+        grund[t] = "ok"
+    return ok, grund
+
+
+def live_main(ziel: str, vorher: str, signale_dir: str, intraday_dir: str):
+    jetzt = datetime.now(timezone.utc)
+    alt = lies(os.path.join(vorher, "krypto_live.json"))
+    if alt.get("version") != VERSION:
+        alt = {}
+    alt_coins = alt.get("coins", {})
+    erlaubt, grund = push_coins(signale_dir, intraday_dir)
+    out = {"erstellt_utc": jetzt.isoformat(timespec="seconds"), "version": VERSION, "puffer": PUFFER, "coins": {}, "fehler": []}
+    meldungen = []
+    for t, paar in PAARE.items():
+        try:
+            tg = kerzen(paar, "1d", int((jetzt - pd.Timedelta(days=260)).timestamp() * 1000), 86_400_000)
+            tag_close = tg.loc[tg["fertig"], "close"]
+            if len(tag_close) < 201:
+                out["fehler"].append(f"{t}: zu wenig Tage")
+                continue
+            p = preis(paar)
+            schw = {f"SMA {n}": (tag_close.iloc[-(n - 1):].sum() + p) / n for n in (50, 100, 200)}
+            schw.update({f"Momentum {n} Tage": float(tag_close.iloc[-n]) for n in (30, 90)})
+            vorher_an = {e["regel"]: e["an"] for e in (alt_coins.get(t) or {}).get("einzel", [])}
+            if len(vorher_an) < len(REGELN):                  # erster Lauf: Zustand aus den letzten Stunden rekonstruieren
+                hs = kerzen(paar, "1h", int((jetzt - pd.Timedelta(days=60)).timestamp() * 1000), H)
+                ph = hs.loc[hs["fertig"], "close"]
+                _, teile = ensemble(ph, tag_close, False)
+                vorher_an = {k: bool(v.iloc[-1] > 0) for k, v in teile.items()}
+            einzel = []
+            for r in REGELN:
+                s_ = float(schw[r])
+                an = True if p > s_ * (1 + PUFFER) else False if p < s_ * (1 - PUFFER) else bool(vorher_an.get(r, False))
+                einzel.append({"regel": r, "an": an, "schwelle": s_, "abstand": p / s_ - 1, "vorher": bool(vorher_an.get(r, False))})
+            anteil = sum(e["an"] for e in einzel) / len(einzel)
+            a_alt = (alt_coins.get(t) or {}).get("anteil")
+            wechsel = list((alt_coins.get(t) or {}).get("wechsel", []))
+            seit = (alt_coins.get(t) or {}).get("seit") or jetzt.isoformat(timespec="minutes")
+            if a_alt is not None and abs(a_alt - anteil) > 1e-9:
+                seit = jetzt.isoformat(timespec="minutes")
+                wechsel.insert(0, {"zeit": seit, "von": a_alt, "auf": anteil, "kurs": p})
+                if t in erlaubt:
+                    rauf = anteil > a_alt
+                    gekippt = [f"Kurs {'über' if e['an'] else 'unter'} {REGEL_TEXT[e['regel']]} ({e['schwelle']:,.4g} $)"
+                               for e in einzel if e["an"] != e["vorher"]]
+                    meldungen.append((rauf, f"{'🟢 KAUFEN' if rauf else '🔴 VERKAUFEN'} {NAMEN[t]}: {stufe(a_alt)} → {stufe(anteil)}. "
+                                            f"Ziel-Anteil {a_alt:.0%} → {anteil:.0%}, Kurs {p:,.4g} $. Auslöser: {', '.join(gekippt)}. "
+                                            f"Bei 1.000 € Budget für {NAMEN[t]}: {abs(anteil - a_alt) * 1000:.0f} € {'kaufen' if rauf else 'verkaufen'}."))
+            out["coins"][t] = {"name": NAMEN[t], "anteil": anteil, "signal": stufe(anteil), "kurs": p, "einzel": einzel,
+                               "seit": seit, "wechsel": wechsel[:30], "push": t in erlaubt, "push_grund": grund.get(t)}
+        except Exception as ex:
+            out["fehler"].append(f"{t}: {type(ex).__name__}: {str(ex)[:120]}")
+            if t in alt_coins:
+                out["coins"][t] = alt_coins[t]                 # letzten Stand behalten
+    topic = os.environ.get("NTFY_TOPIC", "").strip()
+    if meldungen and topic:
+        try:
+            import benachrichtigung as B
+            rauf = [m for r, m in meldungen if r]
+            titel = "Krypto: " + ("KAUFEN" if len(rauf) == len(meldungen) else "VERKAUFEN" if not rauf else "Trendwechsel")
+            B.senden(topic, titel, "\n".join(m for _, m in meldungen) + "\n\nKeine Anlageberatung.", 4)
+            out["push"] = len(meldungen)
+        except Exception as ex:
+            out["fehler"].append(f"Push: {type(ex).__name__}: {str(ex)[:80]}")
+    os.makedirs(ziel, exist_ok=True)
+    with open(os.path.join(ziel, "krypto_live.json"), "w", encoding="utf-8") as fh:
+        json.dump(out, fh, ensure_ascii=False, indent=1)
+    print(json.dumps({t: (c["signal"], c["anteil"]) for t, c in out["coins"].items()}), out["fehler"], "Pushes:", len(meldungen))
+
+
 if __name__ == "__main__":
     modus = sys.argv[1]
     if modus == "test":
         test_main(sys.argv[2])
+    elif modus == "live":
+        live_main(*sys.argv[2:6])

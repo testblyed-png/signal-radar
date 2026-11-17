@@ -22,7 +22,8 @@ import pandas as pd
 import engine as E
 
 COINS = {"BTC-USD": "Bitcoin", "ETH-USD": "Ethereum", "SOL-USD": "Solana", "XRP-USD": "XRP", "BNB-USD": "BNB",
-         "ADA-USD": "Cardano", "DOGE-USD": "Dogecoin", "AVAX-USD": "Avalanche", "LINK-USD": "Chainlink"}
+         "ADA-USD": "Cardano", "DOGE-USD": "Dogecoin", "AVAX-USD": "Avalanche", "LINK-USD": "Chainlink",
+         "LTC-USD": "Litecoin", "BCH-USD": "Bitcoin Cash", "TRX-USD": "Tron", "XLM-USD": "Stellar", "DOT-USD": "Polkadot"}
 HAUPT = ("BTC-USD", "ETH-USD")          # lange Historie, Strategie ursprünglich dafür getestet
 MIN_TAGE = 200 + 3 * 365     # mindestens 3 Jahre Test nach der Anlaufphase
 
@@ -41,8 +42,8 @@ def stufe(anteil: float) -> str:
 
 
 def test_bestanden(e: dict, b: dict) -> bool:
-    """Vorab festgelegtes Kriterium: bessere Rendite pro Risiko (gesamt und in beiden Hälften) und kleinerer größter Rückgang."""
-    return bool(e["sharpe"] > b["sharpe"] and e["sharpe_haelfte1"] > b["sharpe_haelfte1"]
+    """Bessere Rendite pro Risiko (gesamt und in beiden Hälften), kleinerer größter Rückgang und überhaupt Gewinn."""
+    return bool(e["cagr"] > 0 and e["sharpe"] > b["sharpe"] and e["sharpe_haelfte1"] > b["sharpe_haelfte1"]
                 and e["sharpe_haelfte2"] > b["sharpe_haelfte2"] and e["mdd"] > b["mdd"])
 KOSTEN = 0.0025
 KEST = 0.275
@@ -434,7 +435,7 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
         meldungen.append(f"{wort} {d['name']} (Signal jetzt {stufe(n)}): Anteil von {a:.0%} auf {n:.0%} deines Budgets für {d['name']} bringen "
                          f"(Kurs {d['kurs']:,.0f} $). Grund: {', '.join(gekippt) or 'Regel hat umgeschaltet'}. "
                          f"Beispiel bei 1.000 € Budget: {abs(n - a) * 1000:.0f} € {'kaufen' if n > a else 'verkaufen'}.")
-    if topic and meldungen:
+    if topic and meldungen and os.environ.get("KRYPTO_TAGESPUSH") == "1":   # Standard: Push kommt live aus krypto_live.py
         try:
             import benachrichtigung as B
             B.senden(topic, "Krypto-Strategie: " + ("KAUFEN" if any(m.startswith("KAUFEN") for m in meldungen) else "VERKAUFEN"), "\n".join(f"• {m}" for m in meldungen) + "\n\nKeine Anlageberatung.", 3)

@@ -1,0 +1,46 @@
+name: Krypto live (alle 10 Minuten)
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [krypto-live-start]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: krypto-live
+  cancel-in-progress: false
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q pandas numpy
+      - name: Letzten Stand und Testergebnisse holen
+        continue-on-error: true
+        run: |
+          git clone -q --depth 1 --branch krypto-live "https://github.com/${{ github.repository }}.git" vorher || mkdir -p vorher
+          git clone -q --depth 1 --branch signale "https://github.com/${{ github.repository }}.git" signale || mkdir -p signale
+          git clone -q --depth 1 --branch krypto-intraday "https://github.com/${{ github.repository }}.git" intraday || mkdir -p intraday
+      - run: python krypto_live.py live neu vorher signale intraday
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+      - name: Stand auf Branch "krypto-live" speichern
+        run: |
+          cd neu
+          git init -q -b krypto-live
+          git config user.name "signal-radar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -qm "Krypto live $(date -u +'%Y-%m-%d %H:%M') UTC"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" krypto-live

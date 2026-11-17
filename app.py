@@ -25,6 +25,8 @@ INSIDER_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/insi
 import os
 KRYPTO_URL = os.environ.get("KRYPTO_URL", "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/krypto.json")
 PROTOKOLL_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/protokoll.json"
+KRYPTO_LIVE_URL = os.environ.get("KRYPTO_LIVE_URL", "https://raw.githubusercontent.com/testblyed-png/signal-radar/krypto-live/krypto_live.json")
+INTRADAY_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/krypto-intraday/krypto_intraday.json"
 SWING_LIVE_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/swing_live.json"
 SWING_TEST_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/swing/swing_test.json"
 
@@ -145,6 +147,16 @@ def lade_krypto():
         return None
 
 
+@st.cache_data(ttl=120, show_spinner=False)
+def lade_krypto_live():
+    try:
+        import json, urllib.request
+        with urllib.request.urlopen(KRYPTO_LIVE_URL, timeout=15) as fh:
+            return json.loads(fh.read().decode("utf-8"))
+    except Exception:
+        return None
+
+
 _TEST_ZAEHLER = [0]
 
 
@@ -229,9 +241,20 @@ KR_COINS = (kr or {}).get("coins") or {}
 for _c in KR_COINS.values():          # ältere krypto.json ohne neue Felder abfangen
     _c.setdefault("signal", K.stufe(float(_c["aktuell"]["anteil"])))
     _c.setdefault("test_bestanden", K.test_bestanden(_c["kennzahlen"]["Ensemble (5 Regeln)"], _c["kennzahlen"]["Kaufen und Halten"]))
+KR_LIVE = lade_krypto_live() or {}
+LIVE_ZEIT = pd.Timestamp(KR_LIVE["erstellt_utc"]).tz_convert("Europe/Vienna") if KR_LIVE.get("erstellt_utc") else None
+for _t, _lc in (KR_LIVE.get("coins") or {}).items():   # Live-Stand (alle ~10 Minuten) hat Vorrang vor dem Tagesschluss
+    if _t in KR_COINS:
+        _c = KR_COINS[_t]
+        _c["signal"], _c["kurs"], _c["push"] = _lc["signal"], _lc["kurs"], _lc.get("push", False)
+        _c["aktuell"] = {**_c["aktuell"], "anteil": _lc["anteil"], "einzel": _lc["einzel"], "seit": _lc["seit"]}
+        _c["live_wechsel"] = _lc.get("wechsel", [])
+        _c["live"] = True
 
 # ------------------------------------------------------------------ Auf einen Blick
 st.markdown("#### Heute auf einen Blick")
+if LIVE_ZEIT is not None:
+    st.caption(f"Krypto live geprüft um {LIVE_ZEIT:%H:%M} Uhr (alle ~10 Minuten)")
 blick = st.columns(3)
 for sp, t in zip(blick[:2], ("BTC-USD", "ETH-USD")):
     c = KR_COINS.get(t)
@@ -571,9 +594,9 @@ with tab_kry:
                 "steht für 20 % des Geldes, das du für diesen Coin vorgesehen hast (**Ziel-Anteil**).\n\n"
                 "**STARK KAUFEN** = 5 von 5 Regeln an → 100 % investiert · **KAUFEN** = 3–4 → 60–80 % · **HALTEN** = 2 → 40 % · "
                 "**VERKAUFEN** = 1 → 20 % · **STARK VERKAUFEN** = 0 → alles in Cash.\n\n"
-                "**Was tun?** Nur handeln, wenn sich der Ziel-Anteil ändert. Dann kommt eine Push-Nachricht nach Tagesschluss "
-                "(01:00 Uhr Wiener Zeit). Damit das Signal nicht hin und her springt, schaltet eine Regel erst um, wenn der Kurs "
-                "ihre Schwelle um mehr als 3 % über- oder unterschreitet. So halbieren sich die Signale bei gleichem Testergebnis.")
+                "**Was tun?** Nur handeln, wenn sich der Ziel-Anteil ändert. Die Kurse werden rund um die Uhr etwa alle 10 Minuten "
+                "geprüft, die Push-Nachricht kommt sofort, auch mitten am Tag. Damit das Signal nicht hin und her springt, schaltet eine "
+                "Regel erst um, wenn der Kurs ihre Schwelle um mehr als 3 % über- oder unterschreitet.")
 
         # ---------- Übersicht aller Coins
         zeilen_k = []
@@ -587,6 +610,7 @@ with tab_kry:
                 "Regeln an": f"{sum(e['an'] for e in c['aktuell']['einzel'])} von 5",
                 "Seit": pd.Timestamp(c["aktuell"]["seit"]).strftime("%d.%m.%Y"), "Kurs $": c["kurs"],
                 "Getestet": "✅ bestanden" if c.get("test_bestanden") else "⚠️ nicht bestanden",
+                "Push": "🔔" if c.get("push") else "–",
                 "Strategie p.a.": e_["cagr"], "Halten p.a.": h_["cagr"],
                 "Rückgang Strategie": e_["mdd"], "Rückgang Halten": h_["mdd"],
                 "Test ab": pd.Timestamp(c["von"]).strftime("%Y")})
@@ -602,7 +626,9 @@ with tab_kry:
             **{c_: st.column_config.NumberColumn(format="percent") for c_ in
                ["Strategie p.a.", "Halten p.a.", "Rückgang Strategie", "Rückgang Halten"]},
             "Getestet": st.column_config.TextColumn(help="Bestanden = bessere Rendite pro Risiko als Halten, in beiden Zeithälften, "
-                                                        "und kleinerer größter Rückgang. Nur bestandene Coins schicken Push-Nachrichten.")})
+                                                        "und kleinerer größter Rückgang."),
+            "Push": st.column_config.TextColumn(help="🔔 = Push-Nachricht bei jedem Wechsel. Nur Coins, die den Test bestanden haben "
+                                                     "und bei denen die laufende Prüfung im Stundentest nicht schlechter war.")})
         st.caption("Bitcoin und Ethereum haben die längste Historie (ab 2014/2017) und sind am verlässlichsten getestet. "
                    "Bei jüngeren Coins sind es nur wenige Jahre, das Ergebnis ist entsprechend unsicherer.")
 
@@ -622,7 +648,9 @@ with tab_kry:
         if not c.get("test_bestanden"):
             st.warning(f"Bei {c['name']} hat die Strategie den Rückblick-Test **nicht bestanden**. Das Signal ist nur zur Information, "
                        "es kommen keine Push-Nachrichten dafür.")
-        st.caption(f"Kurs {c['kurs']:,.4g} $ · Stand Tagesschluss {pd.Timestamp(c['bis']):%d.%m.%Y} (UTC)")
+        st.caption(f"Kurs {c['kurs']:,.4g} $ · " + (f"live geprüft um {LIVE_ZEIT:%H:%M} Uhr" if c.get("live") and LIVE_ZEIT is not None
+                                                  else f"Stand Tagesschluss {pd.Timestamp(c['bis']):%d.%m.%Y} (UTC)")
+                   + (" · 🔔 Push aktiv" if c.get("push") else " · keine Push"))
 
         v = c.get("verlauf")
         if v:
@@ -638,7 +666,7 @@ with tab_kry:
             st.plotly_chart(figv, width="stretch", key=f"kr_verlauf_{t}")
             st.caption("Grüne Fläche: wie viel die Strategie im letzten Jahr investiert war. Steigt sie, wird zugekauft, fällt sie, wird verkauft.")
 
-        st.markdown("**Die fünf Regeln heute**")
+        st.markdown("**Die fünf Regeln jetzt**")
         for e in a_["einzel"]:
             sym, col = ("✅", "#0f7b3f") if e["an"] else ("❌", "#c62828")
             if e["regel"].startswith("SMA"):
@@ -652,8 +680,16 @@ with tab_kry:
         if spj:
             st.caption(f"Im Test gab es bei {c['name']} im Schnitt {spj:.0f} Änderungen des Ziel-Anteils pro Jahr, also etwa {spj / 12:.1f} pro Monat.")
 
+        lw = c.get("live_wechsel") or []
+        if lw:
+            with st.expander("Letzte Live-Signalwechsel"):
+                st.dataframe(pd.DataFrame([{"Zeit": pd.Timestamp(x["zeit"]).tz_convert("Europe/Vienna").strftime("%d.%m. %H:%M"),
+                                            "von": x["von"], "auf": x["auf"], "Aktion": "KAUFEN" if x["auf"] > x["von"] else "VERKAUFEN",
+                                            "Kurs $": x["kurs"]} for x in lw]), hide_index=True, width="stretch", column_config={
+                    "von": st.column_config.NumberColumn(format="percent"), "auf": st.column_config.NumberColumn(format="percent"),
+                    "Kurs $": st.column_config.NumberColumn(format="%.4g")})
         if w_:
-            with st.expander("Letzte Signalwechsel"):
+            with st.expander("Signalwechsel nach Tagesschluss (Verlauf)"):
                 st.dataframe(pd.DataFrame([{"Datum": pd.Timestamp(x["datum"]).strftime("%d.%m.%Y"), "von": x["von"], "auf": x["auf"],
                                             "Aktion": "KAUFEN" if x["auf"] > x["von"] else "VERKAUFEN", "Kurs $": x["kurs"]} for x in w_]),
                              hide_index=True, width="stretch", column_config={
