@@ -7,8 +7,15 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+import importlib
+
 import engine as E
 import extras as X
+
+# Nach einem Update auf GitHub lädt Streamlit nur app.py neu – Hilfsmodule ebenfalls neu laden,
+# sonst laufen alte und neue Code-Teile gemischt.
+E = importlib.reload(E)
+X = importlib.reload(X)
 
 EXTRAS_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/extras.json"
 KAND_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/kandidaten/kandidaten.json"
