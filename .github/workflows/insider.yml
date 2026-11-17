@@ -32,10 +32,10 @@ jobs:
       - run: rm -rf insider_neu/.git insider_neu/probe.json insider_neu/studie_fehler.json && pip install -q -r requirements-actions.txt
       - name: Lauf
         run: |
-          MSG="${{ github.event.head_commit.message }}"
           if [[ "$MSG" == *STUDIE* ]]; then python insider_studie.py insider_neu;
           else python insider_scan.py insider_neu; fi
         env:
+          MSG: ${{ github.event.head_commit.message }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           SEC_IDENTITY: ${{ secrets.SEC_IDENTITY }}
       - name: Ergebnis speichern
