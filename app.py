@@ -571,8 +571,9 @@ with tab_kry:
                 "steht für 20 % des Geldes, das du für diesen Coin vorgesehen hast (**Ziel-Anteil**).\n\n"
                 "**STARK KAUFEN** = 5 von 5 Regeln an → 100 % investiert · **KAUFEN** = 3–4 → 60–80 % · **HALTEN** = 2 → 40 % · "
                 "**VERKAUFEN** = 1 → 20 % · **STARK VERKAUFEN** = 0 → alles in Cash.\n\n"
-                "**Was tun?** Nur handeln, wenn sich der Ziel-Anteil ändert. Dann kommt eine Push-Nachricht, einmal am Tag nach "
-                "Tagesschluss (01:00 Uhr Wiener Zeit) reicht.")
+                "**Was tun?** Nur handeln, wenn sich der Ziel-Anteil ändert. Dann kommt eine Push-Nachricht nach Tagesschluss "
+                "(01:00 Uhr Wiener Zeit). Damit das Signal nicht hin und her springt, schaltet eine Regel erst um, wenn der Kurs "
+                "ihre Schwelle um mehr als 3 % über- oder unterschreitet. So halbieren sich die Signale bei gleichem Testergebnis.")
 
         # ---------- Übersicht aller Coins
         zeilen_k = []
@@ -645,7 +646,11 @@ with tab_kry:
             else:
                 txt = f"Kurs höher als vor {e['regel'].split()[1]} Tagen ({e['schwelle']:,.4g} $)"
             st.markdown(f"{sym} {txt}: <span style='color:{col};font-weight:700'>{e['abstand']:+.0%}</span>", unsafe_allow_html=True)
-        st.caption("Die Prozentzahl zeigt den Abstand zur Schwelle. Kreuzt der Kurs sie, schaltet die Regel um.")
+        st.caption("Die Prozentzahl zeigt den Abstand zur Schwelle. Eine Regel schaltet erst bei mehr als +3 % (an) "
+                   "oder unter −3 % (aus) um. Dazwischen bleibt sie, wie sie ist.")
+        spj = c["kennzahlen"]["Ensemble (5 Regeln)"].get("signale_pro_jahr")
+        if spj:
+            st.caption(f"Im Test gab es bei {c['name']} im Schnitt {spj:.0f} Änderungen des Ziel-Anteils pro Jahr, also etwa {spj / 12:.1f} pro Monat.")
 
         if w_:
             with st.expander("Letzte Signalwechsel"):
@@ -677,12 +682,12 @@ with tab_kry:
             zk = pd.DataFrame([{"Regel": n, "Rendite p.a.": v_["cagr"], "nach KESt p.a. (grob)": v_["cagr_nach_steuer"],
                                 "Größter Rückgang": v_["mdd"], "Sharpe": v_["sharpe"], "Schlechtestes Jahr": v_["schlechtestes_jahr"],
                                 "2. Hälfte p.a.": v_["cagr_haelfte2"], "Zeit investiert": v_.get("zeit_investiert"),
-                                "Wechsel pro Jahr": v_.get("umschichtungen_pro_jahr")} for n, v_ in kz.items()])
+                                "Signale pro Jahr": v_.get("signale_pro_jahr")} for n, v_ in kz.items()])
             st.dataframe(zk, hide_index=True, width="stretch", column_config={
                 **{c_: st.column_config.NumberColumn(format="percent") for c_ in ["Rendite p.a.", "nach KESt p.a. (grob)", "Größter Rückgang",
                                                                                  "Schlechtestes Jahr", "2. Hälfte p.a.", "Zeit investiert"]},
                 "Sharpe": st.column_config.NumberColumn(format="%.2f", help="Rendite pro Risiko"),
-                "Wechsel pro Jahr": st.column_config.NumberColumn(format="%.0f")})
+                "Signale pro Jahr": st.column_config.NumberColumn(format="%.0f", help="Wie oft sich der Ziel-Anteil im Schnitt geändert hat")})
             jr = pd.DataFrame({"Halten": h_["jahresrenditen"], "Strategie": e_["jahresrenditen"]})
             jr.index.name = "Jahr"
             st.markdown("**Rendite je Kalenderjahr**")

@@ -48,6 +48,8 @@ KOSTEN = 0.0025
 KEST = 0.275
 ENSEMBLE = ["SMA 50", "SMA 100", "SMA 200", "Momentum 30 Tage", "Momentum 90 Tage"]
 ENS_NAME = "Ensemble (5 Regeln)"
+OHNE_PUFFER = "Ensemble ohne Puffer (bis 17.11.2026)"
+VERSION = 2
 WARM = 200
 
 
@@ -61,12 +63,13 @@ def regeln(c: pd.Series) -> dict[str, pd.Series]:
     rein = c > c.shift(1).rolling(20).max()
     raus = c < c.shift(1).rolling(10).min()
     r["Ausbruch 20/10"] = pd.Series(np.where(rein, 1.0, np.where(raus, 0.0, np.nan)), index=c.index).ffill().fillna(0.0)
-    r[ENS_NAME] = sum(r[k] for k in ENSEMBLE) / len(ENSEMBLE)
+    r[OHNE_PUFFER] = sum(r[k] for k in ENSEMBLE) / len(ENSEMBLE)
+    r[ENS_NAME] = ensemble_puffer(c)               # Hauptstrategie seit Version 2: Regeln mit 3 % Puffer
     return r
 
 
 PUFFER = 0.03                           # Regel schaltet erst um, wenn die Schwelle um 3 % über-/unterschritten ist
-RUHIG_VARIANTEN = ["Ensemble nur sonntags prüfen", "Ensemble mit 3 % Puffer", "Ensemble sonntags + 3 % Puffer"]
+RUHIG_VARIANTEN = ["Ensemble nur sonntags prüfen"]
 
 
 def mit_puffer(c: pd.Series, schwelle: pd.Series, p: float = PUFFER) -> pd.Series:
@@ -74,8 +77,12 @@ def mit_puffer(c: pd.Series, schwelle: pd.Series, p: float = PUFFER) -> pd.Serie
     return pd.Series(an, index=c.index).ffill().fillna(0.0)
 
 
+def schwellen(c: pd.Series) -> dict[str, pd.Series]:
+    return {**{f"SMA {n}": c.rolling(n).mean() for n in (50, 100, 200)}, **{f"Momentum {n} Tage": c.shift(n) for n in (30, 90)}}
+
+
 def ensemble_puffer(c: pd.Series) -> pd.Series:
-    teile = [mit_puffer(c, c.rolling(n).mean()) for n in (50, 100, 200)] + [mit_puffer(c, c.shift(n)) for n in (30, 90)]
+    teile = [mit_puffer(c, s_) for s_ in schwellen(c).values()]
     return sum(teile) / len(teile)
 
 
@@ -84,8 +91,7 @@ def nur_sonntags(pos: pd.Series) -> pd.Series:
 
 
 def ruhig_varianten(c: pd.Series, ens: pd.Series) -> dict[str, pd.Series]:
-    ep = ensemble_puffer(c)
-    return {RUHIG_VARIANTEN[0]: nur_sonntags(ens), RUHIG_VARIANTEN[1]: ep, RUHIG_VARIANTEN[2]: nur_sonntags(ep)}
+    return {RUHIG_VARIANTEN[0]: nur_sonntags(ens)}
 
 
 def simuliere(c: pd.Series, pos: pd.Series) -> pd.Series:
@@ -308,7 +314,7 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
     daten = E.lade_yahoo(list(COINS), period="max")
     heute = datetime.now(timezone.utc).date()
     out = {"erstellt_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "coins": {}, "regeln_ensemble": ENSEMBLE,
-           "kosten": KOSTEN}
+           "kosten": KOSTEN, "version": VERSION, "puffer": PUFFER}
     fg = fear_greed(diag)
     for t, name in COINS.items():
         if t not in daten or len(daten[t]) < (WARM + 400 if t in HAUPT else MIN_TAGE):
@@ -324,7 +330,7 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
         for rn, pos in R.items():
             r = simuliere(c, pos)
             kz[rn] = kennzahlen(r, pos)
-            if rn != ENS_NAME:
+            if not rn.startswith("Ensemble"):
                 kz[rn]["trades"] = trade_statistik(c, pos)
             if rn in (ENS_NAME, "SMA 200"):
                 kv[rn] = kurve(r)
@@ -365,8 +371,9 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
         # Aktueller Stand
         letzte = c.index[-1]
         einzel = []
+        schw = schwellen(c)
         for rn in ENSEMBLE:
-            an = bool(R[rn].iloc[-1] > 0)
+            an = bool(mit_puffer(c, schw[rn]).iloc[-1] > 0)
             if rn.startswith("SMA"):
                 n = int(rn.split()[1]); schwelle = float(c.rolling(n).mean().iloc[-1])
             else:
@@ -413,6 +420,9 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
         alt = {}
     topic = os.environ.get("NTFY_TOPIC", "").strip()
     meldungen = []
+    if alt.get("version") != VERSION:                  # Regelwechsel: kein Push für die Umstellung selbst
+        alt = {}
+        diag["push_uebersprungen"] = "neue Strategie-Version"
     for t, d in out["coins"].items():
         alt_akt = ((alt.get("coins") or {}).get(t) or {}).get("aktuell", {})
         a, n = alt_akt.get("anteil"), d["aktuell"]["anteil"]
