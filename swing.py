@@ -35,6 +35,7 @@ KOSTEN = 0.001
 RISIKO = 0.01          # Portfolio: 1 % Risiko je Trade
 MAX_ANTEIL = 0.20      # höchstens 20 % des Depots je Position
 MAX_POS = 10
+MAX_JE_SEKTOR = 3     # Korrelationsrisiko: höchstens 3 gleichzeitige Trades je Sektor (ETFs zählen als eigener Sektor)
 NACHZIEH_MELDEN = 0.02  # Push, wenn der Stop um mindestens 2 % des Kurses steigt
 REGELN = {k: v for k, v in dict(globals()).items() if k.isupper() and isinstance(v, (int, float))}
 
@@ -368,8 +369,23 @@ def live(ergebnisse: dict, werte: list, daten: dict, regime: dict, vorher: str, 
             top = {w["ticker"] for w in kand if B.ist_top(w, {"Aktien": regime.get("Aktien") or {}})}
         except Exception:
             top = set()
-        for w in sorted(kand, key=lambda x: -(x["score"] or 0))[:max(0, MAX_POS - len(offen))]:
+        def sektor(w):
+            if w["gruppe"] == "ETFs":
+                return "ETF " + w["ticker"]
+            return ((w.get("extras") or {}).get("sektor") or {}).get("name") or "?"
+        zahl = {}
+        for t in offen:
+            zahl[t.get("sektor", "?")] = zahl.get(t.get("sektor", "?"), 0) + 1
+        auswahl = []
+        for w in sorted(kand, key=lambda x: -(x["score"] or 0)):
+            sk = sektor(w)
+            if len(offen) + len(auswahl) >= MAX_POS or (sk != "?" and zahl.get(sk, 0) >= MAX_JE_SEKTOR):
+                continue
+            zahl[sk] = zahl.get(sk, 0) + 1
+            auswahl.append((w, sk))
+        for w, sk in auswahl:
             tr = neuer_trade(w["ticker"], D, w["stop"], w["ziel"], w["score"], w["kurs"])
+            tr["sektor"] = sk
             tr["top"] = w["ticker"] in top
             offen.append(tr)
             meldungen.append((5 if tr["top"] else 4,

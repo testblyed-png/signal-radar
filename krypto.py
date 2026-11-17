@@ -63,7 +63,10 @@ def kennzahlen(r: pd.Series, pos: pd.Series | None = None, halten: bool = False)
         nach = float(np.prod([1 + x * (1 - KEST) if x > 0 else 1 + x for x in jr]))
     h = len(r) // 2
     sh = lambda x: float(x.mean() / x.std() * math.sqrt(365)) if x.std() > 0 else 0.0
-    out = {"cagr": cagr, "mdd": mdd, "sharpe": sharpe, "cagr_nach_steuer": nach ** (1 / jahre) - 1,
+    unten = r[r < 0]
+    out = {"cagr": cagr, "mdd": mdd, "sharpe": sharpe,
+           "sortino": r.mean() / math.sqrt((unten ** 2).sum() / len(r)) * math.sqrt(365) if len(unten) else None,
+           "calmar": cagr / -mdd if mdd < 0 else None, "cagr_nach_steuer": nach ** (1 / jahre) - 1,
            "cagr_haelfte1": (1 + r.iloc[:h]).prod() ** (365 / h) - 1, "cagr_haelfte2": (1 + r.iloc[h:]).prod() ** (365 / (len(r) - h)) - 1,
            "sharpe_haelfte1": sh(r.iloc[:h]), "sharpe_haelfte2": sh(r.iloc[h:]),
            "mdd_haelfte1": float(((1 + r.iloc[:h]).cumprod() / (1 + r.iloc[:h]).cumprod().cummax() - 1).min()),
@@ -74,6 +77,35 @@ def kennzahlen(r: pd.Series, pos: pd.Series | None = None, halten: bool = False)
         out["zeit_investiert"] = float(p.mean())
         out["umschichtungen_pro_jahr"] = float(p.diff().abs().sum() / jahre)
     return out
+
+
+def bootstrap(r_s: pd.Series, r_h: pd.Series, n: int = 1000, block: int = 30, seed: int = 1) -> dict:
+    """Block-Bootstrap: Tageswerte in 30-Tage-Blöcken neu zusammengewürfelt (gleiche Blöcke für Strategie und Halten).
+    Wie oft ist die Strategie in 1.000 alternativen Kursverläufen besser? Zeigt, ob der Vorteil Zufall sein könnte."""
+    a, b = r_s.values, r_h.reindex(r_s.index).fillna(0.0).values
+    T = len(a)
+    rng = np.random.default_rng(seed)
+    starts = rng.integers(0, T - block, size=(n, T // block + 1))
+    idx = (starts[:, :, None] + np.arange(block)).reshape(n, -1)[:, :T]
+    A, B = a[idx], b[idx]
+
+    def sharpe(x):
+        return x.mean(axis=1) / x.std(axis=1) * math.sqrt(365)
+
+    def mdd(x):
+        eq = np.cumprod(1 + x, axis=1)
+        return (eq / np.maximum.accumulate(eq, axis=1) - 1).min(axis=1)
+
+    def cagr(x):
+        return np.prod(1 + x, axis=1) ** (365 / T) - 1
+
+    ds, dm, dc = sharpe(A) - sharpe(B), mdd(A) - mdd(B), cagr(A) - cagr(B)
+    return {"durchlaeufe": n, "block_tage": block,
+            "anteil_sharpe_besser": float((ds > 0).mean()), "anteil_rueckgang_kleiner": float((dm > 0).mean()),
+            "anteil_rendite_hoeher": float((dc > 0).mean()),
+            "sharpe_diff_p5": float(np.percentile(ds, 5)), "sharpe_diff_p50": float(np.percentile(ds, 50)), "sharpe_diff_p95": float(np.percentile(ds, 95)),
+            "rueckgang_strategie_p50": float(np.percentile(mdd(A), 50)), "rueckgang_halten_p50": float(np.percentile(mdd(B), 50)),
+            "rueckgang_strategie_p95_schlecht": float(np.percentile(mdd(A), 5))}
 
 
 def kurve(r: pd.Series) -> dict:
@@ -217,6 +249,11 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
             mvrv_info["verbessert"] = {vn: bool(kz[vn]["sharpe"] > e0["sharpe"] and kz[vn]["sharpe_haelfte1"] >= e0["sharpe_haelfte1"]
                                                 and kz[vn]["sharpe_haelfte2"] >= e0["sharpe_haelfte2"] and kz[vn]["mdd"] >= e0["mdd"])
                                        for vn in MVRV_VARIANTEN}
+        try:
+            boot = bootstrap(simuliere(c, R[ENS_NAME]), r_halten)
+        except Exception as ex:
+            boot = None
+            diag["fehler"].append(f"Bootstrap {t}: {type(ex).__name__}")
         # Robustheit: jede SMA-Länge von 20 bis 250
         gitter = []
         for n in range(20, 260, 10):
@@ -246,7 +283,7 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
                 break
             seit = d
         out["coins"][t] = {"name": name, "von": str(r_halten.index[0].date()), "bis": str(letzte.date()), "kurs": float(c.iloc[-1]),
-                           "kennzahlen": kz, "kurven": kv, "gitter": gitter, "urteil": urteil, "mvrv": mvrv_info,
+                           "kennzahlen": kz, "kurven": kv, "gitter": gitter, "urteil": urteil, "mvrv": mvrv_info, "bootstrap": boot,
                            "aktuell": {"anteil": float(ens.iloc[-1]), "seit": str(seit.date()), "einzel": einzel,
                                        "ausbruch": bool(R["Ausbruch 20/10"].iloc[-1] > 0), "kreuz": bool(R["Kreuz 50/200"].iloc[-1] > 0)}}
         if t == "BTC-USD" and fg is not None:

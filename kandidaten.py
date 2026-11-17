@@ -228,7 +228,10 @@ def kennzahlen(r: pd.Series, steuer: str) -> dict:
     h = len(r) // 2
     c1 = (1 + r.iloc[:h]).prod() ** (252 / h) - 1
     c2 = (1 + r.iloc[h:]).prod() ** (252 / (len(r) - h)) - 1
-    return {"cagr": cagr, "mdd": mdd, "sharpe": sharpe, "cagr_nach_steuer": nach ** (1 / jahre) - 1,
+    unten = r[r < 0]
+    sortino = r.mean() / math.sqrt((unten ** 2).sum() / len(r)) * math.sqrt(252) if len(unten) else None
+    calmar = cagr / -mdd if mdd < 0 else None
+    return {"cagr": cagr, "mdd": mdd, "sharpe": sharpe, "sortino": sortino, "calmar": calmar, "cagr_nach_steuer": nach ** (1 / jahre) - 1,
             "cagr_haelfte1": c1, "cagr_haelfte2": c2, "jahre": jahre}
 
 

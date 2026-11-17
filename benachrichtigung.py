@@ -94,8 +94,11 @@ def ereignisse(alt, neu, mein):
         ps = p.get("signal")
         im_bestand = t in mein
         # Kaufsignale (inkl. Top-Chance ⭐) meldet jetzt das Swing-Modelldepot (swing.py) – mit Stop, Ziel und Ausstieg
-        # Verschlechterung
-        if im_bestand and ps in KAUF and s not in KAUF:
+        krypto = w.get("gruppe") == "Krypto"
+        # Verschlechterung (Krypto: maßgeblich ist die Krypto-Strategie mit eigener Nachricht -> keine Doppel-/Widerspruchsmeldung)
+        if krypto and not im_bestand:
+            pass
+        elif im_bestand and ps in KAUF and s not in KAUF:
             ev.append((4, f"Dein Bestand {t}: {ps} → {s} (Score {w['score']:+.0f}) – Stop nachziehen oder Teilverkauf prüfen"))
         elif s in VERKAUF and ps not in VERKAUF and (ps in KAUF or im_bestand):
             ev.append((4 if im_bestand else 3, f"{'Dein Bestand ' if im_bestand else ''}{t}: {ps} → {s} (Score {w['score']:+.0f})"))

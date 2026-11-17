@@ -156,12 +156,14 @@ def test_anzeige(test: dict, hauptreihe: str):
     _TEST_ZAEHLER[0] += 1
     st.plotly_chart(fig, width="stretch", key=f"test_anzeige_{_TEST_ZAEHLER[0]}")
     kz = pd.DataFrame([{"Strategie": n, "Rendite p.a.": v.get("cagr"), "nach KESt p.a. (grob)": v.get("cagr_nach_steuer"),
-                        "Größter Rückgang": v.get("mdd"), "Sharpe": v.get("sharpe"),
+                        "Größter Rückgang": v.get("mdd"), "Sharpe": v.get("sharpe"), "Sortino": v.get("sortino"), "Calmar": v.get("calmar"),
                         "1. Hälfte p.a.": v.get("cagr_haelfte1"), "2. Hälfte p.a.": v.get("cagr_haelfte2")}
                        for n, v in test["kennzahlen"].items() if v])
     st.dataframe(kz, hide_index=True, width="stretch", column_config={
-        **{c: st.column_config.NumberColumn(format="percent") for c in kz.columns if c not in ("Strategie", "Sharpe")},
-        "Sharpe": st.column_config.NumberColumn(format="%.2f", help="Rendite pro Risiko; über 1 ist sehr gut")})
+        **{c: st.column_config.NumberColumn(format="percent") for c in kz.columns if c not in ("Strategie", "Sharpe", "Sortino", "Calmar")},
+        "Sharpe": st.column_config.NumberColumn(format="%.2f", help="Rendite pro Schwankung; über 1 ist sehr gut"),
+        "Sortino": st.column_config.NumberColumn(format="%.2f", help="Wie Sharpe, zählt aber nur Verlusttage als Risiko"),
+        "Calmar": st.column_config.NumberColumn(format="%.2f", help="Rendite pro Jahr ÷ größter Rückgang")})
     st.caption(f"Zeitraum {test['von']} bis {test['bis']} · monatliche Umschichtung · 0,1 % Kosten je Kauf/Verkauf · "
                "Kauf einen Tag nach dem Signal · KESt 27,5 %: bei aktiven Strategien jährlich auf Gewinne, bei Halten erst am Ende (Näherung).")
 
@@ -253,7 +255,11 @@ for t, r in ergebnisse.items():
     hinweis = ""
     ep = r.merkmale["ext_pct"].iloc[-1]
     ex = r.extras or {}
-    if ex.get("earnings_sperre"):
+    if r.gruppe == "Krypto":
+        kc = ((lade_krypto() or {}).get("coins") or {}).get(t)
+        hinweis = (f"maßgeblich: Krypto-Strategie {kc['aktuell']['anteil']:.0%} investiert" if kc
+                   else "Signal ungetestet – Krypto-Strategie gibt es nur für BTC und ETH")
+    elif ex.get("earnings_sperre"):
         hinweis = f"Quartalszahlen {pd.Timestamp(ex['earnings']):%d.%m.} – abwarten"
     elif np.isfinite(ep) and ep > 0.95:
         hinweis = "überdehnt – Gewinne sichern"
@@ -272,9 +278,9 @@ for t, r in ergebnisse.items():
     })
 tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
 
-tab_ueber, tab_swing, tab_detail, tab_kry, tab_ins, tab_kand, tab_rot, tab_guete, tab_hilfe = st.tabs(
+tab_ueber, tab_swing, tab_detail, tab_kry, tab_ins, tab_kand, tab_rot, tab_guete, tab_hilfe, tab_status = st.tabs(
     ["Übersicht", "Swing-Trades", "Detailanalyse", "Krypto-Strategie", "Insider-Radar", "Potenzial-Kandidaten", "ETF-Strategien",
-     "Wie gut sind die Signale?", "Anleitung"])
+     "Wie gut sind die Signale?", "Anleitung", "System-Status"])
 
 # ------------------------------------------------------------------ Übersicht
 with tab_ueber:
@@ -559,6 +565,11 @@ with tab_kry:
                    f"bei einem größten Rückgang von {e_['mdd']:.0%}. Halten brachte {h_['cagr']:+.0%} bei {h_['mdd']:.0%}. "
                    f"Rendite pro Risiko war in beiden Zeithälften besser, und {u['sma_laengen_besser_als_halten']} von {u['sma_laengen']} "
                    "getesteten Durchschnittslängen schlugen das Halten. Das Ergebnis hängt also nicht an einer Glückszahl.")
+        bo = c.get("bootstrap")
+        if bo:
+            st.info(f"**Zufallsprüfung (Monte-Carlo, {bo['durchlaeufe']} Durchläufe):** Die Tagesrenditen wurden in {bo['block_tage']}-Tage-Blöcken "
+                    f"neu zusammengewürfelt. In {bo['anteil_sharpe_besser']:.0%} der Durchläufe hatte die Strategie die bessere Rendite pro Risiko, "
+                    f"in {bo['anteil_rueckgang_kleiner']:.0%} den kleineren größten Rückgang. Ab etwa 95 % gilt ein Vorteil als statistisch gut belegt.")
         zk = pd.DataFrame([{"Regel": n, "Rendite p.a.": v["cagr"], "nach KESt p.a. (grob)": v["cagr_nach_steuer"],
                             "Größter Rückgang": v["mdd"], "Sharpe": v["sharpe"], "Schlechtestes Jahr": v["schlechtestes_jahr"],
                             "2. Hälfte p.a.": v["cagr_haelfte2"], "Zeit investiert": v.get("zeit_investiert"),
@@ -962,5 +973,36 @@ Die Gewichte sind **bewusst nicht** auf historische Daten optimiert – sonst s�
 - Zusatzfaktoren werden alle 3 Stunden über GitHub Actions aktualisiert (SEC, Yahoo, Krypto-Börsen).
 - **Keine Anlageberatung.** Nutze das Radar als Filter und Entscheidungshilfe, nicht als Autopilot.
 """)
+
+# ------------------------------------------------------------------ System-Status
+with tab_status:
+    st.subheader("System-Status und Datenqualität")
+    jetzt_utc = pd.Timestamp.now(tz="UTC")
+    roh = "https://raw.githubusercontent.com/testblyed-png/signal-radar/"
+    quellen = [("Signale + Push (alle 3 h)", roh + "signale/signale.json", "erstellt_utc", 4),
+               ("Zusatzdaten Insider/Earnings/Funding", EXTRAS_URL, "erstellt_utc", 4),
+               ("Krypto-Strategie", KRYPTO_URL, "erstellt_utc", 4),
+               ("Wächter (alle 15 min)", roh + "waechter/status.json", "letzter_lauf", 1),
+               ("Insider-Radar (alle 3 h)", INSIDER_URL + "insider.json", "erstellt_utc", 4),
+               ("Potenzial-Kandidaten (werktags)", KAND_URL, "erstellt_utc", 80),
+               ("Swing-Backtest (wöchentlich)", SWING_TEST_URL, "erstellt_utc", 200),
+               ("Insider-Studie", INSIDER_URL + "studie.json", "erstellt_utc", 24 * 60)]
+    zs = []
+    for name, url, feld, max_h in quellen:
+        d = lade_json(url)
+        zeit = pd.Timestamp(d[feld]) if d and d.get(feld) else None
+        alter = (jetzt_utc - zeit.tz_convert("UTC")).total_seconds() / 3600 if zeit is not None else None
+        fehler = ((d or {}).get("diagnose") or {}).get("fehler") or []
+        zs.append({"Baustein": name, "Zuletzt": zeit.tz_convert("Europe/Vienna").strftime("%d.%m. %H:%M") if zeit is not None else "–",
+                   "Alter (Std.)": round(alter, 1) if alter is not None else None,
+                   "Status": "❌ fehlt" if zeit is None else ("⚠️ veraltet" if alter > max_h else "✅ aktuell"),
+                   "Meldungen": " · ".join(str(x) for x in fehler[:2])[:160]})
+    st.dataframe(pd.DataFrame(zs), hide_index=True, width="stretch")
+    st.caption(f"Diese Seite rechnet mit Tagesschlusskursen bis {stand:%d.%m.%Y}. Kursquelle Yahoo Finance (kostenlos, inoffiziell, "
+               "Kurse um Dividenden und Splits bereinigt). Neue Signale entstehen nur aus abgeschlossenen Handelstagen.")
+    fehlend = [t for t in alle if t not in {r.ticker for r in ergebnisse.values()} and not t.startswith("^")
+               and t not in E.HILFS_TICKER]
+    if fehlend:
+        st.warning("Ohne Kursdaten (kein Signal): " + ", ".join(fehlend))
 
 st.caption("Signal-Radar · Keine Anlageberatung · Vergangene Ergebnisse sind keine Garantie für die Zukunft.")
