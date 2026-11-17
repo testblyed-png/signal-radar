@@ -1,0 +1,16 @@
+name: Probe-Nachricht
+
+on:
+  push:
+    branches: [probe]
+
+jobs:
+  senden:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Nachricht senden
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          TEXT: ${{ github.event.head_commit.message }}
+        run: curl -s -H "Title: Signal-Radar: Probe" -d "$TEXT" "https://ntfy.sh/$NTFY_TOPIC"
