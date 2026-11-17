@@ -118,6 +118,12 @@ def main(ziel="ausgabe", vorher="vorher"):
         fh.write("\n".join(md) + "\n")
     print(f"OK: {len(werte)} Werte, {jetzt:%Y-%m-%d %H:%M} UTC")
     try:
+        import protokoll
+        pr = protokoll.aktualisieren(werte, daten, vorher, ziel)
+        print("Protokoll:", len(pr["eintraege"]), "Einträge seit", pr["start"])
+    except Exception as ex:
+        print("Protokoll fehlgeschlagen:", repr(ex)[:300])
+    try:
         import krypto
         krypto.main(ziel, vorher)
     except Exception as ex:

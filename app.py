@@ -14,6 +14,7 @@ EXTRAS_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signa
 KAND_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/kandidaten/kandidaten.json"
 INSIDER_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/insider/"
 KRYPTO_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/krypto.json"
+PROTOKOLL_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/protokoll.json"
 
 st.set_page_config(page_title="Signal-Radar", layout="wide")
 
@@ -97,6 +98,16 @@ def lade_insider(datei: str):
     try:
         import json, urllib.request
         with urllib.request.urlopen(INSIDER_URL + datei, timeout=20) as fh:
+            return json.loads(fh.read().decode("utf-8"))
+    except Exception:
+        return None
+
+
+@st.cache_data(ttl=1800, show_spinner=False)
+def lade_protokoll():
+    try:
+        import json, urllib.request
+        with urllib.request.urlopen(PROTOKOLL_URL, timeout=20) as fh:
             return json.loads(fh.read().decode("utf-8"))
     except Exception:
         return None
@@ -735,6 +746,37 @@ with tab_rot:
 
 # ------------------------------------------------------------------ Güte gesamt
 with tab_guete:
+    pr = lade_protokoll()
+    st.subheader("Echtzeit-Protokoll: STARK KAUFEN und STARK VERKAUFEN")
+    if not pr:
+        st.info("Das Protokoll startet mit der nächsten Berechnung.")
+    else:
+        st.markdown(f"Seit **{pd.Timestamp(pr['start']):%d.%m.%Y}** wird jeder Wechsel auf STARK KAUFEN oder STARK VERKAUFEN mit Datum und "
+                    "Schlusskurs festgehalten und nach 1 und 3 Monaten mit dem S&P 500 (Krypto: Bitcoin) verglichen. "
+                    "Dieser Test kann nicht in die Zukunft schauen. **Aussagekräftig wird er nach etwa 6 Monaten und 30+ Signalen.**")
+        k1, k2 = st.columns(2)
+        for sp, sig in ((k1, "STARK KAUFEN"), (k2, "STARK VERKAUFEN")):
+            b_ = pr["bilanz"].get(sig, {})
+            with sp:
+                st.markdown(f"{badge(sig, SIGNAL_FARBE[sig])} &nbsp; {b_.get('anzahl_inkl_start', 0)} Signale protokolliert", unsafe_allow_html=True)
+                for k, txt in (("1M", "nach 1 Monat"), ("3M", "nach 3 Monaten")):
+                    z = b_.get(k)
+                    if z:
+                        st.markdown(f"**{txt}** ({z['fertig']} ausgewertet): Ø {z['rendite']:+.1%} gegenüber Index {z['vergleich']:+.1%} · "
+                                    f"Vorsprung {z['vorsprung']:+.1%} · richtig in {z['treffer']:.0%}")
+                    else:
+                        st.caption(f"{txt}: noch keine Signale alt genug")
+        ein = pd.DataFrame([{"Datum": e["datum"], "Ticker": e["ticker"], "Signal": e["signal"], "Kurs damals": e["kurs"],
+                             "seitdem": e.get("seit"), "Index seitdem": e.get("seit_bench"), "nach 1 Monat": e.get("r_1M"),
+                             "nach 3 Monaten": e.get("r_3M"), "Start-Eintrag": "ja" if e.get("erster_lauf") else ""}
+                            for e in reversed(pr.get("eintraege", []))])
+        if len(ein):
+            st.dataframe(ein, hide_index=True, width="stretch", height=min(38 * (len(ein) + 1), 420), column_config={
+                "Kurs damals": st.column_config.NumberColumn(format="%.2f"),
+                **{c_: st.column_config.NumberColumn(format="percent") for c_ in ["seitdem", "Index seitdem", "nach 1 Monat", "nach 3 Monaten"]},
+                "Start-Eintrag": st.column_config.TextColumn(help="Stand beim Start des Protokolls, kein frischer Wechsel")})
+            st.caption("Verkaufssignal gilt als richtig, wenn der Wert danach schlechter lief als der Index.")
+    st.divider()
     if kand and kand.get("radar_test", {}).get("kennzahlen"):
         st.subheader("Portfolio-Test: jeden Monat die 5 Werte mit dem höchsten Radar-Score")
         test_anzeige(kand["radar_test"], "Radar Top 5 (monatlich)")
