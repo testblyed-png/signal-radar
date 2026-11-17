@@ -11,21 +11,24 @@ import importlib
 
 import engine as E
 import extras as X
+import krypto as K
 
 # Nach einem Update auf GitHub lädt Streamlit nur app.py neu – Hilfsmodule ebenfalls neu laden,
 # sonst laufen alte und neue Code-Teile gemischt.
 E = importlib.reload(E)
 X = importlib.reload(X)
+K = importlib.reload(K)
 
 EXTRAS_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/extras.json"
 KAND_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/kandidaten/kandidaten.json"
 INSIDER_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/insider/"
-KRYPTO_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/krypto.json"
+import os
+KRYPTO_URL = os.environ.get("KRYPTO_URL", "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/krypto.json")
 PROTOKOLL_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/protokoll.json"
 SWING_LIVE_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/signale/swing_live.json"
 SWING_TEST_URL = "https://raw.githubusercontent.com/testblyed-png/signal-radar/swing/swing_test.json"
 
-st.set_page_config(page_title="Signal-Radar", layout="wide")
+st.set_page_config(page_title="Signal-Radar", page_icon="📡", layout="wide", initial_sidebar_state="collapsed")
 
 SIGNAL_FARBE = E.SIGNAL_FARBEN
 REGIME_FARBE = {"RISK-ON": "#0f7b3f", "NEUTRAL": "#b58900", "RISK-OFF": "#c62828", "UNBEKANNT": "#8a8f98"}
@@ -193,42 +196,59 @@ stand = max(r.merkmale.index[-1] for r in ergebnisse.values())
 st.caption(f"Stand: abgeschlossene Handelstage bis {stand:%d.%m.%Y} (wie Push-Nachrichten)" + ("  ·  DEMO-DATEN – keine echten Kurse!" if demo else "")
            + (f"  ·  Zusatzdaten vom {pd.Timestamp(extras_stand).tz_convert('Europe/Vienna'):%d.%m. %H:%M}" if extras_stand else ""))
 
-c1, c2 = st.columns(2)
-for spalte, name, key in [(c1, "Aktienmarkt (S&P 500)", "Aktien"), (c2, "Kryptomarkt (Bitcoin)", "Krypto")]:
+def marktampel(name: str, key: str):
     r = regime.get(key)
-    with spalte:
-        if r is None or not len(r):
-            st.info(f"{name}: keine Daten")
-            continue
-        last = r.iloc[-1]
-        lab = E.regime_label(float(last["score"]))
-        txt = []
-        txt.append("Trend über 200-Tage-Linie" if last["trend"] > 0 else "Trend unter 200-Tage-Linie")
-        if "vix" in r.columns and np.isfinite(last.get("vix", np.nan)):
-            txt.append(f"VIX {last['vix']:.1f}")
-        if "vix_struktur" in r.columns and np.isfinite(last.get("vix_struktur", np.nan)):
-            txt.append("Angst kurzfristig niedrig" if last["vix_struktur"] < 1 else "Angst kurzfristig erhöht")
-        if "breite" in r.columns and np.isfinite(last.get("breite", np.nan)):
-            txt.append(f"{last['breite']:.0%} der Aktien im Aufwärtstrend")
-        if "hy_spread" in r.columns and np.isfinite(last.get("hy_spread", np.nan)):
-            ks = last.get("kredit_stufe", 0)
-            txt.append(f"Kreditaufschlag {last['hy_spread']:.2f} % ({'entspannt' if ks > 0 else 'Stress' if ks < 0 else 'normal'})")
-        if "zinskurve" in r.columns and np.isfinite(last.get("zinskurve", np.nan)):
-            txt.append(f"Zinskurve 10J–2J {last['zinskurve']:+.2f} %")
-        if key == "Krypto" and "BTC-USD" in ergebnisse and (ergebnisse["BTC-USD"].extras or {}).get("funding"):
-            fr = ergebnisse["BTC-USD"].extras["funding"]["rate_8h_avg"] * 3 * 365
-            txt.append(f"BTC-Funding {fr:+.0%} p.a.")
-        if "vola" in r.columns:
-            txt.append("Schwankung normal" if last["vola"] >= 0 else "Schwankung extrem")
-        st.markdown(f"**{name}**&nbsp;&nbsp;{badge(lab, REGIME_FARBE[lab], gross=True)}", unsafe_allow_html=True)
-        st.caption(" · ".join(txt))
+    if r is None or not len(r):
+        st.info(f"{name}: keine Daten")
+        return
+    last = r.iloc[-1]
+    lab = E.regime_label(float(last["score"]))
+    txt = ["Trend über 200-Tage-Linie" if last["trend"] > 0 else "Trend unter 200-Tage-Linie"]
+    if "vix" in r.columns and np.isfinite(last.get("vix", np.nan)):
+        txt.append(f"VIX {last['vix']:.1f}")
+    if "vix_struktur" in r.columns and np.isfinite(last.get("vix_struktur", np.nan)):
+        txt.append("Angst kurzfristig niedrig" if last["vix_struktur"] < 1 else "Angst kurzfristig erhöht")
+    if "breite" in r.columns and np.isfinite(last.get("breite", np.nan)):
+        txt.append(f"{last['breite']:.0%} der Aktien im Aufwärtstrend")
+    if "hy_spread" in r.columns and np.isfinite(last.get("hy_spread", np.nan)):
+        ks = last.get("kredit_stufe", 0)
+        txt.append(f"Kreditaufschlag {last['hy_spread']:.2f} % ({'entspannt' if ks > 0 else 'Stress' if ks < 0 else 'normal'})")
+    if "zinskurve" in r.columns and np.isfinite(last.get("zinskurve", np.nan)):
+        txt.append(f"Zinskurve 10J–2J {last['zinskurve']:+.2f} %")
+    if key == "Krypto" and "BTC-USD" in ergebnisse and (ergebnisse["BTC-USD"].extras or {}).get("funding"):
+        fr = ergebnisse["BTC-USD"].extras["funding"]["rate_8h_avg"] * 3 * 365
+        txt.append(f"BTC-Funding {fr:+.0%} p.a.")
+    if "vola" in r.columns:
+        txt.append("Schwankung normal" if last["vola"] >= 0 else "Schwankung extrem")
+    st.markdown(f"**{name}**&nbsp;&nbsp;{badge(lab, REGIME_FARBE[lab])}", unsafe_allow_html=True)
+    st.caption(" · ".join(txt) + ". RISK-ON = günstiges Umfeld, NEUTRAL = gemischt, RISK-OFF = Stress, Kaufsignale werden abgeschwächt.")
 
-with st.expander("Was bedeutet die Marktampel?"):
-    st.markdown(
-        "- **RISK-ON**: Umfeld ist günstig – Kaufsignale haben historisch besser funktioniert.\n"
-        "- **NEUTRAL**: gemischtes Umfeld – kleinere Positionen.\n"
-        "- **RISK-OFF**: Markt im Stress – Kaufsignale werden automatisch abgeschwächt, Vorsicht."
-    )
+
+kr = lade_krypto()
+KR_COINS = (kr or {}).get("coins") or {}
+for _c in KR_COINS.values():          # ältere krypto.json ohne neue Felder abfangen
+    _c.setdefault("signal", K.stufe(float(_c["aktuell"]["anteil"])))
+    _c.setdefault("test_bestanden", K.test_bestanden(_c["kennzahlen"]["Ensemble (5 Regeln)"], _c["kennzahlen"]["Kaufen und Halten"]))
+
+# ------------------------------------------------------------------ Auf einen Blick
+st.markdown("#### Heute auf einen Blick")
+blick = st.columns(3)
+for sp, t in zip(blick[:2], ("BTC-USD", "ETH-USD")):
+    c = KR_COINS.get(t)
+    with sp:
+        if c and c.get("signal"):
+            st.markdown(f"**{c['name']}**<br>{badge(c['signal'], SIGNAL_FARBE[c['signal']])}<br>"
+                        f"<span style='font-size:0.85rem'>Ziel-Anteil {c['aktuell']['anteil']:.0%} · seit {pd.Timestamp(c['aktuell']['seit']):%d.%m.}</span>",
+                        unsafe_allow_html=True)
+        else:
+            st.markdown(f"**{t.split('-')[0]}**<br>noch keine Daten", unsafe_allow_html=True)
+with blick[2]:
+    r_a = regime.get("Aktien")
+    lab_a = E.regime_label(float(r_a.iloc[-1]["score"])) if r_a is not None and len(r_a) else "UNBEKANNT"
+    n_kauf = sum(1 for r in ergebnisse.values() if r.gruppe != "Krypto" and r.signal == "STARK KAUFEN")
+    st.markdown(f"**Aktienmarkt**<br>{badge(lab_a, REGIME_FARBE[lab_a])}<br>"
+                f"<span style='font-size:0.85rem'>{n_kauf} Aktien/ETFs auf STARK KAUFEN</span>", unsafe_allow_html=True)
+st.write("")
 
 def insider_text(i):
     if not i:
@@ -278,16 +298,26 @@ for t, r in ergebnisse.items():
     })
 tabelle = pd.DataFrame(zeilen).sort_values("Score", ascending=False).reset_index(drop=True)
 
-tab_ueber, tab_swing, tab_detail, tab_kry, tab_ins, tab_kand, tab_rot, tab_guete, tab_hilfe, tab_status = st.tabs(
-    ["Übersicht", "Swing-Trades", "Detailanalyse", "Krypto-Strategie", "Insider-Radar", "Potenzial-Kandidaten", "ETF-Strategien",
-     "Wie gut sind die Signale?", "Anleitung", "System-Status"])
+tab_kry, tab_ueber, tab_detail, tab_swing, tab_mehr, tab_info = st.tabs(
+    ["🪙 Krypto", "📈 Aktien & ETFs", "🔍 Einzelanalyse", "🔁 Swing-Depot", "🧪 Weitere Werkzeuge", "❓ Hilfe & Status"])
+with tab_mehr:
+    st.caption("Diese Werkzeuge laufen weiter und werden live mitprotokolliert. Im Rückblick-Test hat keines davon einen klaren "
+               "Vorteil gegenüber einfachem Halten gezeigt. Sieh sie als Ideenquelle, nicht als Kaufsignal.")
+    tab_ins, tab_kand, tab_rot, tab_guete = st.tabs(["Insider-Radar", "Potenzial-Kandidaten", "ETF-Strategien", "Wie gut sind die Signale?"])
+with tab_info:
+    tab_hilfe, tab_status = st.tabs(["Anleitung", "System-Status"])
 
 # ------------------------------------------------------------------ Übersicht
 with tab_ueber:
+    marktampel("Aktienmarkt (S&P 500)", "Aktien")
+    tabelle_ak = tabelle[tabelle["Gruppe"] != "Krypto"]
+    st.info("**So liest du die Liste:** STARK KAUFEN / KAUFEN = Aufwärtstrend mit Rückenwind, HALTEN = abwarten, "
+            "VERKAUFEN / STARK VERKAUFEN = Abwärtstrend, meiden oder Gewinne sichern. Wichtig: Im Rückblick-Test über 1.500 US-Aktien "
+            "haben diese Einzelaktien-Signale **keinen** Vorteil gegenüber Halten gebracht. Am besten getestet ist die Krypto-Strategie.")
     k1, k2 = st.columns(2)
     with k1:
         st.subheader("Beste Kaufkandidaten")
-        top = tabelle[tabelle["Signal"].isin(KAUF_SIGNALE)].head(6)
+        top = tabelle_ak[tabelle_ak["Signal"].isin(KAUF_SIGNALE)].head(6)
         if top.empty:
             st.write("Derzeit kein Kaufsignal.")
         for _, z in top.iterrows():
@@ -296,7 +326,7 @@ with tab_ueber:
                         unsafe_allow_html=True)
     with k2:
         st.subheader("Eher meiden / verkaufen")
-        flop = tabelle[tabelle["Signal"].isin(["STARK VERKAUFEN", "VERKAUFEN"])].sort_values("Score").head(6)
+        flop = tabelle_ak[tabelle_ak["Signal"].isin(["STARK VERKAUFEN", "VERKAUFEN"])].sort_values("Score").head(6)
         if flop.empty:
             st.write("Derzeit kein Verkaufssignal.")
         for _, z in flop.iterrows():
@@ -305,9 +335,9 @@ with tab_ueber:
 
     st.divider()
     f1, f2 = st.columns([2, 3])
-    gr_filter = f1.multiselect("Gruppe", list(gruppen), default=list(gruppen))
+    gr_filter = f1.multiselect("Gruppe", ["Aktien", "ETFs"], default=["Aktien", "ETFs"])
     sig_filter = f2.multiselect("Signal", list(SIGNAL_FARBE), default=list(SIGNAL_FARBE))
-    ansicht = tabelle[tabelle["Gruppe"].isin(gr_filter) & tabelle["Signal"].isin(sig_filter)]
+    ansicht = tabelle_ak[tabelle_ak["Gruppe"].isin(gr_filter) & tabelle_ak["Signal"].isin(sig_filter)]
 
     def farbe_signal(v):
         return f"background-color:{SIGNAL_FARBE.get(v, '#888')};color:white;font-weight:700"
@@ -333,7 +363,8 @@ with tab_ueber:
 
 # ------------------------------------------------------------------ Detail
 with tab_detail:
-    wahl = st.selectbox("Wert auswählen", tabelle["Ticker"].tolist(), index=0)
+    wahl = st.selectbox("Aktie oder ETF auswählen", tabelle[tabelle["Gruppe"] != "Krypto"]["Ticker"].tolist(), index=0)
+    st.caption("Für Bitcoin, Ethereum und andere Coins gilt die Krypto-Strategie im ersten Reiter.")
     r = ergebnisse[wahl]
     f = r.merkmale
     zeile = tabelle[tabelle["Ticker"] == wahl].iloc[0]
@@ -532,110 +563,163 @@ with tab_swing:
 
 # ------------------------------------------------------------------ Krypto-Strategie
 with tab_kry:
-    kr = lade_krypto()
-    st.subheader("Krypto-Strategie für Bitcoin und Ethereum")
-    if not kr or not kr.get("coins"):
+    marktampel("Kryptomarkt (Bitcoin)", "Krypto")
+    if not KR_COINS:
         st.info("Die Krypto-Strategie wird alle 3 Stunden berechnet und ist noch nicht verfügbar.")
     else:
-        st.markdown("**Trendfolge mit fünf Regeln:** Jede Regel, die „an“ ist, steht für 20 % Anteil. Sind alle fünf an, bist du "
-                    "voll investiert, ist keine an, hältst du Cash. Geprüft wird nur der Tagesschlusskurs, einmal täglich reicht.")
-        spalten = st.columns(len(kr["coins"]))
-        for sp, (t, c) in zip(spalten, kr["coins"].items()):
-            a_ = c["aktuell"]
-            farbe = "#0f7b3f" if a_["anteil"] >= 0.6 else "#b58900" if a_["anteil"] >= 0.4 else "#c62828"
-            with sp:
-                anteil_txt = "{:.0%} investiert".format(a_["anteil"])
-                st.markdown(f"**{c['name']}** · Kurs {c['kurs']:,.0f} $&nbsp;&nbsp;" + badge(anteil_txt, farbe, gross=True),
-                            unsafe_allow_html=True)
-                st.caption(f"Unverändert seit {pd.Timestamp(a_['seit']):%d.%m.%Y} · Stand Tagesschluss {pd.Timestamp(c['bis']):%d.%m.%Y}")
-                for e in a_["einzel"]:
-                    sym, col = ("▲", "#0f7b3f") if e["an"] else ("▼", "#c62828")
-                    was = "Durchschnitt" if e["regel"].startswith("SMA") else "Kurs damals"
-                    st.markdown(f"<span style='color:{col};font-weight:700'>{sym}</span> {e['regel']}: {'an' if e['an'] else 'aus'} "
-                                f"· {was} {e['schwelle']:,.0f} $ ({e['abstand']:+.0%})", unsafe_allow_html=True)
-        st.caption("Die Prozentzahl in Klammern zeigt, wie weit der Kurs über (+) oder unter (−) der Schwelle liegt. "
-                   "Kreuzt er sie, schaltet die Regel um, und du bekommst eine Push-Nachricht.")
+        st.info("**So liest du die Signale:** Für jeden Coin prüfen fünf Trendregeln den Tagesschlusskurs. Jede Regel, die „an“ ist, "
+                "steht für 20 % des Geldes, das du für diesen Coin vorgesehen hast (**Ziel-Anteil**).\n\n"
+                "**STARK KAUFEN** = 5 von 5 Regeln an → 100 % investiert · **KAUFEN** = 3–4 → 60–80 % · **HALTEN** = 2 → 40 % · "
+                "**VERKAUFEN** = 1 → 20 % · **STARK VERKAUFEN** = 0 → alles in Cash.\n\n"
+                "**Was tun?** Nur handeln, wenn sich der Ziel-Anteil ändert. Dann kommt eine Push-Nachricht, einmal am Tag nach "
+                "Tagesschluss (01:00 Uhr Wiener Zeit) reicht.")
 
+        # ---------- Übersicht aller Coins
+        zeilen_k = []
+        for t, c in KR_COINS.items():
+            if not c.get("signal"):
+                continue
+            kz_ = c["kennzahlen"]
+            h_, e_ = kz_["Kaufen und Halten"], kz_["Ensemble (5 Regeln)"]
+            zeilen_k.append({
+                "Coin": c["name"], "Signal": c["signal"], "Ziel-Anteil": c["aktuell"]["anteil"],
+                "Regeln an": f"{sum(e['an'] for e in c['aktuell']['einzel'])} von 5",
+                "Seit": pd.Timestamp(c["aktuell"]["seit"]).strftime("%d.%m.%Y"), "Kurs $": c["kurs"],
+                "Getestet": "✅ bestanden" if c.get("test_bestanden") else "⚠️ nicht bestanden",
+                "Strategie p.a.": e_["cagr"], "Halten p.a.": h_["cagr"],
+                "Rückgang Strategie": e_["mdd"], "Rückgang Halten": h_["mdd"],
+                "Test ab": pd.Timestamp(c["von"]).strftime("%Y")})
+        kdf = pd.DataFrame(zeilen_k)
+
+        def farbe_k(v):
+            return f"background-color:{SIGNAL_FARBE.get(v, '#888')};color:white;font-weight:700"
+
+        sty = kdf.style.map(farbe_k, subset=["Signal"]) if hasattr(kdf.style, "map") else kdf.style.applymap(farbe_k, subset=["Signal"])
+        st.dataframe(sty, hide_index=True, width="stretch", column_config={
+            "Ziel-Anteil": st.column_config.ProgressColumn("Ziel-Anteil", min_value=0.0, max_value=1.0, format="percent"),
+            "Kurs $": st.column_config.NumberColumn(format="%.4g"),
+            **{c_: st.column_config.NumberColumn(format="percent") for c_ in
+               ["Strategie p.a.", "Halten p.a.", "Rückgang Strategie", "Rückgang Halten"]},
+            "Getestet": st.column_config.TextColumn(help="Bestanden = bessere Rendite pro Risiko als Halten, in beiden Zeithälften, "
+                                                        "und kleinerer größter Rückgang. Nur bestandene Coins schicken Push-Nachrichten.")})
+        st.caption("Bitcoin und Ethereum haben die längste Historie (ab 2014/2017) und sind am verlässlichsten getestet. "
+                   "Bei jüngeren Coins sind es nur wenige Jahre, das Ergebnis ist entsprechend unsicherer.")
+
+        # ---------- Detail je Coin
         st.divider()
-        wahl_k = st.radio("Test anzeigen für", [c["name"] for c in kr["coins"].values()], horizontal=True, key="kr_wahl")
-        t, c = next((t, c) for t, c in kr["coins"].items() if c["name"] == wahl_k)
+        namen = [c["name"] for c in KR_COINS.values() if c.get("signal")]
+        wahl_k = st.radio("Coin im Detail", namen, horizontal=True, key="kr_wahl")
+        t, c = next((t, c) for t, c in KR_COINS.items() if c["name"] == wahl_k)
+        a_ = c["aktuell"]
+        an_n = sum(e["an"] for e in a_["einzel"])
+        st.markdown(f"### {c['name']} &nbsp; {badge(c['signal'], SIGNAL_FARBE[c['signal']], gross=True)}", unsafe_allow_html=True)
+        w_ = c.get("wechsel") or []
+        letzte_txt = (f"Letzte Änderung am {pd.Timestamp(w_[0]['datum']):%d.%m.%Y}: von {w_[0]['von']:.0%} auf {w_[0]['auf']:.0%} "
+                      f"(Kurs {w_[0]['kurs']:,.4g} $)." if w_ else "")
+        st.markdown(f"**Was tun:** {a_['anteil']:.0%} des Geldes, das du für {c['name']} vorgesehen hast, investiert halten, den Rest in Cash. "
+                    f"{an_n} von 5 Regeln sind an. {letzte_txt}")
+        if not c.get("test_bestanden"):
+            st.warning(f"Bei {c['name']} hat die Strategie den Rückblick-Test **nicht bestanden**. Das Signal ist nur zur Information, "
+                       "es kommen keine Push-Nachrichten dafür.")
+        st.caption(f"Kurs {c['kurs']:,.4g} $ · Stand Tagesschluss {pd.Timestamp(c['bis']):%d.%m.%Y} (UTC)")
+
+        v = c.get("verlauf")
+        if v:
+            figv = go.Figure()
+            figv.add_trace(go.Scatter(x=v["datum"], y=[x * 100 for x in v["anteil"]], name="Ziel-Anteil %", yaxis="y2",
+                                      line=dict(width=0, shape="hv"), fill="tozeroy", fillcolor="rgba(15,123,63,0.18)",
+                                      hovertemplate="%{y:.0f} %"))
+            figv.add_trace(go.Scatter(x=v["datum"], y=v["kurs"], name="Kurs", line=dict(color="#1f2937", width=2)))
+            figv.add_trace(go.Scatter(x=v["datum"], y=v["sma200"], name="200-Tage-Linie", line=dict(color="#b58900", width=1.5, dash="dot")))
+            figv.update_layout(height=340, margin=dict(l=10, r=10, t=10, b=10), legend=dict(orientation="h", y=-0.15),
+                               yaxis=dict(title="Kurs $"), yaxis2=dict(overlaying="y", side="right", range=[0, 105], showgrid=False,
+                                                                     title="investiert %"))
+            st.plotly_chart(figv, width="stretch", key=f"kr_verlauf_{t}")
+            st.caption("Grüne Fläche: wie viel die Strategie im letzten Jahr investiert war. Steigt sie, wird zugekauft, fällt sie, wird verkauft.")
+
+        st.markdown("**Die fünf Regeln heute**")
+        for e in a_["einzel"]:
+            sym, col = ("✅", "#0f7b3f") if e["an"] else ("❌", "#c62828")
+            if e["regel"].startswith("SMA"):
+                txt = f"Kurs über dem {e['regel'].split()[1]}-Tage-Durchschnitt ({e['schwelle']:,.4g} $)"
+            else:
+                txt = f"Kurs höher als vor {e['regel'].split()[1]} Tagen ({e['schwelle']:,.4g} $)"
+            st.markdown(f"{sym} {txt}: <span style='color:{col};font-weight:700'>{e['abstand']:+.0%}</span>", unsafe_allow_html=True)
+        st.caption("Die Prozentzahl zeigt den Abstand zur Schwelle. Kreuzt der Kurs sie, schaltet die Regel um.")
+
+        if w_:
+            with st.expander("Letzte Signalwechsel"):
+                st.dataframe(pd.DataFrame([{"Datum": pd.Timestamp(x["datum"]).strftime("%d.%m.%Y"), "von": x["von"], "auf": x["auf"],
+                                            "Aktion": "KAUFEN" if x["auf"] > x["von"] else "VERKAUFEN", "Kurs $": x["kurs"]} for x in w_]),
+                             hide_index=True, width="stretch", column_config={
+                                 "von": st.column_config.NumberColumn(format="percent"), "auf": st.column_config.NumberColumn(format="percent"),
+                                 "Kurs $": st.column_config.NumberColumn(format="%.4g")})
+
+        # ---------- Testdetails
         u, kz = c["urteil"], c["kennzahlen"]
         h_, e_ = kz["Kaufen und Halten"], kz["Ensemble (5 Regeln)"]
-        st.success(f"**Testergebnis {c['name']} ({pd.Timestamp(c['von']):%m/%Y} bis heute):** Die Strategie brachte {e_['cagr']:+.0%} pro Jahr "
-                   f"bei einem größten Rückgang von {e_['mdd']:.0%}. Halten brachte {h_['cagr']:+.0%} bei {h_['mdd']:.0%}. "
-                   f"Rendite pro Risiko war in beiden Zeithälften besser, und {u['sma_laengen_besser_als_halten']} von {u['sma_laengen']} "
-                   "getesteten Durchschnittslängen schlugen das Halten. Das Ergebnis hängt also nicht an einer Glückszahl.")
-        bo = c.get("bootstrap")
-        if bo:
-            st.info(f"**Zufallsprüfung (Monte-Carlo, {bo['durchlaeufe']} Durchläufe):** Die Tagesrenditen wurden in {bo['block_tage']}-Tage-Blöcken "
-                    f"neu zusammengewürfelt. In {bo['anteil_sharpe_besser']:.0%} der Durchläufe hatte die Strategie die bessere Rendite pro Risiko, "
-                    f"in {bo['anteil_rueckgang_kleiner']:.0%} den kleineren größten Rückgang. Ab etwa 95 % gilt ein Vorteil als statistisch gut belegt.")
-        qv = c.get("quellenvergleich")
-        if qv:
-            with st.expander("Datenquellen-Vergleich: dieselbe Strategie mit Yahoo- und mit Binance-Kursen"):
-                kq = qv["kennzahlen"]
-                st.dataframe(pd.DataFrame([{"Variante": n, "Rendite p.a.": v["cagr"], "Größter Rückgang": v["mdd"], "Sharpe": v["sharpe"]}
-                                           for n, v in kq.items()]), hide_index=True, width="stretch", column_config={
-                    "Rendite p.a.": st.column_config.NumberColumn(format="percent"), "Größter Rückgang": st.column_config.NumberColumn(format="percent"),
-                    "Sharpe": st.column_config.NumberColumn(format="%.2f")})
-                st.caption(f"Zeitraum {qv['von']} bis {qv['bis']}. Schlusskurse weichen im Median um {qv['kurs_abweichung_median']:.2%} ab, "
-                           f"maximal {qv['kurs_abweichung_max']:.1%} (am {qv['tag_max']}). An {qv['gleiche_position_tage']:.0%} der Tage hätte die "
-                           f"Strategie mit beiden Quellen dieselbe Position gehalten. Heute: Yahoo {qv['aktuell_yahoo']:.0%}, Binance {qv['aktuell_binance']:.0%}.")
-        zk = pd.DataFrame([{"Regel": n, "Rendite p.a.": v["cagr"], "nach KESt p.a. (grob)": v["cagr_nach_steuer"],
-                            "Größter Rückgang": v["mdd"], "Sharpe": v["sharpe"], "Schlechtestes Jahr": v["schlechtestes_jahr"],
-                            "2. Hälfte p.a.": v["cagr_haelfte2"], "Zeit investiert": v.get("zeit_investiert"),
-                            "Wechsel pro Jahr": v.get("umschichtungen_pro_jahr")} for n, v in kz.items()])
-        st.dataframe(zk, hide_index=True, width="stretch", column_config={
-            **{c_: st.column_config.NumberColumn(format="percent") for c_ in ["Rendite p.a.", "nach KESt p.a. (grob)", "Größter Rückgang",
-                                                                             "Schlechtestes Jahr", "2. Hälfte p.a.", "Zeit investiert"]},
-            "Sharpe": st.column_config.NumberColumn(format="%.2f", help="Rendite pro Risiko"),
-            "Wechsel pro Jahr": st.column_config.NumberColumn(format="%.0f", help="Summe der Umschichtungen in vollen Positionen")})
-        figk = go.Figure()
-        for n, k in c["kurven"].items():
-            figk.add_trace(go.Scatter(x=k["monat"], y=k["wert"], name=n, line=dict(width=3 if n.startswith("Ensemble") else 1.5)))
-        figk.update_layout(height=360, margin=dict(l=10, r=10, t=10, b=10), yaxis_type="log", yaxis_title="Wert von 1 $ (log)",
-                           legend=dict(orientation="h", y=-0.2))
-        st.plotly_chart(figk, width="stretch")
-        mv = c.get("mvrv")
-        if mv:
-            hilft = [n for n, ok in mv.get("verbessert", {}).items() if ok]
-            st.caption(f"MVRV (Marktwert geteilt durch den Einstandspreis aller Coins) steht bei {mv['aktuell']:.2f}. Über {mv['hoch']} gilt als "
-                       f"überhitzt, unter {mv['tief']} als günstig. Die MVRV-Zeilen in der Tabelle zeigen, was diese Zusatzregeln gebracht hätten: "
-                       + ("bei diesem Coin eine kleine Verbesserung. " if hilft else "bei diesem Coin keine Verbesserung. ")
-                       + "Weil sie nicht bei beiden Coins helfen, sind sie nicht Teil der Strategie.")
-        tr = pd.DataFrame([{"Regel": n, "Trades": v["trades"]["trades"], "Trefferquote": v["trades"]["trefferquote"],
-                            "Ø Gewinn": v["trades"]["gewinn_mittel"], "Ø Verlust": v["trades"]["verlust_mittel"],
-                            "Größter Gewinn": v["trades"]["groesster_gewinn"]} for n, v in kz.items() if v.get("trades")])
-        if len(tr):
-            with st.expander("Trefferquote der einzelnen Regeln: warum sie niedrig ist und trotzdem funktioniert"):
-                st.dataframe(tr, hide_index=True, width="stretch", column_config={
-                    c_: st.column_config.NumberColumn(format="percent") for c_ in ["Trefferquote", "Ø Gewinn", "Ø Verlust", "Größter Gewinn"]})
-                st.caption("Trendfolge liegt nur bei etwa jedem dritten bis zweiten Trade richtig. Sie verdient, weil ein Gewinn im Schnitt "
-                           "ein Vielfaches eines Verlusts bringt: Verluste werden früh begrenzt, Gewinne laufen gelassen.")
-        jr = pd.DataFrame({"Halten": h_["jahresrenditen"], "Strategie": e_["jahresrenditen"]})
-        jr.index.name = "Jahr"
-        with st.expander("Rendite je Kalenderjahr"):
+        with st.expander(f"Wie gut ist die Strategie bei {c['name']} getestet?"):
+            (st.success if c.get("test_bestanden") else st.warning)(
+                f"**Test {c['name']} ({pd.Timestamp(c['von']):%m/%Y} bis heute):** Strategie {e_['cagr']:+.0%} pro Jahr bei einem größten "
+                f"Rückgang von {e_['mdd']:.0%}. Halten: {h_['cagr']:+.0%} bei {h_['mdd']:.0%}. "
+                f"{u['sma_laengen_besser_als_halten']} von {u['sma_laengen']} getesteten Durchschnittslängen hatten eine bessere Rendite pro Risiko als Halten.")
+            bo = c.get("bootstrap")
+            if bo:
+                st.markdown(f"**Zufallsprüfung ({bo['durchlaeufe']} Durchläufe):** In {bo['anteil_sharpe_besser']:.0%} der Durchläufe hatte die "
+                            f"Strategie die bessere Rendite pro Risiko, in {bo['anteil_rueckgang_kleiner']:.0%} den kleineren größten Rückgang. "
+                            "Ab etwa 95 % gilt ein Vorteil als gut belegt.")
+            figk = go.Figure()
+            for n, k in c["kurven"].items():
+                figk.add_trace(go.Scatter(x=k["monat"], y=k["wert"], name=n, line=dict(width=3 if n.startswith("Ensemble") else 1.5)))
+            figk.update_layout(height=320, margin=dict(l=10, r=10, t=10, b=10), yaxis_type="log", yaxis_title="Wert von 1 $ (log)",
+                               legend=dict(orientation="h", y=-0.2))
+            st.plotly_chart(figk, width="stretch", key=f"kr_test_{t}")
+            zk = pd.DataFrame([{"Regel": n, "Rendite p.a.": v_["cagr"], "nach KESt p.a. (grob)": v_["cagr_nach_steuer"],
+                                "Größter Rückgang": v_["mdd"], "Sharpe": v_["sharpe"], "Schlechtestes Jahr": v_["schlechtestes_jahr"],
+                                "2. Hälfte p.a.": v_["cagr_haelfte2"], "Zeit investiert": v_.get("zeit_investiert"),
+                                "Wechsel pro Jahr": v_.get("umschichtungen_pro_jahr")} for n, v_ in kz.items()])
+            st.dataframe(zk, hide_index=True, width="stretch", column_config={
+                **{c_: st.column_config.NumberColumn(format="percent") for c_ in ["Rendite p.a.", "nach KESt p.a. (grob)", "Größter Rückgang",
+                                                                                 "Schlechtestes Jahr", "2. Hälfte p.a.", "Zeit investiert"]},
+                "Sharpe": st.column_config.NumberColumn(format="%.2f", help="Rendite pro Risiko"),
+                "Wechsel pro Jahr": st.column_config.NumberColumn(format="%.0f")})
+            jr = pd.DataFrame({"Halten": h_["jahresrenditen"], "Strategie": e_["jahresrenditen"]})
+            jr.index.name = "Jahr"
+            st.markdown("**Rendite je Kalenderjahr**")
             st.dataframe(jr.reset_index(), hide_index=True, width="stretch",
                          column_config={c_: st.column_config.NumberColumn(format="percent") for c_ in jr.columns})
-        st.caption(f"Signal aus dem Tagesschluss, Handel am Folgetag, {kr['kosten']:.2%} Kosten je Umschichtung. "
-                   "KESt-Näherung: Gewinne werden jedes Jahr versteuert, beim Halten erst am Ende.")
+            tr = pd.DataFrame([{"Regel": n, "Trades": v_["trades"]["trades"], "Trefferquote": v_["trades"]["trefferquote"],
+                                "Ø Gewinn": v_["trades"]["gewinn_mittel"], "Ø Verlust": v_["trades"]["verlust_mittel"]}
+                               for n, v_ in kz.items() if v_.get("trades")])
+            if len(tr):
+                st.markdown("**Trefferquote der Einzelregeln**")
+                st.dataframe(tr, hide_index=True, width="stretch", column_config={
+                    c_: st.column_config.NumberColumn(format="percent") for c_ in ["Trefferquote", "Ø Gewinn", "Ø Verlust"]})
+                st.caption("Trendfolge liegt nur bei jedem dritten bis zweiten Trade richtig. Sie verdient, weil Gewinne im Schnitt "
+                           "ein Vielfaches der Verluste sind.")
+            mv = c.get("mvrv")
+            if mv:
+                st.caption(f"MVRV aktuell {mv['aktuell']:.2f} (über {mv['hoch']} überhitzt, unter {mv['tief']} günstig). Als Zusatzregel getestet, "
+                           "aber nicht übernommen, weil sie nicht bei beiden großen Coins hilft.")
+            qv = c.get("quellenvergleich")
+            if qv:
+                st.caption(f"Datenquellen-Gegenprobe: Mit Binance-Kursen statt Yahoo hätte die Strategie an {qv['gleiche_position_tage']:.0%} der Tage "
+                           f"dieselbe Position gehalten (Kursabweichung im Median {qv['kurs_abweichung_median']:.2%}).")
+            st.caption(f"Signal aus dem Tagesschluss, Handel am Folgetag, {kr['kosten']:.2%} Kosten je Umschichtung. "
+                       "KESt-Näherung: Gewinne werden jedes Jahr versteuert, beim Halten erst am Ende.")
 
         fg = kr.get("fear_greed")
         if fg:
-            st.divider()
-            st.subheader(f"Fear & Greed Index: aktuell {fg['aktuell']:.0f}")
-            st.markdown("Oft heißt es: „Kaufen, wenn alle Angst haben.“ Die Daten seit 2018 stützen das **nicht**:")
-            fdf = pd.DataFrame([{"Stimmung": x["stufe"], "Tage": x["tage"], "Ø Rendite 30 Tage": x["mittel_30"], "Median 30 Tage": x["median_30"],
-                                 "Ø Rendite 90 Tage": x["mittel_90"], "Median 90 Tage": x["median_90"], "Gewinn nach 90 Tagen in": x["treffer_90"]}
-                                for x in fg["stufen"]])
-            st.dataframe(fdf, hide_index=True, width="stretch",
-                         column_config={c_: st.column_config.NumberColumn(format="percent") for c_ in fdf.columns[2:]})
-            st.caption("Bitcoin-Rendite nach Tagen mit der jeweiligen Stimmung. Nach extremer Gier lief es im Schnitt besser als nach "
-                       "extremer Angst. Das passt zur Trendfolge. Der Index fließt deshalb nicht in die Strategie ein.")
-        st.warning("Grenzen: Krypto hat erst wenige vollständige Zyklen hinter sich, die Vergangenheit ist keine Garantie. "
-                   "Auch die Strategie hatte Verlustjahre und Rückgänge von über 50 %. Nach Steuern lag sie bei Bitcoin hinter dem "
-                   "Halten, weil jeder Verkauf mit Gewinn Steuer auslöst. Nur Geld einsetzen, dessen Verlust du verkraftest. "
-                   "Keine Anlageberatung.")
+            with st.expander(f"Fear & Greed Index: aktuell {fg['aktuell']:.0f} – warum er nicht in die Strategie einfließt"):
+                fdf = pd.DataFrame([{"Stimmung": x["stufe"], "Tage": x["tage"], "Ø Rendite 30 Tage": x["mittel_30"],
+                                     "Ø Rendite 90 Tage": x["mittel_90"], "Gewinn nach 90 Tagen in": x["treffer_90"]} for x in fg["stufen"]])
+                st.dataframe(fdf, hide_index=True, width="stretch",
+                             column_config={c_: st.column_config.NumberColumn(format="percent") for c_ in fdf.columns[2:]})
+                st.caption("Bitcoin-Rendite nach Tagen mit der jeweiligen Stimmung, seit 2018. „Kaufen bei Angst“ hat hier nicht besser "
+                           "funktioniert als Kaufen bei Gier.")
+        st.warning("Grenzen: Krypto hat erst wenige vollständige Zyklen hinter sich, die Vergangenheit ist keine Garantie. Auch die Strategie "
+                   "hatte Verlustjahre und Rückgänge von über 50 %. Nach Steuern lag sie bei Bitcoin hinter dem Halten, weil jeder Verkauf mit "
+                   "Gewinn KESt auslöst. Nur Geld einsetzen, dessen Verlust du verkraftest. Keine Anlageberatung.")
 
 # ------------------------------------------------------------------ Insider-Radar
 with tab_ins:
@@ -952,15 +1036,19 @@ with tab_guete:
 with tab_hilfe:
     st.markdown(f"""
 ### So nutzt du das Signal-Radar
-1. **Marktampel ansehen.** Bei RISK-OFF eher keine neuen Käufe oder nur kleine Positionen.
-2. **Übersicht → Beste Kaufkandidaten.** Grün = Kaufsignal. Je höher der Score, desto mehr Faktoren sprechen dafür.
-3. **Detailanalyse öffnen.** Unter „Warum dieses Signal?“ steht, was dafür (▲) und dagegen (▼) spricht.
-4. **Stop sofort beim Broker setzen.** Die Stückzahl ist so berechnet, dass du beim Stop höchstens {risiko:.2f} % deines Kontos verlierst.
-5. **Ziel:** dort einen Teil verkaufen. Steht „überdehnt – Gewinne sichern“, Gewinne absichern.
-6. **Verkaufssignal** bei einem Wert, den du hast: Position verkaufen oder Stop eng nachziehen.
-7. **Einmal am Tag reicht** – am besten abends nach US-Börsenschluss (22:00 Uhr MEZ). Signale basieren auf Tagesschlusskursen.
+**Krypto (Schwerpunkt, am besten getestet)**
+1. Reiter **🪙 Krypto** öffnen. Jeder Coin hat ein Signal von STARK KAUFEN bis STARK VERKAUFEN und einen **Ziel-Anteil**.
+2. Der Ziel-Anteil sagt, wie viel des Geldes, das du für diesen Coin vorgesehen hast, investiert sein soll. Beispiel: 500 € für Bitcoin, Ziel-Anteil 60 % → 300 € in Bitcoin, 200 € in Cash.
+3. **Nur handeln, wenn sich der Ziel-Anteil ändert.** Dann kommt eine Push-Nachricht mit dem Betrag. Signale gelten ab Tagesschluss (01:00 Uhr Wiener Zeit).
+4. Nur Coins mit „✅ bestanden“ schicken Push-Nachrichten.
 
-### Was das System bewertet
+**Aktien & ETFs (zur Information)**
+5. Reiter **📈 Aktien & ETFs**: Marktampel und Signal je Wert. Bei RISK-OFF eher keine neuen Käufe.
+6. Reiter **🔍 Einzelanalyse**: warum ein Signal so ist (▲ dafür, ▼ dagegen).
+7. Reiter **🔁 Swing-Depot**: Modell-Depot mit festen Regeln für Stop, Ziel und Ausstieg. Stop immer sofort beim Broker setzen; die Stückzahl ist so berechnet, dass du beim Stop höchstens {risiko:.2f} % deines Kontos verlierst.
+8. Einmal am Tag reicht, am besten abends nach US-Börsenschluss (22:00 Uhr).
+
+### Was das System bei Aktien und ETFs bewertet
 | Baustein | Gewicht | Was er misst |
 |---|---|---|
 | Trend | 25 % | Lage zur 200-/50-Tage-Linie, Steigung |

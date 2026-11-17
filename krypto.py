@@ -21,7 +21,29 @@ import pandas as pd
 
 import engine as E
 
-COINS = {"BTC-USD": "Bitcoin", "ETH-USD": "Ethereum"}
+COINS = {"BTC-USD": "Bitcoin", "ETH-USD": "Ethereum", "SOL-USD": "Solana", "XRP-USD": "XRP", "BNB-USD": "BNB",
+         "ADA-USD": "Cardano", "DOGE-USD": "Dogecoin", "AVAX-USD": "Avalanche", "LINK-USD": "Chainlink"}
+HAUPT = ("BTC-USD", "ETH-USD")          # lange Historie, Strategie ursprünglich dafür getestet
+MIN_TAGE = 200 + 3 * 365     # mindestens 3 Jahre Test nach der Anlaufphase
+
+
+def stufe(anteil: float) -> str:
+    """Ensemble-Anteil (0–100 %) in dieselben Signalwörter wie bei Aktien übersetzen."""
+    if anteil >= 0.999:
+        return "STARK KAUFEN"
+    if anteil >= 0.599:
+        return "KAUFEN"
+    if anteil >= 0.399:
+        return "HALTEN"
+    if anteil >= 0.199:
+        return "VERKAUFEN"
+    return "STARK VERKAUFEN"
+
+
+def test_bestanden(e: dict, b: dict) -> bool:
+    """Vorab festgelegtes Kriterium: bessere Rendite pro Risiko (gesamt und in beiden Hälften) und kleinerer größter Rückgang."""
+    return bool(e["sharpe"] > b["sharpe"] and e["sharpe_haelfte1"] > b["sharpe_haelfte1"]
+                and e["sharpe_haelfte2"] > b["sharpe_haelfte2"] and e["mdd"] > b["mdd"])
 KOSTEN = 0.0025
 KEST = 0.275
 ENSEMBLE = ["SMA 50", "SMA 100", "SMA 200", "Momentum 30 Tage", "Momentum 90 Tage"]
@@ -265,7 +287,7 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
            "kosten": KOSTEN}
     fg = fear_greed(diag)
     for t, name in COINS.items():
-        if t not in daten or len(daten[t]) < WARM + 400:
+        if t not in daten or len(daten[t]) < (WARM + 400 if t in HAUPT else MIN_TAGE):
             diag["fehler"].append(f"{t}: zu wenig Daten")
             continue
         c = daten[t]["Close"].astype(float)
@@ -283,7 +305,7 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
             if rn in (ENS_NAME, "SMA 200"):
                 kv[rn] = kurve(r)
         # MVRV-Varianten (vorab festgelegte Schwellen)
-        mv = lade_mvrv(t.split("-")[0].lower(), diag)
+        mv = lade_mvrv(t.split("-")[0].lower(), diag) if t in HAUPT else None
         mvrv_info = None
         if mv is not None:
             mv = mv[mv.index <= c.index[-1]]
@@ -330,7 +352,16 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
             if ens[d] != ens.iloc[-1]:
                 break
             seit = d
-        out["coins"][t] = {"name": name, "von": str(r_halten.index[0].date()), "bis": str(letzte.date()), "kurs": float(c.iloc[-1]),
+        v_tage = c.index[-365:]
+        verlauf = {"datum": [str(d.date()) for d in v_tage], "kurs": [float(x) for x in c.loc[v_tage]],
+                   "sma200": [float(x) for x in c.rolling(200).mean().loc[v_tage]], "anteil": [float(x) for x in ens.loc[v_tage]]}
+        # letzte Änderungen des Ziel-Anteils (für die Anzeige)
+        wechsel = []
+        d_ens = ens.diff().fillna(0.0)
+        for d in d_ens[d_ens != 0].index[-8:][::-1]:
+            wechsel.append({"datum": str(d.date()), "von": float(ens.shift(1)[d]), "auf": float(ens[d]), "kurs": float(c[d])})
+        out["coins"][t] = {"name": name, "haupt": t in HAUPT, "test_bestanden": test_bestanden(e, b), "verlauf": verlauf,
+                           "wechsel": wechsel, "signal": stufe(float(ens.iloc[-1])), "von": str(r_halten.index[0].date()), "bis": str(letzte.date()), "kurs": float(c.iloc[-1]),
                            "kennzahlen": kz, "kurven": kv, "gitter": gitter, "urteil": urteil, "mvrv": mvrv_info, "bootstrap": boot,
                            "aktuell": {"anteil": float(ens.iloc[-1]), "seit": str(seit.date()), "einzel": einzel,
                                        "ausbruch": bool(R["Ausbruch 20/10"].iloc[-1] > 0), "kreuz": bool(R["Kreuz 50/200"].iloc[-1] > 0)}}
@@ -359,12 +390,12 @@ def main(ziel: str = "ausgabe", vorher: str = "vorher"):
     for t, d in out["coins"].items():
         alt_akt = ((alt.get("coins") or {}).get(t) or {}).get("aktuell", {})
         a, n = alt_akt.get("anteil"), d["aktuell"]["anteil"]
-        if a is None or abs(a - n) < 1e-9:
+        if a is None or abs(a - n) < 1e-9 or not (d["haupt"] or d["test_bestanden"]):
             continue
         alt_an = {e["regel"]: e["an"] for e in alt_akt.get("einzel", [])}
         gekippt = [f"{e['regel']} {'an' if e['an'] else 'aus'}" for e in d["aktuell"]["einzel"] if alt_an.get(e["regel"]) != e["an"]]
         wort = "KAUFEN" if n > a else "VERKAUFEN"
-        meldungen.append(f"{wort} {d['name']}: Anteil von {a:.0%} auf {n:.0%} deines Krypto-Budgets bringen "
+        meldungen.append(f"{wort} {d['name']} (Signal jetzt {stufe(n)}): Anteil von {a:.0%} auf {n:.0%} deines Budgets für {d['name']} bringen "
                          f"(Kurs {d['kurs']:,.0f} $). Grund: {', '.join(gekippt) or 'Regel hat umgeschaltet'}. "
                          f"Beispiel bei 1.000 € Budget: {abs(n - a) * 1000:.0f} € {'kaufen' if n > a else 'verkaufen'}.")
     if topic and meldungen:
