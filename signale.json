@@ -1,0 +1,3700 @@
+{
+ "erstellt_utc": "2026-11-21T15:55:54+00:00",
+ "regime": {
+  "Aktien": {
+   "datum": "2026-11-20",
+   "label": "RISK-OFF",
+   "score": -0.45,
+   "trend": -1.0,
+   "kreuz": 1.0,
+   "vix": 35.89,
+   "vix_struktur": 1.16,
+   "breite": 0.467,
+   "kredit_stufe": 0.0,
+   "hy_spread": 3.52,
+   "zinskurve": 0.29
+  },
+  "Krypto": {
+   "datum": "2026-11-20",
+   "label": "RISK-OFF",
+   "score": -0.25,
+   "trend": -1.0,
+   "kreuz": 1.0,
+   "vola": 0.0
+  }
+ },
+ "referenz": {
+  "konto": 10000.0,
+  "risiko_pct": 1.0
+ },
+ "werte": [
+  {
+   "ticker": "V",
+   "gruppe": "Aktien",
+   "signal": "KAUFEN",
+   "score": 26.8,
+   "basis_score": 19.5,
+   "zusatzpunkte": 7.2,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 12
+    },
+    "qualitaet": 0.408,
+    "sektor": {
+     "name": "Financial Services",
+     "etf": "XLF",
+     "rs_3m": 0.1089
+    },
+    "earnings": "2027-01-26"
+   },
+   "datum": "2026-11-20",
+   "kurs": 401.87,
+   "tag_pct": -0.0009,
+   "stop": 388.4712,
+   "ziel": 419.4759,
+   "crv": 1.31,
+   "stueck_10k_1pct": 4.977,
+   "positionswert_10k_1pct": 2000.0,
+   "ext_pct": 0.5,
+   "komponenten": {
+    "trend": 0.894,
+    "momentum": 0.913,
+    "rel_staerke": 0.979,
+    "akkumulation": -0.372,
+    "zone": 0.0,
+    "volatilitaet": -0.964
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+29%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +30% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Hohe Qualität: profitabel, wenig verschuldet (im Vergleich zur Watchlist)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Financial Services, 3 Monate +11%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.61,
+    "rendite_kauf_20t": 0.0108,
+    "treffer_alle_tage": 0.606,
+    "rendite_alle_tage_20t": 0.0136,
+    "cagr_strategie": 0.0752,
+    "cagr_halten": 0.1678,
+    "mdd_strategie": -0.4059,
+    "mdd_halten": -0.3636
+   }
+  },
+  {
+   "ticker": "MA",
+   "gruppe": "Aktien",
+   "signal": "KAUFEN",
+   "score": 24.8,
+   "basis_score": 18.6,
+   "zusatzpunkte": 6.2,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 10
+    },
+    "qualitaet": 0.245,
+    "sektor": {
+     "name": "Financial Services",
+     "etf": "XLF",
+     "rs_3m": 0.1062
+    },
+    "earnings": "2027-01-28"
+   },
+   "datum": "2026-11-20",
+   "kurs": 625.59,
+   "tag_pct": -0.0015,
+   "stop": 599.7006,
+   "ziel": 650.3746,
+   "crv": 0.96,
+   "stueck_10k_1pct": 3.197,
+   "positionswert_10k_1pct": 2000.0,
+   "ext_pct": 0.536,
+   "komponenten": {
+    "trend": 0.853,
+    "momentum": 0.789,
+    "rel_staerke": 0.986,
+    "akkumulation": -0.225,
+    "zone": 0.0,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+20%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +33% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Financial Services, 3 Monate +11%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.599,
+    "rendite_kauf_20t": 0.0108,
+    "treffer_alle_tage": 0.6,
+    "rendite_alle_tage_20t": 0.0146,
+    "cagr_strategie": 0.0573,
+    "cagr_halten": 0.1905,
+    "mdd_strategie": -0.4721,
+    "mdd_halten": -0.41
+   }
+  },
+  {
+   "ticker": "MSFT",
+   "gruppe": "Aktien",
+   "signal": "KAUFEN",
+   "score": 24.4,
+   "basis_score": 17.3,
+   "zusatzpunkte": 7.1,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 25
+    },
+    "qualitaet": 0.258,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": 0.1664
+    },
+    "earnings": "2027-01-27"
+   },
+   "datum": "2026-11-20",
+   "kurs": 484.52,
+   "tag_pct": -0.0277,
+   "stop": 457.397,
+   "ziel": 509.0928,
+   "crv": 0.91,
+   "stueck_10k_1pct": 3.687,
+   "positionswert_10k_1pct": 1786.0,
+   "ext_pct": 0.188,
+   "komponenten": {
+    "trend": 0.788,
+    "momentum": 0.281,
+    "rel_staerke": 0.836,
+    "akkumulation": -0.772,
+    "zone": 1.0,
+    "volatilitaet": -0.5
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +23% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Liquiditäts-Sweep: Tief unterschritten und sofort zurückerobert"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Technology, 3 Monate +17%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.635,
+    "rendite_kauf_20t": 0.0179,
+    "treffer_alle_tage": 0.613,
+    "rendite_alle_tage_20t": 0.0192,
+    "cagr_strategie": 0.1719,
+    "cagr_halten": 0.2411,
+    "mdd_strategie": -0.2804,
+    "mdd_halten": -0.3715
+   }
+  },
+  {
+   "ticker": "BRK-B",
+   "gruppe": "Aktien",
+   "signal": "KAUFEN",
+   "score": 23.0,
+   "basis_score": 14.3,
+   "zusatzpunkte": 8.7,
+   "extras": {
+    "insider": {
+     "kaeufer": 1,
+     "summe_usd": 250207,
+     "kaeufe": 1,
+     "filings_geprueft": 13
+    },
+    "qualitaet": -0.182,
+    "sektor": {
+     "name": "Financial Services",
+     "etf": "XLF",
+     "rs_3m": 0.1911
+    },
+    "earnings": "2027-03-01"
+   },
+   "datum": "2026-11-20",
+   "kurs": 570.0,
+   "tag_pct": -0.0036,
+   "stop": 534.405,
+   "ziel": 584.4749,
+   "crv": 0.41,
+   "stueck_10k_1pct": 2.809,
+   "positionswert_10k_1pct": 1601.0,
+   "ext_pct": 0.856,
+   "komponenten": {
+    "trend": 0.82,
+    "momentum": 0.638,
+    "rel_staerke": 0.993,
+    "akkumulation": 0.128,
+    "zone": -0.579,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+9%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +24% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schon weit gelaufen (86%-Perzentil) – Einstieg besser bei Rücksetzer"
+    },
+    {
+     "richtung": "-",
+     "text": "Über dem +2σ-Band des Anchored VWAP – statistisch überdehnt"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Insiderkauf: ein Manager kaufte für $250,207 am offenen Markt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Financial Services, 3 Monate +19%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.564,
+    "rendite_kauf_20t": 0.0062,
+    "treffer_alle_tage": 0.596,
+    "rendite_alle_tage_20t": 0.0108,
+    "cagr_strategie": 0.01,
+    "cagr_halten": 0.1359,
+    "mdd_strategie": -0.4395,
+    "mdd_halten": -0.2957
+   }
+  },
+  {
+   "ticker": "XOM",
+   "gruppe": "Aktien",
+   "signal": "KAUFEN",
+   "score": 22.9,
+   "basis_score": 22.6,
+   "zusatzpunkte": 0.3,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 0
+    },
+    "qualitaet": -0.157,
+    "sektor": {
+     "name": "Energy",
+     "etf": "XLE",
+     "rs_3m": 0.0214
+    },
+    "earnings": "2027-01-29"
+   },
+   "datum": "2026-11-20",
+   "kurs": 159.99,
+   "tag_pct": 0.0067,
+   "stop": 153.7004,
+   "ziel": 168.5194,
+   "crv": 1.36,
+   "stueck_10k_1pct": 12.501,
+   "positionswert_10k_1pct": 2000.0,
+   "ext_pct": 0.118,
+   "komponenten": {
+    "trend": 0.667,
+    "momentum": 0.987,
+    "rel_staerke": 0.636,
+    "akkumulation": -0.586,
+    "zone": 1.0,
+    "volatilitaet": -0.706
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+55%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +12% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Liquiditäts-Sweep: Tief unterschritten und sofort zurückerobert"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.556,
+    "rendite_kauf_20t": 0.0167,
+    "treffer_alle_tage": 0.577,
+    "rendite_alle_tage_20t": 0.0143,
+    "cagr_strategie": 0.0902,
+    "cagr_halten": 0.1284,
+    "mdd_strategie": -0.3072,
+    "mdd_halten": -0.6101
+   }
+  },
+  {
+   "ticker": "XLV",
+   "gruppe": "ETFs",
+   "signal": "KAUFEN",
+   "score": 19.9,
+   "basis_score": 19.9,
+   "zusatzpunkte": 0.0,
+   "extras": {},
+   "datum": "2026-11-20",
+   "kurs": 177.24,
+   "tag_pct": -0.0012,
+   "stop": 171.9485,
+   "ziel": 184.017,
+   "crv": 1.28,
+   "stueck_10k_1pct": 11.284,
+   "positionswert_10k_1pct": 2000.0,
+   "ext_pct": 0.345,
+   "komponenten": {
+    "trend": 0.818,
+    "momentum": 0.911,
+    "rel_staerke": 0.991,
+    "akkumulation": -0.852,
+    "zone": 0.667,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+21%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +26% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Liquiditäts-Sweep: Tief unterschritten und sofort zurückerobert"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.555,
+    "rendite_kauf_20t": 0.003,
+    "treffer_alle_tage": 0.597,
+    "rendite_alle_tage_20t": 0.0094,
+    "cagr_strategie": 0.0112,
+    "cagr_halten": 0.1072,
+    "mdd_strategie": -0.2892,
+    "mdd_halten": -0.284
+   }
+  },
+  {
+   "ticker": "AAPL",
+   "gruppe": "Aktien",
+   "signal": "KAUFEN",
+   "score": 19.5,
+   "basis_score": 12.9,
+   "zusatzpunkte": 6.7,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 25
+    },
+    "qualitaet": 0.116,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": 0.2854
+    },
+    "earnings": "2027-01-28"
+   },
+   "datum": "2026-11-20",
+   "kurs": 342.56,
+   "tag_pct": -0.019,
+   "stop": 330.2946,
+   "ziel": 354.8254,
+   "crv": 1.0,
+   "stueck_10k_1pct": 5.838,
+   "positionswert_10k_1pct": 2000.0,
+   "ext_pct": 0.38,
+   "komponenten": {
+    "trend": 0.901,
+    "momentum": 0.906,
+    "rel_staerke": 0.858,
+    "akkumulation": -0.803,
+    "zone": -0.5,
+    "volatilitaet": -0.5
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+30%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +18% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Fehlausbruch nach oben: Hoch überschritten, aber darunter geschlossen"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Technology, 3 Monate +29%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.634,
+    "rendite_kauf_20t": 0.0194,
+    "treffer_alle_tage": 0.644,
+    "rendite_alle_tage_20t": 0.0233,
+    "cagr_strategie": 0.1476,
+    "cagr_halten": 0.2717,
+    "mdd_strategie": -0.3815,
+    "mdd_halten": -0.3852
+   }
+  },
+  {
+   "ticker": "LLY",
+   "gruppe": "Aktien",
+   "signal": "KAUFEN",
+   "score": 18.1,
+   "basis_score": 13.6,
+   "zusatzpunkte": 4.5,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 25
+    },
+    "qualitaet": 0.092,
+    "sektor": {
+     "name": "Healthcare",
+     "etf": "XLV",
+     "rs_3m": 0.0783
+    },
+    "earnings": "2027-02-03"
+   },
+   "datum": "2026-11-20",
+   "kurs": 1347.11,
+   "tag_pct": -0.003,
+   "stop": 1244.3905,
+   "ziel": 1410.6967,
+   "crv": 0.62,
+   "stueck_10k_1pct": 0.974,
+   "positionswert_10k_1pct": 1311.0,
+   "ext_pct": 0.64,
+   "komponenten": {
+    "trend": 0.928,
+    "momentum": 0.71,
+    "rel_staerke": 0.935,
+    "akkumulation": -0.59,
+    "zone": -0.5,
+    "volatilitaet": -0.495
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+25%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +34% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Fehlausbruch nach oben: Hoch überschritten, aber darunter geschlossen"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Healthcare, 3 Monate +8%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.613,
+    "rendite_kauf_20t": 0.0267,
+    "treffer_alle_tage": 0.635,
+    "rendite_alle_tage_20t": 0.031,
+    "cagr_strategie": 0.2606,
+    "cagr_halten": 0.3785,
+    "mdd_strategie": -0.2632,
+    "mdd_halten": -0.3448
+   }
+  },
+  {
+   "ticker": "XLE",
+   "gruppe": "ETFs",
+   "signal": "KAUFEN",
+   "score": 17.4,
+   "basis_score": 17.4,
+   "zusatzpunkte": 0.0,
+   "extras": {},
+   "datum": "2026-11-20",
+   "kurs": 60.51,
+   "tag_pct": -0.0062,
+   "stop": 58.1885,
+   "ziel": 63.5953,
+   "crv": 1.33,
+   "stueck_10k_1pct": 33.052,
+   "positionswert_10k_1pct": 2000.0,
+   "ext_pct": 0.045,
+   "komponenten": {
+    "trend": 0.628,
+    "momentum": 0.994,
+    "rel_staerke": 0.64,
+    "akkumulation": -0.911,
+    "zone": 1.0,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+55%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +10% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.53,
+    "rendite_kauf_20t": 0.0122,
+    "treffer_alle_tage": 0.573,
+    "rendite_alle_tage_20t": 0.0134,
+    "cagr_strategie": 0.0656,
+    "cagr_halten": 0.1162,
+    "mdd_strategie": -0.3905,
+    "mdd_halten": -0.6681
+   }
+  },
+  {
+   "ticker": "JNJ",
+   "gruppe": "Aktien",
+   "signal": "KAUFEN",
+   "score": 16.4,
+   "basis_score": 19.6,
+   "zusatzpunkte": -3.3,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 5
+    },
+    "qualitaet": -0.3,
+    "sektor": {
+     "name": "Healthcare",
+     "etf": "XLV",
+     "rs_3m": -0.0248
+    },
+    "earnings": "2027-01-26"
+   },
+   "datum": "2026-11-20",
+   "kurs": 270.47,
+   "tag_pct": 0.0125,
+   "stop": 260.4152,
+   "ziel": 280.5248,
+   "crv": 1.0,
+   "stueck_10k_1pct": 7.395,
+   "positionswert_10k_1pct": 2000.0,
+   "ext_pct": 0.394,
+   "komponenten": {
+    "trend": 0.809,
+    "momentum": 0.968,
+    "rel_staerke": 0.961,
+    "akkumulation": -0.42,
+    "zone": -0.167,
+    "volatilitaet": -0.5
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+35%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +24% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Fehlausbruch nach oben: Hoch überschritten, aber darunter geschlossen"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.535,
+    "rendite_kauf_20t": 0.0044,
+    "treffer_alle_tage": 0.573,
+    "rendite_alle_tage_20t": 0.0102,
+    "cagr_strategie": -0.0298,
+    "cagr_halten": 0.1117,
+    "mdd_strategie": -0.6054,
+    "mdd_halten": -0.2737
+   }
+  },
+  {
+   "ticker": "COST",
+   "gruppe": "Aktien",
+   "signal": "KAUFEN",
+   "score": 15.7,
+   "basis_score": 12.7,
+   "zusatzpunkte": 3.0,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 25
+    },
+    "qualitaet": -0.252,
+    "sektor": {
+     "name": "Consumer Defensive",
+     "etf": "XLP",
+     "rs_3m": 0.0973
+    },
+    "earnings": "2026-12-10"
+   },
+   "datum": "2026-11-20",
+   "kurs": 1102.15,
+   "tag_pct": 0.0076,
+   "stop": 1025.7399,
+   "ziel": 1130.8038,
+   "crv": 0.38,
+   "stueck_10k_1pct": 1.309,
+   "positionswert_10k_1pct": 1442.0,
+   "ext_pct": 0.925,
+   "komponenten": {
+    "trend": 0.77,
+    "momentum": 0.723,
+    "rel_staerke": 0.853,
+    "akkumulation": 0.143,
+    "zone": -1.0,
+    "volatilitaet": -0.5
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+15%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +15% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Fehlausbruch nach oben: Hoch überschritten, aber darunter geschlossen"
+    },
+    {
+     "richtung": "-",
+     "text": "Schon weit gelaufen (92%-Perzentil) – Einstieg besser bei Rücksetzer"
+    },
+    {
+     "richtung": "-",
+     "text": "Über dem +2σ-Band des Anchored VWAP – statistisch überdehnt"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Consumer Defensive, 3 Monate +10%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.654,
+    "rendite_kauf_20t": 0.0188,
+    "treffer_alle_tage": 0.64,
+    "rendite_alle_tage_20t": 0.0188,
+    "cagr_strategie": 0.1296,
+    "cagr_halten": 0.2508,
+    "mdd_strategie": -0.4232,
+    "mdd_halten": -0.314
+   }
+  },
+  {
+   "ticker": "PG",
+   "gruppe": "Aktien",
+   "signal": "KAUFEN",
+   "score": 15.7,
+   "basis_score": 12.4,
+   "zusatzpunkte": 3.3,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 25
+    },
+    "qualitaet": -0.282,
+    "sektor": {
+     "name": "Consumer Defensive",
+     "etf": "XLP",
+     "rs_3m": 0.1202
+    },
+    "earnings": "2027-01-21"
+   },
+   "datum": "2026-11-20",
+   "kurs": 169.37,
+   "tag_pct": 0.0091,
+   "stop": 156.5666,
+   "ziel": 174.1713,
+   "crv": 0.38,
+   "stueck_10k_1pct": 7.81,
+   "positionswert_10k_1pct": 1323.0,
+   "ext_pct": 0.934,
+   "komponenten": {
+    "trend": 0.811,
+    "momentum": 0.714,
+    "rel_staerke": 0.974,
+    "akkumulation": -0.07,
+    "zone": -1.0,
+    "volatilitaet": -0.5
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+15%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +26% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Fehlausbruch nach oben: Hoch überschritten, aber darunter geschlossen"
+    },
+    {
+     "richtung": "-",
+     "text": "Schon weit gelaufen (93%-Perzentil) – Einstieg besser bei Rücksetzer"
+    },
+    {
+     "richtung": "-",
+     "text": "Über dem +2σ-Band des Anchored VWAP – statistisch überdehnt"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Consumer Defensive, 3 Monate +12%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.609,
+    "rendite_kauf_20t": 0.0079,
+    "treffer_alle_tage": 0.587,
+    "rendite_alle_tage_20t": 0.0098,
+    "cagr_strategie": 0.0389,
+    "cagr_halten": 0.097,
+    "mdd_strategie": -0.2547,
+    "mdd_halten": -0.2377
+   }
+  },
+  {
+   "ticker": "XLF",
+   "gruppe": "ETFs",
+   "signal": "HALTEN",
+   "score": 14.5,
+   "basis_score": 14.5,
+   "zusatzpunkte": 0.0,
+   "extras": {},
+   "datum": "2026-11-20",
+   "kurs": 54.57,
+   "tag_pct": -0.0182,
+   "stop": 53.1017,
+   "ziel": 57.2036,
+   "crv": 1.79,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.13,
+   "komponenten": {
+    "trend": 0.447,
+    "momentum": 0.733,
+    "rel_staerke": 0.898,
+    "akkumulation": -0.845,
+    "zone": 1.0,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+12%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +13% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.57,
+    "rendite_kauf_20t": 0.003,
+    "treffer_alle_tage": 0.608,
+    "rendite_alle_tage_20t": 0.0096,
+    "cagr_strategie": 0.0223,
+    "cagr_halten": 0.1127,
+    "mdd_strategie": -0.2679,
+    "mdd_halten": -0.4286
+   }
+  },
+  {
+   "ticker": "WMT",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": 13.8,
+   "basis_score": 11.8,
+   "zusatzpunkte": 2.0,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 25
+    },
+    "qualitaet": -0.595,
+    "sektor": {
+     "name": "Consumer Defensive",
+     "etf": "XLP",
+     "rs_3m": 0.1618
+    },
+    "earnings": "2027-02-18"
+   },
+   "datum": "2026-11-20",
+   "kurs": 127.95,
+   "tag_pct": 0.0152,
+   "stop": 116.6625,
+   "ziel": 132.2926,
+   "crv": 0.38,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.746,
+   "komponenten": {
+    "trend": 0.055,
+    "momentum": 0.76,
+    "rel_staerke": 0.716,
+    "akkumulation": 0.323,
+    "zone": 0.0,
+    "volatilitaet": -0.5
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+21%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +14% relativ)"
+    },
+    {
+     "richtung": "+",
+     "text": "Volumen deutet auf Akkumulation (Käufe überwiegen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächere Qualität: geringe Profitabilität oder hohe Schulden"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Consumer Defensive, 3 Monate +16%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.588,
+    "rendite_kauf_20t": 0.012,
+    "treffer_alle_tage": 0.615,
+    "rendite_alle_tage_20t": 0.0152,
+    "cagr_strategie": 0.0589,
+    "cagr_halten": 0.2042,
+    "mdd_strategie": -0.4401,
+    "mdd_halten": -0.2574
+   }
+  },
+  {
+   "ticker": "AMD",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": 13.7,
+   "basis_score": 11.2,
+   "zusatzpunkte": 2.5,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 17
+    },
+    "qualitaet": -0.158,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": 0.0648
+    },
+    "earnings": "2027-02-02"
+   },
+   "datum": "2026-11-20",
+   "kurs": 424.39,
+   "tag_pct": -0.1325,
+   "stop": 356.2789,
+   "ziel": 519.3946,
+   "crv": 1.39,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.111,
+   "komponenten": {
+    "trend": 0.532,
+    "momentum": 0.971,
+    "rel_staerke": -0.052,
+    "akkumulation": -0.381,
+    "zone": 0.667,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+127%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Technology, 3 Monate +6%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.552,
+    "rendite_kauf_20t": 0.0531,
+    "treffer_alle_tage": 0.556,
+    "rendite_alle_tage_20t": 0.0481,
+    "cagr_strategie": 0.3953,
+    "cagr_halten": 0.4632,
+    "mdd_strategie": -0.494,
+    "mdd_halten": -0.6545
+   }
+  },
+  {
+   "ticker": "SAP",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": 13.3,
+   "basis_score": 9.5,
+   "zusatzpunkte": 3.8,
+   "extras": {
+    "qualitaet": -0.118,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": 0.0962
+    },
+    "earnings": "2027-01-28"
+   },
+   "datum": "2026-11-20",
+   "kurs": 198.93,
+   "tag_pct": -0.0212,
+   "stop": 173.5533,
+   "ziel": 245.23,
+   "crv": 1.82,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.099,
+   "komponenten": {
+    "trend": 0.526,
+    "momentum": 0.09,
+    "rel_staerke": 0.715,
+    "akkumulation": -0.818,
+    "zone": 1.0,
+    "volatilitaet": -0.5
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +20% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Technology, 3 Monate +10%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.568,
+    "rendite_kauf_20t": 0.0064,
+    "treffer_alle_tage": 0.57,
+    "rendite_alle_tage_20t": 0.0122,
+    "cagr_strategie": 0.0215,
+    "cagr_halten": 0.0877,
+    "mdd_strategie": -0.4945,
+    "mdd_halten": -0.5226
+   }
+  },
+  {
+   "ticker": "PLTR",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": 7.6,
+   "basis_score": 3.3,
+   "zusatzpunkte": 4.3,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 18
+    },
+    "qualitaet": 0.622,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": 0.0099
+    },
+    "earnings": "2027-02-01"
+   },
+   "datum": "2026-11-20",
+   "kurs": 143.49,
+   "tag_pct": -0.0663,
+   "stop": 125.7827,
+   "ziel": 179.5788,
+   "crv": 2.04,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.008,
+   "komponenten": {
+    "trend": 0.076,
+    "momentum": 0.367,
+    "rel_staerke": 0.334,
+    "akkumulation": -0.748,
+    "zone": 1.0,
+    "volatilitaet": -0.5
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+19%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +12% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Hohe Qualität: profitabel, wenig verschuldet (im Vergleich zur Watchlist)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.647,
+    "rendite_kauf_20t": 0.0798,
+    "treffer_alle_tage": 0.583,
+    "rendite_alle_tage_20t": 0.0545,
+    "cagr_strategie": 0.606,
+    "cagr_halten": 0.4275,
+    "mdd_strategie": -0.4061,
+    "mdd_halten": -0.7914
+   }
+  },
+  {
+   "ticker": "AMZN",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": 2.4,
+   "basis_score": 4.2,
+   "zusatzpunkte": -1.7,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 21
+    },
+    "qualitaet": -0.188,
+    "sektor": {
+     "name": "Consumer Cyclical",
+     "etf": "XLY",
+     "rs_3m": -0.0101
+    },
+    "earnings": "2027-02-04"
+   },
+   "datum": "2026-11-20",
+   "kurs": 246.82,
+   "tag_pct": -0.041,
+   "stop": 231.8666,
+   "ziel": 261.7735,
+   "crv": 1.0,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.263,
+   "komponenten": {
+    "trend": 0.409,
+    "momentum": 0.424,
+    "rel_staerke": -0.016,
+    "akkumulation": -0.612,
+    "zone": 1.0,
+    "volatilitaet": -0.984
+   },
+   "gruende": [
+    {
+     "richtung": "+",
+     "text": "Intakter Aufwärtstrend (über 200-Tage-Linie, Linie steigt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+12%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.585,
+    "rendite_kauf_20t": 0.009,
+    "treffer_alle_tage": 0.604,
+    "rendite_alle_tage_20t": 0.0156,
+    "cagr_strategie": 0.0807,
+    "cagr_halten": 0.1941,
+    "mdd_strategie": -0.4495,
+    "mdd_halten": -0.5615
+   }
+  },
+  {
+   "ticker": "JPM",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": -0.1,
+   "basis_score": 3.7,
+   "zusatzpunkte": -3.8,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 7
+    },
+    "qualitaet": -0.067,
+    "sektor": {
+     "name": "Financial Services",
+     "etf": "XLF",
+     "rs_3m": -0.0642
+    },
+    "earnings": "2027-01-14"
+   },
+   "datum": "2026-11-20",
+   "kurs": 310.53,
+   "tag_pct": -0.0303,
+   "stop": 290.7329,
+   "ziel": 341.6179,
+   "crv": 1.57,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.017,
+   "komponenten": {
+    "trend": 0.217,
+    "momentum": 0.61,
+    "rel_staerke": 0.614,
+    "akkumulation": -0.878,
+    "zone": 0.667,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+13%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +9% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der eigene Sektor (Financial Services, 3 Monate -6%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.582,
+    "rendite_kauf_20t": 0.0119,
+    "treffer_alle_tage": 0.596,
+    "rendite_alle_tage_20t": 0.0147,
+    "cagr_strategie": 0.0737,
+    "cagr_halten": 0.1749,
+    "mdd_strategie": -0.3381,
+    "mdd_halten": -0.4363
+   }
+  },
+  {
+   "ticker": "SPY",
+   "gruppe": "ETFs",
+   "signal": "HALTEN",
+   "score": -3.3,
+   "basis_score": -3.3,
+   "zusatzpunkte": 0.0,
+   "extras": {},
+   "datum": "2026-11-20",
+   "kurs": 689.81,
+   "tag_pct": -0.0364,
+   "stop": 655.8282,
+   "ziel": 751.2212,
+   "crv": 1.81,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.004,
+   "komponenten": {
+    "trend": 0.145,
+    "momentum": 0.894,
+    "rel_staerke": 0.0,
+    "akkumulation": -0.969,
+    "zone": 0.333,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+17%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.686,
+    "rendite_kauf_20t": 0.0089,
+    "treffer_alle_tage": 0.683,
+    "rendite_alle_tage_20t": 0.0117,
+    "cagr_strategie": 0.0641,
+    "cagr_halten": 0.1358,
+    "mdd_strategie": -0.28,
+    "mdd_halten": -0.3372
+   }
+  },
+  {
+   "ticker": "HD",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": -3.9,
+   "basis_score": -5.4,
+   "zusatzpunkte": 1.6,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 9
+    },
+    "qualitaet": -0.243,
+    "sektor": {
+     "name": "Consumer Cyclical",
+     "etf": "XLY",
+     "rs_3m": 0.0553
+    },
+    "earnings": "2027-02-23"
+   },
+   "datum": "2026-11-20",
+   "kurs": 339.04,
+   "tag_pct": 0.007,
+   "stop": 325.4332,
+   "ziel": 353.911,
+   "crv": 1.09,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.755,
+   "komponenten": {
+    "trend": -0.239,
+    "momentum": 0.034,
+    "rel_staerke": 0.799,
+    "akkumulation": 0.0,
+    "zone": 0.0,
+    "volatilitaet": -0.762
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +17% relativ)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Consumer Cyclical, 3 Monate +6%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.544,
+    "rendite_kauf_20t": 0.0019,
+    "treffer_alle_tage": 0.567,
+    "rendite_alle_tage_20t": 0.0101,
+    "cagr_strategie": -0.046,
+    "cagr_halten": 0.1142,
+    "mdd_strategie": -0.4572,
+    "mdd_halten": -0.3799
+   }
+  },
+  {
+   "ticker": "CRM",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": -5.8,
+   "basis_score": -10.5,
+   "zusatzpunkte": 4.7,
+   "extras": {
+    "insider": {
+     "kaeufer": 1,
+     "summe_usd": 999451,
+     "kaeufe": 1,
+     "filings_geprueft": 21
+    },
+    "qualitaet": -0.418,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": 0.0588
+    },
+    "earnings": "2026-12-02"
+   },
+   "datum": "2026-11-20",
+   "kurs": 180.62,
+   "tag_pct": -0.0147,
+   "stop": 161.2768,
+   "ziel": 234.3035,
+   "crv": 2.78,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.024,
+   "komponenten": {
+    "trend": -0.05,
+    "momentum": 0.272,
+    "rel_staerke": 0.277,
+    "akkumulation": -0.952,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Insiderkauf: ein Manager kaufte für $999,451 am offenen Markt"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächere Qualität: geringe Profitabilität oder hohe Schulden"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Technology, 3 Monate +6%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.564,
+    "rendite_kauf_20t": 0.0059,
+    "treffer_alle_tage": 0.562,
+    "rendite_alle_tage_20t": 0.0111,
+    "cagr_strategie": -0.0349,
+    "cagr_halten": 0.0737,
+    "mdd_strategie": -0.4967,
+    "mdd_halten": -0.5867
+   }
+  },
+  {
+   "ticker": "TLT",
+   "gruppe": "ETFs",
+   "signal": "HALTEN",
+   "score": -6.8,
+   "basis_score": -6.8,
+   "zusatzpunkte": 0.0,
+   "extras": {},
+   "datum": "2026-11-20",
+   "kurs": 81.45,
+   "tag_pct": 0.0137,
+   "stop": 80.2666,
+   "ziel": 82.6334,
+   "crv": 1.0,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.786,
+   "komponenten": {
+    "trend": -0.411,
+    "momentum": -0.481,
+    "rel_staerke": 0.759,
+    "akkumulation": 0.575,
+    "zone": 0.0,
+    "volatilitaet": -0.246
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-4%)"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +6% relativ)"
+    },
+    {
+     "richtung": "+",
+     "text": "Volumen deutet auf Akkumulation (Käufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.53,
+    "rendite_kauf_20t": 0.0081,
+    "treffer_alle_tage": 0.474,
+    "rendite_alle_tage_20t": -0.0004,
+    "cagr_strategie": 0.0073,
+    "cagr_halten": -0.0198,
+    "mdd_strategie": -0.2269,
+    "mdd_halten": -0.4835
+   }
+  },
+  {
+   "ticker": "XLK",
+   "gruppe": "ETFs",
+   "signal": "HALTEN",
+   "score": -7.4,
+   "basis_score": -7.4,
+   "zusatzpunkte": 0.0,
+   "extras": {},
+   "datum": "2026-11-20",
+   "kurs": 149.01,
+   "tag_pct": -0.0727,
+   "stop": 133.5164,
+   "ziel": 175.4691,
+   "crv": 1.71,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.003,
+   "komponenten": {
+    "trend": 0.084,
+    "momentum": 0.858,
+    "rel_staerke": -0.542,
+    "akkumulation": -0.934,
+    "zone": 0.667,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+30%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -10% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Liquiditäts-Sweep: Tief unterschritten und sofort zurückerobert"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.653,
+    "rendite_kauf_20t": 0.0144,
+    "treffer_alle_tage": 0.652,
+    "rendite_alle_tage_20t": 0.018,
+    "cagr_strategie": 0.1488,
+    "cagr_halten": 0.2061,
+    "mdd_strategie": -0.3115,
+    "mdd_halten": -0.3356
+   }
+  },
+  {
+   "ticker": "UNH",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": -9.4,
+   "basis_score": -0.3,
+   "zusatzpunkte": -9.2,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 25
+    },
+    "qualitaet": -0.616,
+    "sektor": {
+     "name": "Healthcare",
+     "etf": "XLV",
+     "rs_3m": -0.1528
+    },
+    "earnings": "2027-01-12"
+   },
+   "datum": "2026-11-20",
+   "kurs": 339.85,
+   "tag_pct": 0.0284,
+   "stop": 301.4436,
+   "ziel": 392.8652,
+   "crv": 1.38,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.147,
+   "komponenten": {
+    "trend": 0.208,
+    "momentum": 0.886,
+    "rel_staerke": -0.212,
+    "akkumulation": -0.845,
+    "zone": 0.667,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+41%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächere Qualität: geringe Profitabilität oder hohe Schulden"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der eigene Sektor (Healthcare, 3 Monate -15%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.551,
+    "rendite_kauf_20t": 0.0047,
+    "treffer_alle_tage": 0.575,
+    "rendite_alle_tage_20t": 0.0103,
+    "cagr_strategie": -0.0111,
+    "cagr_halten": 0.0784,
+    "mdd_strategie": -0.4949,
+    "mdd_halten": -0.6139
+   }
+  },
+  {
+   "ticker": "META",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": -11.0,
+   "basis_score": -16.2,
+   "zusatzpunkte": 5.1,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 25
+    },
+    "qualitaet": 0.102,
+    "sektor": {
+     "name": "Communication Services",
+     "etf": "XLC",
+     "rs_3m": 0.0979
+    },
+    "earnings": "2027-01-27"
+   },
+   "datum": "2026-11-20",
+   "kurs": 560.84,
+   "tag_pct": -0.0593,
+   "stop": 525.9308,
+   "ziel": 648.45,
+   "crv": 2.51,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.017,
+   "komponenten": {
+    "trend": -0.107,
+    "momentum": 0.296,
+    "rel_staerke": -0.039,
+    "akkumulation": -0.955,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der eigene Sektor (Communication Services, 3 Monate +10%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.614,
+    "rendite_kauf_20t": 0.0178,
+    "treffer_alle_tage": 0.583,
+    "rendite_alle_tage_20t": 0.0175,
+    "cagr_strategie": 0.0745,
+    "cagr_halten": 0.1384,
+    "mdd_strategie": -0.4422,
+    "mdd_halten": -0.7674
+   }
+  },
+  {
+   "ticker": "TSM",
+   "gruppe": "Aktien",
+   "signal": "HALTEN",
+   "score": -11.9,
+   "basis_score": -12.4,
+   "zusatzpunkte": 0.4,
+   "extras": {
+    "qualitaet": 0.574,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": -0.0553
+    },
+    "earnings": "2027-01-14"
+   },
+   "datum": "2026-11-20",
+   "kurs": 318.71,
+   "tag_pct": -0.0948,
+   "stop": 271.0678,
+   "ziel": 400.8821,
+   "crv": 1.72,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.003,
+   "komponenten": {
+    "trend": 0.048,
+    "momentum": 0.878,
+    "rel_staerke": -0.509,
+    "akkumulation": -0.933,
+    "zone": 0.333,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+48%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -14% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Hohe Qualität: profitabel, wenig verschuldet (im Vergleich zur Watchlist)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der eigene Sektor (Technology, 3 Monate -6%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.601,
+    "rendite_kauf_20t": 0.0258,
+    "treffer_alle_tage": 0.602,
+    "rendite_alle_tage_20t": 0.0267,
+    "cagr_strategie": 0.1912,
+    "cagr_halten": 0.291,
+    "mdd_strategie": -0.3724,
+    "mdd_halten": -0.5647
+   }
+  },
+  {
+   "ticker": "LINK-USD",
+   "gruppe": "Krypto",
+   "signal": "HALTEN",
+   "score": -11.9,
+   "basis_score": -11.9,
+   "zusatzpunkte": 0.0,
+   "extras": {
+    "funding": {
+     "rate_8h_avg": 1.1681148947980955e-05,
+     "boerse": "okx",
+     "n": 21
+    }
+   },
+   "datum": "2026-11-20",
+   "kurs": 8.5309,
+   "tag_pct": -0.0511,
+   "stop": 7.0675,
+   "ziel": 11.9129,
+   "crv": 2.31,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.006,
+   "komponenten": {
+    "trend": -0.006,
+    "momentum": -0.064,
+    "rel_staerke": 0.327,
+    "akkumulation": -0.862,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Stärker als der Gesamtmarkt (6 Monate +13% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.5,
+    "rendite_kauf_20t": 0.0598,
+    "treffer_alle_tage": 0.534,
+    "rendite_alle_tage_20t": 0.0549,
+    "cagr_strategie": 0.1158,
+    "cagr_halten": 0.4495,
+    "mdd_strategie": -0.9698,
+    "mdd_halten": -0.9019
+   }
+  },
+  {
+   "ticker": "SMH",
+   "gruppe": "ETFs",
+   "signal": "HALTEN",
+   "score": -13.9,
+   "basis_score": -13.9,
+   "zusatzpunkte": 0.0,
+   "extras": {},
+   "datum": "2026-11-20",
+   "kurs": 400.06,
+   "tag_pct": -0.106,
+   "stop": 334.7433,
+   "ziel": 555.2783,
+   "crv": 2.38,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.003,
+   "komponenten": {
+    "trend": 0.069,
+    "momentum": 0.912,
+    "rel_staerke": -0.735,
+    "akkumulation": -0.889,
+    "zone": 0.333,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+55%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -24% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.639,
+    "rendite_kauf_20t": 0.0233,
+    "treffer_alle_tage": 0.633,
+    "rendite_alle_tage_20t": 0.0255,
+    "cagr_strategie": 0.1869,
+    "cagr_halten": 0.2832,
+    "mdd_strategie": -0.4019,
+    "mdd_halten": -0.453
+   }
+  },
+  {
+   "ticker": "ASML",
+   "gruppe": "Aktien",
+   "signal": "VERKAUFEN",
+   "score": -15.2,
+   "basis_score": -14.7,
+   "zusatzpunkte": -0.4,
+   "extras": {
+    "qualitaet": 0.666,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": -0.0939
+    },
+    "earnings": "2027-01-27"
+   },
+   "datum": "2026-11-20",
+   "kurs": 1266.22,
+   "tag_pct": -0.0663,
+   "stop": 1094.6173,
+   "ziel": 1673.9844,
+   "crv": 2.38,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.003,
+   "komponenten": {
+    "trend": -0.008,
+    "momentum": 0.859,
+    "rel_staerke": -0.497,
+    "akkumulation": -0.902,
+    "zone": 0.0,
+    "volatilitaet": -0.623
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+51%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -15% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Hohe Qualität: profitabel, wenig verschuldet (im Vergleich zur Watchlist)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der eigene Sektor (Technology, 3 Monate -9%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.608,
+    "rendite_kauf_20t": 0.0258,
+    "treffer_alle_tage": 0.598,
+    "rendite_alle_tage_20t": 0.025,
+    "cagr_strategie": 0.2033,
+    "cagr_halten": 0.2672,
+    "mdd_strategie": -0.3794,
+    "mdd_halten": -0.5686
+   }
+  },
+  {
+   "ticker": "QQQ",
+   "gruppe": "ETFs",
+   "signal": "VERKAUFEN",
+   "score": -15.3,
+   "basis_score": -15.3,
+   "zusatzpunkte": 0.0,
+   "extras": {},
+   "datum": "2026-11-20",
+   "kurs": 608.45,
+   "tag_pct": -0.0567,
+   "stop": 561.5173,
+   "ziel": 689.8722,
+   "crv": 1.73,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.003,
+   "komponenten": {
+    "trend": 0.036,
+    "momentum": 0.763,
+    "rel_staerke": -0.559,
+    "akkumulation": -0.906,
+    "zone": 0.333,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+18%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -8% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "+",
+     "text": "Rücksetzer im Aufwärtstrend"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.658,
+    "rendite_kauf_20t": 0.0128,
+    "treffer_alle_tage": 0.653,
+    "rendite_alle_tage_20t": 0.0153,
+    "cagr_strategie": 0.1387,
+    "cagr_halten": 0.1765,
+    "mdd_strategie": -0.2856,
+    "mdd_halten": -0.3512
+   }
+  },
+  {
+   "ticker": "BNB-USD",
+   "gruppe": "Krypto",
+   "signal": "VERKAUFEN",
+   "score": -19.5,
+   "basis_score": -19.5,
+   "zusatzpunkte": 0.0,
+   "extras": {
+    "funding": {
+     "rate_8h_avg": 1.157331668865238e-05,
+     "boerse": "okx",
+     "n": 21
+    }
+   },
+   "datum": "2026-11-20",
+   "kurs": 539.003,
+   "tag_pct": -0.07,
+   "stop": 476.6594,
+   "ziel": 673.4847,
+   "crv": 2.16,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.002,
+   "komponenten": {
+    "trend": -0.057,
+    "momentum": -0.368,
+    "rel_staerke": 0.198,
+    "akkumulation": -0.58,
+    "zone": 0.0,
+    "volatilitaet": -0.247
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-14%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.556,
+    "rendite_kauf_20t": 0.0771,
+    "treffer_alle_tage": 0.571,
+    "rendite_alle_tage_20t": 0.0599,
+    "cagr_strategie": 0.4176,
+    "cagr_halten": 0.5539,
+    "mdd_strategie": -0.7209,
+    "mdd_halten": -0.7582
+   }
+  },
+  {
+   "ticker": "BTC-USD",
+   "gruppe": "Krypto",
+   "signal": "VERKAUFEN",
+   "score": -22.7,
+   "basis_score": -22.7,
+   "zusatzpunkte": 0.0,
+   "extras": {
+    "funding": {
+     "rate_8h_avg": 1.9342726846619044e-06,
+     "boerse": "okx",
+     "n": 21
+    }
+   },
+   "datum": "2026-11-20",
+   "kurs": 58798.9805,
+   "tag_pct": -0.0501,
+   "stop": 51905.349,
+   "ziel": 73321.6877,
+   "crv": 2.11,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.001,
+   "komponenten": {
+    "trend": -0.173,
+    "momentum": -0.085,
+    "rel_staerke": 0.0,
+    "akkumulation": -0.793,
+    "zone": 0.0,
+    "volatilitaet": -0.233
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.485,
+    "rendite_kauf_20t": 0.0174,
+    "treffer_alle_tage": 0.524,
+    "rendite_alle_tage_20t": 0.0229,
+    "cagr_strategie": 0.0409,
+    "cagr_halten": 0.3832,
+    "mdd_strategie": -0.732,
+    "mdd_halten": -0.834
+   }
+  },
+  {
+   "ticker": "ETH-USD",
+   "gruppe": "Krypto",
+   "signal": "VERKAUFEN",
+   "score": -22.7,
+   "basis_score": -22.7,
+   "zusatzpunkte": 0.0,
+   "extras": {
+    "funding": {
+     "rate_8h_avg": -2.997025456905238e-05,
+     "boerse": "okx",
+     "n": 21
+    }
+   },
+   "datum": "2026-11-20",
+   "kurs": 1619.4321,
+   "tag_pct": -0.0773,
+   "stop": 1354.2549,
+   "ziel": 2323.3085,
+   "crv": 2.65,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.003,
+   "komponenten": {
+    "trend": -0.225,
+    "momentum": -0.256,
+    "rel_staerke": 0.016,
+    "akkumulation": -0.637,
+    "zone": 0.0,
+    "volatilitaet": -0.014
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.477,
+    "rendite_kauf_20t": 0.0387,
+    "treffer_alle_tage": 0.514,
+    "rendite_alle_tage_20t": 0.0379,
+    "cagr_strategie": 0.0831,
+    "cagr_halten": 0.1269,
+    "mdd_strategie": -0.8043,
+    "mdd_halten": -0.8637
+   }
+  },
+  {
+   "ticker": "SOL-USD",
+   "gruppe": "Krypto",
+   "signal": "VERKAUFEN",
+   "score": -24.0,
+   "basis_score": -24.0,
+   "zusatzpunkte": 0.0,
+   "extras": {
+    "funding": {
+     "rate_8h_avg": -5.35745736578762e-05,
+     "boerse": "okx",
+     "n": 21
+    }
+   },
+   "datum": "2026-11-20",
+   "kurs": 68.7475,
+   "tag_pct": -0.0591,
+   "stop": 62.1817,
+   "ziel": 91.9059,
+   "crv": 3.53,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.003,
+   "komponenten": {
+    "trend": -0.13,
+    "momentum": -0.382,
+    "rel_staerke": 0.103,
+    "akkumulation": -0.812,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-20%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.475,
+    "rendite_kauf_20t": 0.0729,
+    "treffer_alle_tage": 0.474,
+    "rendite_alle_tage_20t": 0.0435,
+    "cagr_strategie": 0.3443,
+    "cagr_halten": 0.8237,
+    "mdd_strategie": -0.7094,
+    "mdd_halten": -0.9627
+   }
+  },
+  {
+   "ticker": "IWM",
+   "gruppe": "ETFs",
+   "signal": "VERKAUFEN",
+   "score": -26.1,
+   "basis_score": -26.1,
+   "zusatzpunkte": 0.0,
+   "extras": {},
+   "datum": "2026-11-20",
+   "kurs": 256.61,
+   "tag_pct": -0.0288,
+   "stop": 242.9947,
+   "ziel": 281.581,
+   "crv": 1.83,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.02,
+   "komponenten": {
+    "trend": -0.549,
+    "momentum": 0.86,
+    "rel_staerke": -0.23,
+    "akkumulation": -0.772,
+    "zone": 0.0,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+20%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.573,
+    "rendite_kauf_20t": 0.004,
+    "treffer_alle_tage": 0.59,
+    "rendite_alle_tage_20t": 0.0087,
+    "cagr_strategie": -0.0065,
+    "cagr_halten": 0.082,
+    "mdd_strategie": -0.404,
+    "mdd_halten": -0.4113
+   }
+  },
+  {
+   "ticker": "AVAX-USD",
+   "gruppe": "Krypto",
+   "signal": "VERKAUFEN",
+   "score": -33.8,
+   "basis_score": -33.8,
+   "zusatzpunkte": 0.0,
+   "extras": {
+    "funding": {
+     "rate_8h_avg": -7.987731949995714e-05,
+     "boerse": "okx",
+     "n": 21
+    }
+   },
+   "datum": "2026-11-20",
+   "kurs": 6.5106,
+   "tag_pct": -0.0675,
+   "stop": 5.7371,
+   "ziel": 9.093,
+   "crv": 3.34,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.025,
+   "komponenten": {
+    "trend": -0.247,
+    "momentum": -0.475,
+    "rel_staerke": -0.161,
+    "akkumulation": -0.672,
+    "zone": 0.0,
+    "volatilitaet": -0.315
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-30%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.4,
+    "rendite_kauf_20t": -0.0138,
+    "treffer_alle_tage": 0.43,
+    "rendite_alle_tage_20t": -0.0011,
+    "cagr_strategie": -0.1469,
+    "cagr_halten": -0.2446,
+    "mdd_strategie": -0.7854,
+    "mdd_halten": -0.9561
+   }
+  },
+  {
+   "ticker": "NVDA",
+   "gruppe": "Aktien",
+   "signal": "VERKAUFEN",
+   "score": -37.6,
+   "basis_score": -36.9,
+   "zusatzpunkte": -0.7,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 16
+    },
+    "qualitaet": 0.864,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": -0.231
+    },
+    "earnings": "2027-02-24"
+   },
+   "datum": "2026-11-20",
+   "kurs": 125.53,
+   "tag_pct": -0.1401,
+   "stop": 98.7667,
+   "ziel": 141.588,
+   "crv": 0.6,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.001,
+   "komponenten": {
+    "trend": -0.114,
+    "momentum": 0.402,
+    "rel_staerke": -0.902,
+    "akkumulation": -0.941,
+    "zone": 0.0,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "0",
+     "text": "Kein klarer Trend"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+14%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -35% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Hohe Qualität: profitabel, wenig verschuldet (im Vergleich zur Watchlist)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der eigene Sektor (Technology, 3 Monate -23%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.637,
+    "rendite_kauf_20t": 0.0423,
+    "treffer_alle_tage": 0.634,
+    "rendite_alle_tage_20t": 0.041,
+    "cagr_strategie": 0.4172,
+    "cagr_halten": 0.4518,
+    "mdd_strategie": -0.3908,
+    "mdd_halten": -0.6634
+   }
+  },
+  {
+   "ticker": "ADA-USD",
+   "gruppe": "Krypto",
+   "signal": "VERKAUFEN",
+   "score": -39.2,
+   "basis_score": -39.2,
+   "zusatzpunkte": 0.0,
+   "extras": {
+    "funding": {
+     "rate_8h_avg": -4.677052629046667e-05,
+     "boerse": "okx",
+     "n": 21
+    }
+   },
+   "datum": "2026-11-20",
+   "kurs": 0.1429,
+   "tag_pct": -0.0576,
+   "stop": 0.1175,
+   "ziel": 0.2008,
+   "crv": 2.28,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.016,
+   "komponenten": {
+    "trend": -0.354,
+    "momentum": -0.661,
+    "rel_staerke": -0.416,
+    "akkumulation": -0.56,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-48%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -19% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.444,
+    "rendite_kauf_20t": 0.061,
+    "treffer_alle_tage": 0.461,
+    "rendite_alle_tage_20t": 0.0407,
+    "cagr_strategie": 0.1182,
+    "cagr_halten": -0.0368,
+    "mdd_strategie": -0.8096,
+    "mdd_halten": -0.9519
+   }
+  },
+  {
+   "ticker": "XRP-USD",
+   "gruppe": "Krypto",
+   "signal": "VERKAUFEN",
+   "score": -39.3,
+   "basis_score": -39.3,
+   "zusatzpunkte": 0.0,
+   "extras": {
+    "funding": {
+     "rate_8h_avg": -2.2279159631590472e-05,
+     "boerse": "okx",
+     "n": 21
+    }
+   },
+   "datum": "2026-11-20",
+   "kurs": 0.9097,
+   "tag_pct": -0.0522,
+   "stop": 0.8267,
+   "ziel": 1.3353,
+   "crv": 5.13,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.003,
+   "komponenten": {
+    "trend": -0.308,
+    "momentum": -0.549,
+    "rel_staerke": -0.26,
+    "akkumulation": -0.948,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-32%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.39,
+    "rendite_kauf_20t": 0.0348,
+    "treffer_alle_tage": 0.437,
+    "rendite_alle_tage_20t": 0.039,
+    "cagr_strategie": 0.0719,
+    "cagr_halten": 0.0476,
+    "mdd_strategie": -0.8238,
+    "mdd_halten": -0.8325
+   }
+  },
+  {
+   "ticker": "TSLA",
+   "gruppe": "Aktien",
+   "signal": "STARK VERKAUFEN",
+   "score": -45.1,
+   "basis_score": -44.5,
+   "zusatzpunkte": -0.6,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 1
+    },
+    "qualitaet": -0.405,
+    "sektor": {
+     "name": "Consumer Cyclical",
+     "etf": "XLY",
+     "rs_3m": 0.0318
+    },
+    "earnings": "2027-01-27"
+   },
+   "datum": "2026-11-20",
+   "kurs": 345.82,
+   "tag_pct": -0.0764,
+   "stop": 320.1094,
+   "ziel": 393.4776,
+   "crv": 1.85,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.218,
+   "komponenten": {
+    "trend": -0.745,
+    "momentum": -0.195,
+    "rel_staerke": -0.424,
+    "akkumulation": -0.195,
+    "zone": 0.0,
+    "volatilitaet": -0.821
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -12% relativ)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächere Qualität: geringe Profitabilität oder hohe Schulden"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.541,
+    "rendite_kauf_20t": 0.0535,
+    "treffer_alle_tage": 0.542,
+    "rendite_alle_tage_20t": 0.0441,
+    "cagr_strategie": 0.153,
+    "cagr_halten": 0.3434,
+    "mdd_strategie": -0.6439,
+    "mdd_halten": -0.7363
+   }
+  },
+  {
+   "ticker": "AVGO",
+   "gruppe": "Aktien",
+   "signal": "STARK VERKAUFEN",
+   "score": -45.5,
+   "basis_score": -49.0,
+   "zusatzpunkte": 3.5,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 3
+    },
+    "qualitaet": 0.254,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": 0.034
+    },
+    "earnings": "2026-12-09"
+   },
+   "datum": "2026-11-20",
+   "kurs": 304.41,
+   "tag_pct": -0.1219,
+   "stop": 274.3834,
+   "ziel": 367.0625,
+   "crv": 2.09,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.112,
+   "komponenten": {
+    "trend": -0.684,
+    "momentum": -0.199,
+    "rel_staerke": -0.589,
+    "akkumulation": -0.308,
+    "zone": 0.0,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -19% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.624,
+    "rendite_kauf_20t": 0.0266,
+    "treffer_alle_tage": 0.637,
+    "rendite_alle_tage_20t": 0.0316,
+    "cagr_strategie": 0.2532,
+    "cagr_halten": 0.3493,
+    "mdd_strategie": -0.4115,
+    "mdd_halten": -0.483
+   }
+  },
+  {
+   "ticker": "ADBE",
+   "gruppe": "Aktien",
+   "signal": "STARK VERKAUFEN",
+   "score": -49.4,
+   "basis_score": -49.0,
+   "zusatzpunkte": -0.4,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 12
+    },
+    "qualitaet": 0.189,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": -0.0261
+    },
+    "earnings": "2026-12-09"
+   },
+   "datum": "2026-11-20",
+   "kurs": 217.71,
+   "tag_pct": -0.0179,
+   "stop": 195.3572,
+   "ziel": 253.6859,
+   "crv": 1.61,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.25,
+   "komponenten": {
+    "trend": -0.854,
+    "momentum": -0.419,
+    "rel_staerke": -0.169,
+    "akkumulation": -0.817,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-15%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.587,
+    "rendite_kauf_20t": 0.0145,
+    "treffer_alle_tage": 0.538,
+    "rendite_alle_tage_20t": 0.0065,
+    "cagr_strategie": 0.1086,
+    "cagr_halten": 0.0386,
+    "mdd_strategie": -0.3503,
+    "mdd_halten": -0.719
+   }
+  },
+  {
+   "ticker": "NVO",
+   "gruppe": "Aktien",
+   "signal": "STARK VERKAUFEN",
+   "score": -51.1,
+   "basis_score": -46.3,
+   "zusatzpunkte": -4.8,
+   "extras": {
+    "qualitaet": 0.186,
+    "sektor": {
+     "name": "Healthcare",
+     "etf": "XLV",
+     "rs_3m": -0.2378
+    },
+    "earnings": "2027-02-03"
+   },
+   "datum": "2026-11-20",
+   "kurs": 37.82,
+   "tag_pct": -0.027,
+   "stop": 36.1271,
+   "ziel": 42.3156,
+   "crv": 2.66,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.402,
+   "komponenten": {
+    "trend": -0.893,
+    "momentum": -0.403,
+    "rel_staerke": -0.294,
+    "akkumulation": -0.469,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-16%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs in der Value Area (Zone mit viel gehandeltem Volumen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der eigene Sektor (Healthcare, 3 Monate -24%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.603,
+    "rendite_kauf_20t": 0.0177,
+    "treffer_alle_tage": 0.585,
+    "rendite_alle_tage_20t": 0.0103,
+    "cagr_strategie": 0.1197,
+    "cagr_halten": 0.0747,
+    "mdd_strategie": -0.3483,
+    "mdd_halten": -0.747
+   }
+  },
+  {
+   "ticker": "GLD",
+   "gruppe": "ETFs",
+   "signal": "STARK VERKAUFEN",
+   "score": -51.7,
+   "basis_score": -51.7,
+   "zusatzpunkte": 0.0,
+   "extras": {},
+   "datum": "2026-11-20",
+   "kurs": 322.87,
+   "tag_pct": -0.0367,
+   "stop": 304.3157,
+   "ziel": 380.18,
+   "crv": 3.09,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.001,
+   "komponenten": {
+    "trend": -0.872,
+    "momentum": -0.068,
+    "rel_staerke": -0.718,
+    "akkumulation": -0.883,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -15% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.555,
+    "rendite_kauf_20t": 0.0121,
+    "treffer_alle_tage": 0.566,
+    "rendite_alle_tage_20t": 0.0106,
+    "cagr_strategie": 0.082,
+    "cagr_halten": 0.1071,
+    "mdd_strategie": -0.3006,
+    "mdd_halten": -0.3489
+   }
+  },
+  {
+   "ticker": "GOOGL",
+   "gruppe": "Aktien",
+   "signal": "STARK VERKAUFEN",
+   "score": -55.3,
+   "basis_score": -53.3,
+   "zusatzpunkte": -2.0,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 25
+    },
+    "qualitaet": 0.505,
+    "sektor": {
+     "name": "Communication Services",
+     "etf": "XLC",
+     "rs_3m": -0.1216
+    },
+    "earnings": "2027-02-03"
+   },
+   "datum": "2026-11-20",
+   "kurs": 265.29,
+   "tag_pct": -0.027,
+   "stop": 237.0031,
+   "ziel": 326.41,
+   "crv": 2.16,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.012,
+   "komponenten": {
+    "trend": -0.815,
+    "momentum": 0.387,
+    "rel_staerke": -0.845,
+    "akkumulation": -0.897,
+    "zone": 0.0,
+    "volatilitaet": -1.0
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "+",
+     "text": "Starkes 12-Monats-Momentum (+11%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -24% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Hohe Qualität: profitabel, wenig verschuldet (im Vergleich zur Watchlist)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der eigene Sektor (Communication Services, 3 Monate -12%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.589,
+    "rendite_kauf_20t": 0.0161,
+    "treffer_alle_tage": 0.614,
+    "rendite_alle_tage_20t": 0.0186,
+    "cagr_strategie": 0.11,
+    "cagr_halten": 0.2083,
+    "mdd_strategie": -0.3657,
+    "mdd_halten": -0.4432
+   }
+  },
+  {
+   "ticker": "DOGE-USD",
+   "gruppe": "Krypto",
+   "signal": "STARK VERKAUFEN",
+   "score": -57.9,
+   "basis_score": -57.9,
+   "zusatzpunkte": 0.0,
+   "extras": {
+    "funding": {
+     "rate_8h_avg": -7.841202054428573e-06,
+     "boerse": "okx",
+     "n": 21
+    }
+   },
+   "datum": "2026-11-20",
+   "kurs": 0.0543,
+   "tag_pct": -0.066,
+   "stop": 0.0455,
+   "ziel": 0.078,
+   "crv": 2.7,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.002,
+   "komponenten": {
+    "trend": -0.959,
+    "momentum": -0.695,
+    "rel_staerke": -0.583,
+    "akkumulation": -0.583,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-45%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -25% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.398,
+    "rendite_kauf_20t": 0.1399,
+    "treffer_alle_tage": 0.457,
+    "rendite_alle_tage_20t": 0.0917,
+    "cagr_strategie": 0.4638,
+    "cagr_halten": 0.3827,
+    "mdd_strategie": -0.7818,
+    "mdd_halten": -0.9226
+   }
+  },
+  {
+   "ticker": "ORCL",
+   "gruppe": "Aktien",
+   "signal": "STARK VERKAUFEN",
+   "score": -73.0,
+   "basis_score": -74.6,
+   "zusatzpunkte": 1.6,
+   "extras": {
+    "insider": {
+     "kaeufer": 1,
+     "summe_usd": 3483800,
+     "kaeufe": 1,
+     "filings_geprueft": 25
+    },
+    "qualitaet": -0.242,
+    "sektor": {
+     "name": "Technology",
+     "etf": "XLK",
+     "rs_3m": -0.1193
+    },
+    "earnings": "2026-12-14"
+   },
+   "datum": "2026-11-20",
+   "kurs": 101.19,
+   "tag_pct": -0.0848,
+   "stop": 81.3496,
+   "ziel": 143.7657,
+   "crv": 2.15,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.083,
+   "komponenten": {
+    "trend": -0.941,
+    "momentum": -0.717,
+    "rel_staerke": -0.823,
+    "akkumulation": -0.722,
+    "zone": 0.0,
+    "volatilitaet": -0.901
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-44%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -40% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Ungewöhnlich hohe Schwankung – erhöhtes Risiko"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "+",
+     "text": "Insiderkäufe: ein Manager kaufte in 90 Tagen für $3,483,800 am offenen Markt"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der eigene Sektor (Technology, 3 Monate -12%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.545,
+    "rendite_kauf_20t": 0.011,
+    "treffer_alle_tage": 0.568,
+    "rendite_alle_tage_20t": 0.0148,
+    "cagr_strategie": 0.1004,
+    "cagr_halten": 0.0936,
+    "mdd_strategie": -0.4555,
+    "mdd_halten": -0.6871
+   }
+  },
+  {
+   "ticker": "NFLX",
+   "gruppe": "Aktien",
+   "signal": "STARK VERKAUFEN",
+   "score": -76.2,
+   "basis_score": -71.1,
+   "zusatzpunkte": -5.1,
+   "extras": {
+    "insider": {
+     "kaeufer": 0,
+     "summe_usd": 0,
+     "kaeufe": 0,
+     "filings_geprueft": 25
+    },
+    "qualitaet": 0.12,
+    "sektor": {
+     "name": "Communication Services",
+     "etf": "XLC",
+     "rs_3m": -0.1968
+    },
+    "earnings": "2027-01-19"
+   },
+   "datum": "2026-11-20",
+   "kurs": 56.73,
+   "tag_pct": -0.0296,
+   "stop": 51.7917,
+   "ziel": 67.82,
+   "crv": 2.25,
+   "stueck_10k_1pct": 0.0,
+   "positionswert_10k_1pct": 0.0,
+   "ext_pct": 0.02,
+   "komponenten": {
+    "trend": -0.921,
+    "momentum": -0.875,
+    "rel_staerke": -0.89,
+    "akkumulation": -0.85,
+    "zone": 0.0,
+    "volatilitaet": -0.0
+   },
+   "gruende": [
+    {
+     "richtung": "-",
+     "text": "Abwärtstrend (unter 200-Tage-Linie oder Linie fällt)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwaches 12-Monats-Momentum (-39%)"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der Gesamtmarkt (6 Monate -29% relativ)"
+    },
+    {
+     "richtung": "-",
+     "text": "Volumen deutet auf Distribution (Verkäufe überwiegen)"
+    },
+    {
+     "richtung": "0",
+     "text": "Kurs nahe dem Durchschnittspreis seit dem 52-Wochen-Tief (Anchored VWAP)"
+    },
+    {
+     "richtung": "-",
+     "text": "Gesamtmarkt im Risk-Off – Kaufsignale werden abgeschwächt"
+    },
+    {
+     "richtung": "-",
+     "text": "Schwächer als der eigene Sektor (Communication Services, 3 Monate -20%)"
+    }
+   ],
+   "hist": {
+    "treffer_kauf": 0.582,
+    "rendite_kauf_20t": 0.0165,
+    "treffer_alle_tage": 0.557,
+    "rendite_alle_tage_20t": 0.0149,
+    "cagr_strategie": 0.1515,
+    "cagr_halten": 0.1336,
+    "mdd_strategie": -0.5334,
+    "mdd_halten": -0.7595
+   }
+  }
+ ]
+}

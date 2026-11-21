@@ -1,0 +1,737 @@
+{
+ "erstellt_utc": "2026-11-21T15:55:54+00:00",
+ "werte": {
+  "AAPL": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 1.42257,
+    "profitMargins": 0.27604,
+    "debtToEquity": 84.286,
+    "grossMargins": 0.48786,
+    "_zeit": "2026-11-20T16:07:22+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-28",
+    "_zeit": "2026-11-21T13:08:18+00:00"
+   },
+   "qualitaet": 0.116,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:58:28+00:00"
+   }
+  },
+  "MSFT": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 0.34221,
+    "profitMargins": 0.41169998,
+    "debtToEquity": 28.465,
+    "grossMargins": 0.67657,
+    "_zeit": "2026-11-20T16:07:22+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-27",
+    "_zeit": "2026-11-21T13:08:18+00:00"
+   },
+   "qualitaet": 0.258,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:58:33+00:00"
+   }
+  },
+  "NVDA": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 1.17364,
+    "profitMargins": 0.62535,
+    "debtToEquity": 14.306,
+    "grossMargins": 0.74921,
+    "_zeit": "2026-11-20T16:07:23+00:00"
+   },
+   "earnings": {
+    "datum": "2027-02-24",
+    "_zeit": "2026-11-21T13:08:18+00:00"
+   },
+   "qualitaet": 0.864,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 16,
+    "version": 2,
+    "_zeit": "2026-11-20T21:58:36+00:00"
+   }
+  },
+  "AMZN": {
+   "info": {
+    "sector": "Consumer Cyclical",
+    "returnOnEquity": 0.27416,
+    "profitMargins": 0.16900998,
+    "debtToEquity": 49.681,
+    "grossMargins": 0.51374,
+    "_zeit": "2026-11-20T16:07:23+00:00"
+   },
+   "earnings": {
+    "datum": "2027-02-04",
+    "_zeit": "2026-11-21T13:08:18+00:00"
+   },
+   "qualitaet": -0.188,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 21,
+    "version": 2,
+    "_zeit": "2026-11-20T21:58:41+00:00"
+   }
+  },
+  "GOOGL": {
+   "info": {
+    "sector": "Communication Services",
+    "returnOnEquity": 0.44286,
+    "profitMargins": 0.50031,
+    "debtToEquity": 22.187,
+    "grossMargins": 0.60857,
+    "_zeit": "2026-11-20T16:07:23+00:00"
+   },
+   "earnings": {
+    "datum": "2027-02-03",
+    "_zeit": "2026-11-21T13:08:19+00:00"
+   },
+   "qualitaet": 0.505,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:58:46+00:00"
+   }
+  },
+  "META": {
+   "info": {
+    "sector": "Communication Services",
+    "returnOnEquity": 0.32264,
+    "profitMargins": 0.31145,
+    "debtToEquity": 42.161,
+    "grossMargins": 0.81034,
+    "_zeit": "2026-11-20T16:07:23+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-27",
+    "_zeit": "2026-11-21T13:08:19+00:00"
+   },
+   "qualitaet": 0.102,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:58:51+00:00"
+   }
+  },
+  "AVGO": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 0.44245,
+    "profitMargins": 0.42944,
+    "debtToEquity": 59.604,
+    "grossMargins": 0.75515,
+    "_zeit": "2026-11-20T16:07:24+00:00"
+   },
+   "earnings": {
+    "datum": "2026-12-09",
+    "_zeit": "2026-11-21T13:08:19+00:00"
+   },
+   "qualitaet": 0.254,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 3,
+    "version": 2,
+    "_zeit": "2026-11-20T21:58:53+00:00"
+   }
+  },
+  "TSLA": {
+   "info": {
+    "sector": "Consumer Cyclical",
+    "returnOnEquity": 0.03844,
+    "profitMargins": 0.031070001,
+    "debtToEquity": 18.295,
+    "grossMargins": 0.19285999,
+    "_zeit": "2026-11-20T16:07:24+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-27",
+    "_zeit": "2026-11-21T13:08:19+00:00"
+   },
+   "qualitaet": -0.405,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 1,
+    "version": 2,
+    "_zeit": "2026-11-20T21:58:53+00:00"
+   }
+  },
+  "BRK-B": {
+   "info": {
+    "sector": "Financial Services",
+    "returnOnEquity": 0.10574,
+    "profitMargins": 0.19497,
+    "debtToEquity": 17.127,
+    "grossMargins": 0.26602,
+    "_zeit": "2026-11-20T16:07:24+00:00"
+   },
+   "earnings": {
+    "datum": "2027-03-01",
+    "_zeit": "2026-11-21T13:08:19+00:00"
+   },
+   "qualitaet": -0.182,
+   "insider": {
+    "kaeufer": 1,
+    "summe_usd": 250207,
+    "kaeufe": 1,
+    "filings_geprueft": 13,
+    "version": 2,
+    "_zeit": "2026-11-20T21:58:55+00:00"
+   }
+  },
+  "JPM": {
+   "info": {
+    "sector": "Financial Services",
+    "returnOnEquity": 0.18013,
+    "profitMargins": 0.34592,
+    "debtToEquity": null,
+    "grossMargins": 0.0,
+    "_zeit": "2026-11-20T16:07:25+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-14",
+    "_zeit": "2026-11-21T13:08:19+00:00"
+   },
+   "qualitaet": -0.067,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 7,
+    "version": 2,
+    "_zeit": "2026-11-20T21:58:57+00:00"
+   }
+  },
+  "LLY": {
+   "info": {
+    "sector": "Healthcare",
+    "returnOnEquity": 0.86024004,
+    "profitMargins": 0.31898,
+    "debtToEquity": 122.925,
+    "grossMargins": 0.83634,
+    "_zeit": "2026-11-20T16:07:25+00:00"
+   },
+   "earnings": {
+    "datum": "2027-02-03",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": 0.092,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:03+00:00"
+   }
+  },
+  "V": {
+   "info": {
+    "sector": "Financial Services",
+    "returnOnEquity": 0.63507,
+    "profitMargins": 0.51203996,
+    "debtToEquity": 63.568,
+    "grossMargins": 0.97678,
+    "_zeit": "2026-11-20T16:07:25+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-26",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": 0.408,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 12,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:05+00:00"
+   }
+  },
+  "MA": {
+   "info": {
+    "sector": "Financial Services",
+    "returnOnEquity": 2.31366,
+    "profitMargins": 0.46732,
+    "debtToEquity": 355.163,
+    "grossMargins": 1.0,
+    "_zeit": "2026-11-20T16:07:25+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-28",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": 0.245,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 10,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:08+00:00"
+   }
+  },
+  "UNH": {
+   "info": {
+    "sector": "Healthcare",
+    "returnOnEquity": 0.15773,
+    "profitMargins": 0.03529,
+    "debtToEquity": 70.426,
+    "grossMargins": 0.20048,
+    "_zeit": "2026-11-20T16:07:26+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-12",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": -0.616,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:13+00:00"
+   }
+  },
+  "XOM": {
+   "info": {
+    "sector": "Energy",
+    "returnOnEquity": 0.15528,
+    "profitMargins": 0.10463,
+    "debtToEquity": 12.568,
+    "grossMargins": 0.29808,
+    "_zeit": "2026-11-20T16:07:26+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-29",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": -0.157,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 0,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:13+00:00"
+   }
+  },
+  "COST": {
+   "info": {
+    "sector": "Consumer Defensive",
+    "returnOnEquity": 0.28402,
+    "profitMargins": 0.03043,
+    "debtToEquity": 28.436,
+    "grossMargins": 0.12765999,
+    "_zeit": "2026-11-20T16:07:26+00:00"
+   },
+   "earnings": {
+    "datum": "2026-12-10",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": -0.252,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:19+00:00"
+   }
+  },
+  "NFLX": {
+   "info": {
+    "sector": "Communication Services",
+    "returnOnEquity": 0.53463,
+    "profitMargins": 0.29691,
+    "debtToEquity": 59.857,
+    "grossMargins": 0.50685,
+    "_zeit": "2026-11-20T16:07:26+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-19",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": 0.12,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:24+00:00"
+   }
+  },
+  "AMD": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 0.1196,
+    "profitMargins": 0.16769,
+    "debtToEquity": 13.469,
+    "grossMargins": 0.56,
+    "_zeit": "2026-11-20T16:07:27+00:00"
+   },
+   "earnings": {
+    "datum": "2027-02-02",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": -0.158,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 17,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:28+00:00"
+   }
+  },
+  "ORCL": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 0.41192,
+    "profitMargins": 0.2636,
+    "debtToEquity": 251.716,
+    "grossMargins": 0.63957,
+    "_zeit": "2026-11-20T16:07:27+00:00"
+   },
+   "earnings": {
+    "datum": "2026-12-14",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": -0.242,
+   "insider": {
+    "kaeufer": 1,
+    "summe_usd": 3483800,
+    "kaeufe": 1,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:32+00:00"
+   }
+  },
+  "CRM": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 0.19381,
+    "profitMargins": 0.2199,
+    "debtToEquity": 110.417,
+    "grossMargins": 0.77282,
+    "_zeit": "2026-11-20T16:07:27+00:00"
+   },
+   "earnings": {
+    "datum": "2026-12-02",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": -0.418,
+   "insider": {
+    "kaeufer": 1,
+    "summe_usd": 999451,
+    "kaeufe": 1,
+    "filings_geprueft": 21,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:37+00:00"
+   }
+  },
+  "ADBE": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 0.61902,
+    "profitMargins": 0.28048,
+    "debtToEquity": 57.693,
+    "grossMargins": 0.89252996,
+    "_zeit": "2026-11-20T16:07:27+00:00"
+   },
+   "earnings": {
+    "datum": "2026-12-09",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": 0.189,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 12,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:39+00:00"
+   }
+  },
+  "PLTR": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 0.40907001,
+    "profitMargins": 0.50343,
+    "debtToEquity": 1.986,
+    "grossMargins": 0.84744,
+    "_zeit": "2026-11-20T16:07:28+00:00"
+   },
+   "earnings": {
+    "datum": "2027-02-01",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": 0.622,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 18,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:42+00:00"
+   }
+  },
+  "WMT": {
+   "info": {
+    "sector": "Consumer Defensive",
+    "returnOnEquity": 0.22313999,
+    "profitMargins": 0.03,
+    "debtToEquity": 71.653,
+    "grossMargins": 0.24836999,
+    "_zeit": "2026-11-20T16:07:28+00:00"
+   },
+   "earnings": {
+    "datum": "2027-02-18",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": -0.595,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:48+00:00"
+   }
+  },
+  "HD": {
+   "info": {
+    "sector": "Consumer Cyclical",
+    "returnOnEquity": 0.94803,
+    "profitMargins": 0.08375,
+    "debtToEquity": 341.739,
+    "grossMargins": 0.33046,
+    "_zeit": "2026-11-20T16:07:28+00:00"
+   },
+   "earnings": {
+    "datum": "2027-02-23",
+    "_zeit": "2026-11-21T13:08:20+00:00"
+   },
+   "qualitaet": -0.243,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 9,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:50+00:00"
+   }
+  },
+  "PG": {
+   "info": {
+    "sector": "Consumer Defensive",
+    "returnOnEquity": 0.29609,
+    "profitMargins": 0.18229,
+    "debtToEquity": 70.343,
+    "grossMargins": 0.50591,
+    "_zeit": "2026-11-20T16:07:28+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-21",
+    "_zeit": "2026-11-21T13:08:21+00:00"
+   },
+   "qualitaet": -0.282,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 25,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:56+00:00"
+   }
+  },
+  "JNJ": {
+   "info": {
+    "sector": "Healthcare",
+    "returnOnEquity": 0.20018,
+    "profitMargins": 0.16203,
+    "debtToEquity": 54.767,
+    "grossMargins": 0.67775,
+    "_zeit": "2026-11-20T16:07:29+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-26",
+    "_zeit": "2026-11-21T13:08:21+00:00"
+   },
+   "qualitaet": -0.3,
+   "insider": {
+    "kaeufer": 0,
+    "summe_usd": 0,
+    "kaeufe": 0,
+    "filings_geprueft": 5,
+    "version": 2,
+    "_zeit": "2026-11-20T21:59:57+00:00"
+   }
+  },
+  "ASML": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 0.65636003,
+    "profitMargins": 0.34135,
+    "debtToEquity": 8.897,
+    "grossMargins": 0.54337,
+    "_zeit": "2026-11-20T16:07:29+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-27",
+    "_zeit": "2026-11-21T13:08:21+00:00"
+   },
+   "qualitaet": 0.666
+  },
+  "TSM": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 0.4186,
+    "profitMargins": 0.51116,
+    "debtToEquity": 15.188,
+    "grossMargins": 0.65846,
+    "_zeit": "2026-11-20T16:07:29+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-14",
+    "_zeit": "2026-11-21T13:08:21+00:00"
+   },
+   "qualitaet": 0.574
+  },
+  "SAP": {
+   "info": {
+    "sector": "Technology",
+    "returnOnEquity": 0.18178,
+    "profitMargins": 0.20413,
+    "debtToEquity": 22.789,
+    "grossMargins": 0.73583,
+    "_zeit": "2026-11-20T16:07:29+00:00"
+   },
+   "earnings": {
+    "datum": "2027-01-28",
+    "_zeit": "2026-11-21T13:08:21+00:00"
+   },
+   "qualitaet": -0.118
+  },
+  "NVO": {
+   "info": {
+    "sector": "Healthcare",
+    "returnOnEquity": 0.58384,
+    "profitMargins": 0.33921,
+    "debtToEquity": 61.744,
+    "grossMargins": 0.83333,
+    "_zeit": "2026-11-20T16:07:30+00:00"
+   },
+   "earnings": {
+    "datum": "2027-02-03",
+    "_zeit": "2026-11-21T13:08:21+00:00"
+   },
+   "qualitaet": 0.186
+  },
+  "BTC-USD": {
+   "funding": {
+    "rate_8h_avg": 1.9342726846619044e-06,
+    "boerse": "okx",
+    "n": 21
+   }
+  },
+  "ETH-USD": {
+   "funding": {
+    "rate_8h_avg": -2.997025456905238e-05,
+    "boerse": "okx",
+    "n": 21
+   }
+  },
+  "SOL-USD": {
+   "funding": {
+    "rate_8h_avg": -5.35745736578762e-05,
+    "boerse": "okx",
+    "n": 21
+   }
+  },
+  "XRP-USD": {
+   "funding": {
+    "rate_8h_avg": -2.2279159631590472e-05,
+    "boerse": "okx",
+    "n": 21
+   }
+  },
+  "BNB-USD": {
+   "funding": {
+    "rate_8h_avg": 1.157331668865238e-05,
+    "boerse": "okx",
+    "n": 21
+   }
+  },
+  "ADA-USD": {
+   "funding": {
+    "rate_8h_avg": -4.677052629046667e-05,
+    "boerse": "okx",
+    "n": 21
+   }
+  },
+  "DOGE-USD": {
+   "funding": {
+    "rate_8h_avg": -7.841202054428573e-06,
+    "boerse": "okx",
+    "n": 21
+   }
+  },
+  "AVAX-USD": {
+   "funding": {
+    "rate_8h_avg": -7.987731949995714e-05,
+    "boerse": "okx",
+    "n": 21
+   }
+  },
+  "LINK-USD": {
+   "funding": {
+    "rate_8h_avg": 1.1681148947980955e-05,
+    "boerse": "okx",
+    "n": 21
+   }
+  }
+ },
+ "diagnose": {
+  "insider_neu": 0,
+  "info_neu": 0,
+  "earnings_neu": 0,
+  "fehler": [],
+  "funding_coins": 9,
+  "fred_spalten": [
+   "BAMLH0A0HYM2",
+   "T10Y2Y"
+  ]
+ }
+}
