@@ -1,0 +1,5017 @@
+{
+ "erstellt_utc": "2026-11-21T16:25:11+00:00",
+ "cluster": [
+  {
+   "typ": "A",
+   "ticker": "NXG",
+   "firma": "NXG NextGen Infrastructure Income Fund",
+   "datum": "2026-11-20",
+   "kaeufer_anzahl": 3,
+   "summe": 529402.0,
+   "kaufpreis_mittel": 43.93376551956927,
+   "kaeufer": [
+    {
+     "name": "Swank Jerry V",
+     "titel": "See Remarks",
+     "wert": 439493,
+     "preis": 43.9493,
+     "gemeldet": "2026-10-23"
+    },
+    {
+     "name": "Bruce Brian R",
+     "titel": "Director",
+     "wert": 50327,
+     "preis": 43.7625,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Nelson Blake",
+     "titel": "CFO & Treasurer",
+     "wert": 39582,
+     "preis": 43.98,
+     "gemeldet": "2026-10-23"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 38.619998931884766,
+   "umsatz_usd": 3599123.9042282104,
+   "zum_kaufpreis": -0.12094949123624765,
+   "stop": 32.998724057338706,
+   "ziel": 41.992763856612406,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "BHRB",
+   "firma": "Burke & Herbert Financial Services Corp.",
+   "datum": "2026-11-20",
+   "kaeufer_anzahl": 3,
+   "summe": 148905.0,
+   "kaufpreis_mittel": 70.77239689389903,
+   "kaeufer": [
+    {
+     "name": "Poillon Diane",
+     "titel": "Director",
+     "wert": 106131,
+     "preis": 70.7543,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "McLaughlin Shawn Patrick",
+     "titel": "Director",
+     "wert": 35500,
+     "preis": 71.0,
+     "gemeldet": "2026-10-30"
+    },
+    {
+     "name": "WILSON DAVID",
+     "titel": "Director",
+     "wert": 7274,
+     "preis": 69.9392,
+     "gemeldet": "2026-10-27"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 67.80999755859375,
+   "umsatz_usd": 8095222.425460815,
+   "zum_kaufpreis": -0.04185811792903471,
+   "stop": 65.13917409560244,
+   "ziel": 70.48082102158506,
+   "ueber_200": true
+  },
+  {
+   "typ": "A",
+   "ticker": "SEI",
+   "firma": "Solaris Energy Infrastructure, Inc.",
+   "datum": "2026-11-20",
+   "kaeufer_anzahl": 4,
+   "summe": 757952.0,
+   "kaufpreis_mittel": 54.48972509527894,
+   "kaeufer": [
+    {
+     "name": "Brock Amanda M",
+     "titel": "Co-Chief Executive Officer",
+     "wert": 268900,
+     "preis": 53.78,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Zartler William A",
+     "titel": "Chairman and Co-CEO",
+     "wert": 212440,
+     "preis": 53.11,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Ramachandran Kyle S.",
+     "titel": "President",
+     "wert": 159750,
+     "preis": 53.25,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "TEAGUE AJ",
+     "titel": "Director",
+     "wert": 40717,
+     "preis": 60.7716,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "TEAGUE AJ",
+     "titel": "Director",
+     "wert": 35242,
+     "preis": 63.4998,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "TEAGUE AJ",
+     "titel": "Director",
+     "wert": 30821,
+     "preis": 59.2716,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "TEAGUE AJ",
+     "titel": "Director",
+     "wert": 10082,
+     "preis": 61.1,
+     "gemeldet": "2026-11-19"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 54.66999816894531,
+   "umsatz_usd": 156088019.93598938,
+   "zum_kaufpreis": 0.0033083865508800603,
+   "stop": 45.573748530364085,
+   "ziel": 63.76624780752654,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "CRMD",
+   "firma": "CorMedix Inc.",
+   "datum": "2026-11-20",
+   "kaeufer_anzahl": 4,
+   "summe": 588195.0,
+   "kaufpreis_mittel": 4.841111111111111,
+   "kaeufer": [
+    {
+     "name": "Todisco Joseph",
+     "titel": "Chief Executive Officer",
+     "wert": 391200,
+     "preis": 4.89,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Kaplan Myron",
+     "titel": "Director",
+     "wert": 122000,
+     "preis": 4.88,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Lefkowitz Steven W",
+     "titel": "Director",
+     "wert": 52095,
+     "preis": 4.53,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Blum Susan",
+     "titel": "Chief Financial Officer",
+     "wert": 22900,
+     "preis": 4.58,
+     "gemeldet": "2026-11-20"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 5.269999980926514,
+   "umsatz_usd": 11859086.683559418,
+   "zum_kaufpreis": 0.08859306468530237,
+   "stop": 4.643931304546458,
+   "ziel": 7.583642113825267,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "CTGO",
+   "firma": "Contango Silver & Gold Inc.",
+   "datum": "2026-11-20",
+   "kaeufer_anzahl": 3,
+   "summe": 472626.0,
+   "kaufpreis_mittel": 10.55841891701451,
+   "kaeufer": [
+    {
+     "name": "JUNEAU JOHN B",
+     "titel": "Director",
+     "wert": 198738,
+     "preis": 10.86,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "Van Nieuwenhuyse Rick",
+     "titel": "CEO",
+     "wert": 101097,
+     "preis": 10.92,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "JUNEAU JOHN B",
+     "titel": "Director",
+     "wert": 97341,
+     "preis": 10.03,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Nauman Clynton R.",
+     "titel": "Director",
+     "wert": 75450,
+     "preis": 10.06,
+     "gemeldet": "2026-11-20"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 9.430000305175781,
+   "umsatz_usd": 5604724.134588242,
+   "zum_kaufpreis": -0.1068738246424683,
+   "stop": 6.866464419825464,
+   "ziel": 16.780000686645508,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "CWBC",
+   "firma": "Community West Bancshares",
+   "datum": "2026-11-20",
+   "kaeufer_anzahl": 3,
+   "summe": 375951.0,
+   "kaufpreis_mittel": 24.444149169460808,
+   "kaeufer": [
+    {
+     "name": "GILL JAGROOP",
+     "titel": "Director",
+     "wert": 293988,
+     "preis": 24.499,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "BARTLEIN ROBERT",
+     "titel": "Director",
+     "wert": 72822,
+     "preis": 24.274,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "STOVESAND KIRK",
+     "titel": "Director",
+     "wert": 9141,
+     "preis": 24.0553,
+     "gemeldet": "2026-11-20"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 23.920000076293945,
+   "umsatz_usd": 4373571.133804321,
+   "zum_kaufpreis": -0.021442721918163765,
+   "stop": 22.097902007601697,
+   "ziel": 25.766930987599224,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "PICS",
+   "firma": "PicS N.V.",
+   "datum": "2026-11-20",
+   "kaeufer_anzahl": 3,
+   "summe": 556660.0,
+   "kaufpreis_mittel": 4.842124952062198,
+   "kaeufer": [
+    {
+     "name": "Teixeira Linares Marcio Antonio",
+     "titel": "Director",
+     "wert": 299400,
+     "preis": 4.99,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Pruett William Rodney",
+     "titel": "Director",
+     "wert": 232500,
+     "preis": 4.65,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Costa de Moura Mauricio",
+     "titel": "Director",
+     "wert": 24760,
+     "preis": 4.99,
+     "gemeldet": "2026-11-20"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 5.019999980926514,
+   "umsatz_usd": 5422031.953239441,
+   "zum_kaufpreis": 0.036734910937926246
+  },
+  {
+   "typ": "A",
+   "ticker": "OBK",
+   "firma": "Origin Bancorp, Inc.",
+   "datum": "2026-11-19",
+   "kaeufer_anzahl": 3,
+   "summe": 385510.0,
+   "kaufpreis_mittel": 52.80958904109589,
+   "kaeufer": [
+    {
+     "name": "Jones Cecil W.",
+     "titel": "Director",
+     "wert": 199690,
+     "preis": 52.55,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Crotwell Jim",
+     "titel": "Chief Risk Officer",
+     "wert": 107160,
+     "preis": 53.58,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "Jones Michael Aubrey",
+     "titel": "Director",
+     "wert": 78660,
+     "preis": 52.44,
+     "gemeldet": "2026-11-19"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 51.650001525878906,
+   "umsatz_usd": 7404354.583358765,
+   "zum_kaufpreis": -0.02195789697046502,
+   "stop": 49.191597202564324,
+   "ziel": 54.10840584919349,
+   "ueber_200": true
+  },
+  {
+   "typ": "A",
+   "ticker": "TLSI",
+   "firma": "TriSalus Life Sciences, Inc.",
+   "datum": "2026-11-19",
+   "kaeufer_anzahl": 3,
+   "summe": 294205.0,
+   "kaufpreis_mittel": 2.3500137071792855,
+   "kaeufer": [
+    {
+     "name": "Szela Mary T",
+     "titel": "CEO and President",
+     "wert": 160205,
+     "preis": 2.4574,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "Wahlstrom Mats",
+     "titel": "Director",
+     "wert": 112000,
+     "preis": 2.24,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Gordon Gary B.",
+     "titel": "Director",
+     "wert": 22000,
+     "preis": 2.2,
+     "gemeldet": "2026-11-19"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 2.319999933242798,
+   "umsatz_usd": 805459.5048904419,
+   "zum_kaufpreis": -0.01277174420080851,
+   "stop": 1.8177905262138028,
+   "ziel": 4.047192490668064,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "SRTS",
+   "firma": "Sensus Healthcare, Inc.",
+   "datum": "2026-11-19",
+   "kaeufer_anzahl": 3,
+   "summe": 260097.0,
+   "kaufpreis_mittel": 2.2860621377317027,
+   "kaeufer": [
+    {
+     "name": "Sachetta Eric",
+     "titel": "Director",
+     "wert": 182973,
+     "preis": 2.243,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "Sardano Joseph C",
+     "titel": "CHIEF EXECUTIVE OFFICER",
+     "wert": 72108,
+     "preis": 2.4036,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "Cornish Megan",
+     "titel": "Director",
+     "wert": 5016,
+     "preis": 2.28,
+     "gemeldet": "2026-11-19"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 2.259999990463257,
+   "umsatz_usd": 285745.9913253784,
+   "zum_kaufpreis": -0.011400454448847852,
+   "stop": 1.7585489522611875,
+   "ziel": 3.7178044182541905,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "BA",
+   "firma": "BOEING CO",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 3,
+   "summe": 2008915.0,
+   "kaufpreis_mittel": 170.6809434210672,
+   "kaeufer": [
+    {
+     "name": "Buckley Mortimer J",
+     "titel": "Director",
+     "wert": 998421,
+     "preis": 171.55,
+     "gemeldet": "2026-11-03"
+    },
+    {
+     "name": "MOLLENKOPF STEVEN M",
+     "titel": "Director",
+     "wert": 510427,
+     "preis": 173.026,
+     "gemeldet": "2026-11-03"
+    },
+    {
+     "name": "JOHRI AKHIL",
+     "titel": "Director",
+     "wert": 500067,
+     "preis": 166.689,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 155.88999938964844,
+   "umsatz_usd": 1376858420.8374023,
+   "zum_kaufpreis": -0.08665843845806354,
+   "stop": 142.25911497882154,
+   "ziel": 164.06853003614458,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "EQPT",
+   "firma": "EquipmentShare.com Inc",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 3,
+   "summe": 1442433.0,
+   "kaufpreis_mittel": 14.504535104152206,
+   "kaeufer": [
+    {
+     "name": "HILL W BRYAN",
+     "titel": "Director",
+     "wert": 554116,
+     "preis": 13.8529,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Schlacks Jabbok",
+     "titel": "Founder & CEO /",
+     "wert": 249998,
+     "preis": 14.73,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Schlacks Jabbok",
+     "titel": "Founder & CEO",
+     "wert": 249989,
+     "preis": 15.42,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Schlacks Jabbok",
+     "titel": "Founder & CEO",
+     "wert": 180364,
+     "preis": 14.79,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Schlacks William J.",
+     "titel": "Founder & President",
+     "wert": 145400,
+     "preis": 14.54,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Schlacks Jabbok",
+     "titel": "Founder & CEO",
+     "wert": 62566,
+     "preis": 15.38,
+     "gemeldet": "2026-11-16"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 13.5,
+   "umsatz_usd": 48010615.37742615,
+   "zum_kaufpreis": -0.06925662194196336
+  },
+  {
+   "typ": "A",
+   "ticker": "STWD",
+   "firma": "STARWOOD PROPERTY TRUST, INC.",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 3,
+   "summe": 18734234.0,
+   "kaufpreis_mittel": 11.801039184128001,
+   "kaeufer": [
+    {
+     "name": "STERNLICHT BARRY S",
+     "titel": "CEO, Chairman of the Board",
+     "wert": 14697682,
+     "preis": 11.8054,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "ZELNICK STRAUSS",
+     "titel": "Director",
+     "wert": 2023102,
+     "preis": 11.7138,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Pollack Jonathan Lee",
+     "titel": "Director",
+     "wert": 2013450,
+     "preis": 11.8578,
+     "gemeldet": "2026-11-13"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 10.829999923706055,
+   "umsatz_usd": 80172924.27940369,
+   "zum_kaufpreis": -0.08228421626867921,
+   "stop": 9.749221791074103,
+   "ziel": 13.220000267028809,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "HAWK",
+   "firma": "HawkEye 360, Inc.",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 7,
+   "summe": 168457.0,
+   "kaufpreis_mittel": 18.320493245599526,
+   "kaeufer": [
+    {
+     "name": "Shames Jonathan",
+     "titel": "Director",
+     "wert": 49886,
+     "preis": 18.67,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Finelli Francis Alphonse",
+     "titel": "Director",
+     "wert": 49194,
+     "preis": 18.22,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Serafini John Sheldon",
+     "titel": "President and CEO",
+     "wert": 24620,
+     "preis": 17.8017,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Probert Todd",
+     "titel": "Chief Operating Officer",
+     "wert": 14963,
+     "preis": 18.45,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Searle Craig Chih-Meng",
+     "titel": "Chief Financial Officer",
+     "wert": 10001,
+     "preis": 18.25,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Fox Alex J",
+     "titel": "Pres, HawkEye 360 Int'l",
+     "wert": 9941,
+     "preis": 18.41,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Sweeney Janine Virginia",
+     "titel": "Chief Human Resources Officer",
+     "wert": 9852,
+     "preis": 18.21,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 16.139999389648438,
+   "umsatz_usd": 25732663.73538971,
+   "zum_kaufpreis": -0.11901938592591277
+  },
+  {
+   "typ": "A",
+   "ticker": "RMIX",
+   "firma": "Suncrete, Inc.",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 6,
+   "summe": 1268996.0,
+   "kaufpreis_mittel": 6.286220689131441,
+   "kaeufer": [
+    {
+     "name": "Rees-Jones David",
+     "titel": "Director",
+     "wert": 731172,
+     "preis": 6.2778,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Fleming Ned N III",
+     "titel": "Director",
+     "wert": 238000,
+     "preis": 5.95,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "HEYER ANDREW R",
+     "titel": "Director",
+     "wert": 182800,
+     "preis": 7.312,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "Matteson Mark R",
+     "titel": "Director",
+     "wert": 55100,
+     "preis": 5.51,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Jones Mark Alan",
+     "titel": "Chief Operating Officer",
+     "wert": 50064,
+     "preis": 5.96,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Johnston Bretton A.",
+     "titel": "Director",
+     "wert": 11860,
+     "preis": 5.93,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 5.849999904632568,
+   "umsatz_usd": 6250489.436435699,
+   "zum_kaufpreis": -0.06939317056639072
+  },
+  {
+   "typ": "A",
+   "ticker": "NPCE",
+   "firma": "NeuroPace Inc",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 3,
+   "summe": 302102.0,
+   "kaufpreis_mittel": 8.326525928664276,
+   "kaeufer": [
+    {
+     "name": "Huennekens R Scott",
+     "titel": "Director",
+     "wert": 103661,
+     "preis": 8.2929,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Becker Joel",
+     "titel": "CHIEF EXECUTIVE OFFICER",
+     "wert": 99293,
+     "preis": 8.3503,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "Williams Patrick F.",
+     "titel": "Chief Financial Officer",
+     "wert": 99148,
+     "preis": 8.3381,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 7.949999809265137,
+   "umsatz_usd": 2166884.564781189,
+   "zum_kaufpreis": -0.045220074089115436,
+   "stop": 6.47759384374644,
+   "ziel": 12.495758091333956,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "PAL",
+   "firma": "Proficient Auto Logistics, Inc",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 5,
+   "summe": 415188.0,
+   "kaufpreis_mittel": 2.6546547314578004,
+   "kaeufer": [
+    {
+     "name": "Lal Rohit",
+     "titel": "Director",
+     "wert": 179200,
+     "preis": 2.56,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "COL DOUGLAS L",
+     "titel": "Director",
+     "wert": 84300,
+     "preis": 2.81,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "Schraudenbach John",
+     "titel": "Director",
+     "wert": 78120,
+     "preis": 2.79,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "Gattoni James B",
+     "titel": "Director",
+     "wert": 65000,
+     "preis": 2.6,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Rice Amy F.",
+     "titel": "President and COO",
+     "wert": 8568,
+     "preis": 2.52,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 2.7300000190734863,
+   "umsatz_usd": 1732755.047917366,
+   "zum_kaufpreis": 0.02838233037345317,
+   "stop": 2.2665945986963316,
+   "ziel": 3.193405439450641,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "WWB",
+   "firma": "WINDWARD BIO GROUP AG",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 3,
+   "summe": 69750014.0,
+   "kaufpreis_mittel": 17.0,
+   "kaeufer": [
+    {
+     "name": "Stampacchia Otello",
+     "titel": "Director",
+     "wert": 29750000,
+     "preis": 17.0,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Bonita David P",
+     "titel": "Director",
+     "wert": 20000007,
+     "preis": 17.0,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "ORBIMED ADVISORS LLC",
+     "titel": "Director",
+     "wert": 20000007,
+     "preis": 17.0,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": null
+  },
+  {
+   "typ": "A",
+   "ticker": "OFRM",
+   "firma": "Once Upon a Farm, PBC",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 5,
+   "summe": 815516.0,
+   "kaufpreis_mittel": 11.203985168659814,
+   "kaeufer": [
+    {
+     "name": "PEIROS LARRY",
+     "titel": "Director",
+     "wert": 301102,
+     "preis": 10.9,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Morris Scott James",
+     "titel": "Director",
+     "wert": 141720,
+     "preis": 11.81,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Garner Jennifer Anne",
+     "titel": "Director",
+     "wert": 118011,
+     "preis": 11.8011,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Foraker John M.",
+     "titel": "See Remarks",
+     "wert": 104300,
+     "preis": 10.43,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Morris Scott James",
+     "titel": "Director",
+     "wert": 100385,
+     "preis": 11.81,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "ROBB WALTER E IV",
+     "titel": "Director",
+     "wert": 49998,
+     "preis": 10.72,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 12.170000076293945,
+   "umsatz_usd": 8341954.394626617,
+   "zum_kaufpreis": 0.08622065212441576
+  },
+  {
+   "typ": "A",
+   "ticker": "ATEC",
+   "firma": "Alphatec Holdings, Inc.",
+   "datum": "2026-11-17",
+   "kaeufer_anzahl": 3,
+   "summe": 750296.0,
+   "kaufpreis_mittel": 6.8456560368505075,
+   "kaeufer": [
+    {
+     "name": "Demski David M",
+     "titel": "Director",
+     "wert": 408600,
+     "preis": 6.81,
+     "gemeldet": "2026-11-02"
+    },
+    {
+     "name": "Valentine Keith",
+     "titel": "Director",
+     "wert": 242550,
+     "preis": 6.93,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "Koning John Todd",
+     "titel": "CHIEF FINANCIAL OFFICER",
+     "wert": 99146,
+     "preis": 6.79,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 6.679999828338623,
+   "umsatz_usd": 33524769.39716339,
+   "zum_kaufpreis": -0.024198733856937715,
+   "stop": 5.290386930870038,
+   "ziel": 10.468379415837472,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "DKNG",
+   "firma": "DraftKings Inc.",
+   "datum": "2026-11-17",
+   "kaeufer_anzahl": 3,
+   "summe": 1450887.0,
+   "kaufpreis_mittel": 18.387072026520844,
+   "kaeufer": [
+    {
+     "name": "Kalish Matthew",
+     "titel": "Director",
+     "wert": 1002100,
+     "preis": 18.22,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "Ellingson Alan Wayne",
+     "titel": "Chief Financial Officer",
+     "wert": 349987,
+     "preis": 18.51,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Wendt Gregory Westin",
+     "titel": "Director",
+     "wert": 98800,
+     "preis": 19.76,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 15.800000190734863,
+   "umsatz_usd": 253349103.2046318,
+   "zum_kaufpreis": -0.14070058745919323,
+   "stop": 12.724613533486167,
+   "ziel": 23.885000228881836,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "VISN",
+   "firma": "Vistance Networks, Inc.",
+   "datum": "2026-11-17",
+   "kaeufer_anzahl": 3,
+   "summe": 1147787.0,
+   "kaufpreis_mittel": 4.0992411401650415,
+   "kaeufer": [
+    {
+     "name": "Watts Claudius E. IV",
+     "titel": "Director",
+     "wert": 831060,
+     "preis": 4.1553,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Watts Claudius E. IV",
+     "titel": "Director",
+     "wert": 198195,
+     "preis": 3.9639,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Yates Timothy T",
+     "titel": "Director",
+     "wert": 98682,
+     "preis": 3.9473,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Gilstrap Charles A",
+     "titel": "SVP, Treasury, Tax & CAO",
+     "wert": 19850,
+     "preis": 3.97,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 3.819999933242798,
+   "umsatz_usd": 30814257.56430626,
+   "zum_kaufpreis": -0.06812021966363291,
+   "stop": 3.269034329951842,
+   "ziel": 4.725559653562663,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "TH",
+   "firma": "Target Hospitality Corp.",
+   "datum": "2026-11-17",
+   "kaeufer_anzahl": 3,
+   "summe": 608241.0,
+   "kaufpreis_mittel": 11.497492220740128,
+   "kaeufer": [
+    {
+     "name": "Archer James Bradley",
+     "titel": "Director and CEO and President",
+     "wert": 312675,
+     "preis": 11.37,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Schrenk Troy C.",
+     "titel": "Chief Commercial Officer",
+     "wert": 250006,
+     "preis": 11.6814,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "PATENAUDE PAMELA H.",
+     "titel": "Director",
+     "wert": 45560,
+     "preis": 11.39,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 11.180000305175781,
+   "umsatz_usd": 25348980.491018295,
+   "zum_kaufpreis": -0.02761401438407829,
+   "stop": 9.312149825347582,
+   "ziel": 14.539999961853027,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "NGS",
+   "firma": "NATURAL GAS SERVICES GROUP INC",
+   "datum": "2026-11-17",
+   "kaeufer_anzahl": 3,
+   "summe": 192962.0,
+   "kaufpreis_mittel": 28.800267421534286,
+   "kaeufer": [
+    {
+     "name": "Jacobs Justin",
+     "titel": "Chief Executive Officer",
+     "wert": 85806,
+     "preis": 28.602,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "JACKSON JOHN EARL",
+     "titel": "Director",
+     "wert": 57790,
+     "preis": 28.895,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "TRINGALI DONALD J",
+     "titel": "Director",
+     "wert": 49366,
+     "preis": 29.0387,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 27.329999923706055,
+   "umsatz_usd": 3607686.740589142,
+   "zum_kaufpreis": -0.05105048075799801,
+   "stop": 25.256195395708843,
+   "ziel": 29.510166662762213,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "ITG",
+   "firma": "ITG, Inc./DE/",
+   "datum": "2026-11-17",
+   "kaeufer_anzahl": 5,
+   "summe": 1181660.0,
+   "kaufpreis_mittel": 5.632051824254019,
+   "kaeufer": [
+    {
+     "name": "Giacalone Peter",
+     "titel": "Director",
+     "wert": 508500,
+     "preis": 5.65,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "Brooks Michael George",
+     "titel": "Director",
+     "wert": 505800,
+     "preis": 5.62,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "Parrott Andrew",
+     "titel": "Chief Executive Officer",
+     "wert": 98350,
+     "preis": 5.62,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "LAPERCH WILLIAM G",
+     "titel": "Director",
+     "wert": 50040,
+     "preis": 5.68,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "Braun III Francis A",
+     "titel": "Director",
+     "wert": 18970,
+     "preis": 5.42,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 5.53000020980835,
+   "umsatz_usd": 3680346.4894533157,
+   "zum_kaufpreis": -0.01811979321748991
+  },
+  {
+   "typ": "A",
+   "ticker": "AOMR",
+   "firma": "Angel Oak Mortgage REIT, Inc.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 5,
+   "summe": 222951.0,
+   "kaufpreis_mittel": 5.854828408647903,
+   "kaeufer": [
+    {
+     "name": "MINAMI W D",
+     "titel": "Director",
+     "wert": 53255,
+     "preis": 5.84,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Parsons Landon",
+     "titel": "Director",
+     "wert": 46472,
+     "preis": 6.28,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Savarese Noelle",
+     "titel": "Director",
+     "wert": 38119,
+     "preis": 5.81,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "JONES CRAIG B",
+     "titel": "Director",
+     "wert": 29705,
+     "preis": 5.9411,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "Morgan Jonathan",
+     "titel": "Director",
+     "wert": 29150,
+     "preis": 5.83,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Morgan Jonathan",
+     "titel": "Director",
+     "wert": 26250,
+     "preis": 5.25,
+     "gemeldet": "2026-11-19"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 5.289999961853027,
+   "umsatz_usd": 853663.9887809753,
+   "zum_kaufpreis": -0.09647224604577542,
+   "stop": 4.840435637187312,
+   "ziel": 5.739564286518743,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "NSLR",
+   "firma": "Neostellar Capital Corp.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 3,
+   "summe": 1139700.0,
+   "kaufpreis_mittel": 5.998384368406568,
+   "kaeufer": [
+    {
+     "name": "Klein Mark D",
+     "titel": "Chairman, CEO and President",
+     "wert": 994000,
+     "preis": 6.0242,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Potter Leonard",
+     "titel": "Director",
+     "wert": 115200,
+     "preis": 5.76,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Mazur Marc",
+     "titel": "Director",
+     "wert": 30500,
+     "preis": 6.1,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 4.820000171661377,
+   "umsatz_usd": 1892047.5293397903,
+   "zum_kaufpreis": -0.19645026466655413,
+   "stop": 3.8680844289831073,
+   "ziel": 6.460000038146973,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "FPS",
+   "firma": "Forgent Power Solutions, Inc.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 5,
+   "summe": 1143314.0,
+   "kaufpreis_mittel": 20.869878418899223,
+   "kaeufer": [
+    {
+     "name": "Niederpruem Gary John",
+     "titel": "Chief Executive Officer",
+     "wert": 334261,
+     "preis": 20.8913,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Ard Amy E",
+     "titel": "Chief Financial Officer",
+     "wert": 299996,
+     "preis": 20.5238,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Hottinger Tyson",
+     "titel": "Chief Legal Officer",
+     "wert": 244956,
+     "preis": 20.759,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Bhatia Neel",
+     "titel": "Director",
+     "wert": 199121,
+     "preis": 21.26,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Lund Inez",
+     "titel": "Chief Accounting Officer",
+     "wert": 64980,
+     "preis": 21.66,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 18.0,
+   "umsatz_usd": 227242118.37301254,
+   "zum_kaufpreis": -0.1375129438368139
+  },
+  {
+   "typ": "A",
+   "ticker": "ADIG",
+   "firma": "ADI GLOBAL DISTRIBUTION INC.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 5,
+   "summe": 325603.0,
+   "kaufpreis_mittel": 9.833975047152734,
+   "kaeufer": [
+    {
+     "name": "Aarnes Robert B",
+     "titel": "President and CEO",
+     "wert": 100025,
+     "preis": 9.93,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Carlet Michael",
+     "titel": "Executive VP, CFO",
+     "wert": 99896,
+     "preis": 9.71,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Copeland Alicia Crispin",
+     "titel": "Executive VP and COO",
+     "wert": 50550,
+     "preis": 10.11,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Lane Jeannine J",
+     "titel": "Exec. VP, GC, Corp. Sec. & CCO",
+     "wert": 50052,
+     "preis": 9.55,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Cardazzi Marco",
+     "titel": "Executive VP and CMO",
+     "wert": 25080,
+     "preis": 10.0,
+     "gemeldet": "2026-11-16"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 8.960000038146973,
+   "umsatz_usd": 10352008.236598969,
+   "zum_kaufpreis": -0.08887301470820863
+  },
+  {
+   "typ": "A",
+   "ticker": "KGS",
+   "firma": "Kodiak Gas Services, Inc.",
+   "datum": "2026-11-13",
+   "kaeufer_anzahl": 4,
+   "summe": 1038077.0,
+   "kaufpreis_mittel": 43.90260105159407,
+   "kaeufer": [
+    {
+     "name": "HOGAN RANDALL J",
+     "titel": "Director",
+     "wert": 493962,
+     "preis": 42.9532,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Darden Alexander Newsom",
+     "titel": "Director",
+     "wert": 449900,
+     "preis": 44.99,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Holloway Gretchen Lynn",
+     "titel": "Director",
+     "wert": 49955,
+     "preis": 43.629,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Montana Margaret C",
+     "titel": "Director",
+     "wert": 44260,
+     "preis": 44.26,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 39.66999816894531,
+   "umsatz_usd": 94533585.72502136,
+   "zum_kaufpreis": -0.09640893207385659,
+   "stop": 35.66362551535643,
+   "ziel": 48.49024228495341,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "HPP",
+   "firma": "Hudson Pacific Properties, Inc.",
+   "datum": "2026-11-13",
+   "kaeufer_anzahl": 3,
+   "summe": 1061662.0,
+   "kaufpreis_mittel": 8.847207724082665,
+   "kaeufer": [
+    {
+     "name": "BORTZ JON E",
+     "titel": "Director",
+     "wert": 680112,
+     "preis": 9.0682,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "COLEMAN VICTOR J",
+     "titel": "Chief Executive Officer",
+     "wert": 182000,
+     "preis": 9.1,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "COLEMAN VICTOR J",
+     "titel": "Chief Executive Officer",
+     "wert": 80600,
+     "preis": 8.06,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "COLEMAN VICTOR J",
+     "titel": "Chief Executive Officer",
+     "wert": 75300,
+     "preis": 7.53,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "LAMMAS MARK T",
+     "titel": "President",
+     "wert": 43650,
+     "preis": 8.73,
+     "gemeldet": "2026-11-13"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 7.449999809265137,
+   "umsatz_usd": 8772543.836021423,
+   "zum_kaufpreis": -0.15792642813327862,
+   "stop": 5.485496220016561,
+   "ziel": 11.65999984741211,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "CSQR",
+   "firma": "Csquare, Inc.",
+   "datum": "2026-11-13",
+   "kaeufer_anzahl": 4,
+   "summe": 488349.0,
+   "kaufpreis_mittel": 17.69327102182734,
+   "kaeufer": [
+    {
+     "name": "MULLEE SPENCER EDWARD",
+     "titel": "Chief Executive Officer",
+     "wert": 247029,
+     "preis": 18.2,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Kelley Philip M",
+     "titel": "Director",
+     "wert": 172400,
+     "preis": 17.24,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Cook Steven R. E.",
+     "titel": "Chief Financial Officer",
+     "wert": 35000,
+     "preis": 17.26,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "PIZZUTO TERRI",
+     "titel": "Director",
+     "wert": 33920,
+     "preis": 16.96,
+     "gemeldet": "2026-11-16"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 14.520000457763672,
+   "umsatz_usd": 31933164.772987366,
+   "zum_kaufpreis": -0.17934900562756062
+  },
+  {
+   "typ": "A",
+   "ticker": "BW",
+   "firma": "Babcock & Wilcox Enterprises, Inc.",
+   "datum": "2026-11-13",
+   "kaeufer_anzahl": 5,
+   "summe": 157382.0,
+   "kaufpreis_mittel": 4.628882352941177,
+   "kaeufer": [
+    {
+     "name": "Tato Joseph A",
+     "titel": "Director",
+     "wert": 52692,
+     "preis": 5.2692,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Young Kenneth M",
+     "titel": "Chief Executive Officer",
+     "wert": 43500,
+     "preis": 4.35,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Frymyer Cameron M",
+     "titel": "Chief Financial Officer",
+     "wert": 42100,
+     "preis": 4.21,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Moeller Philip D",
+     "titel": "Director",
+     "wert": 13950,
+     "preis": 4.65,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Howe Alan B",
+     "titel": "Director",
+     "wert": 5140,
+     "preis": 5.14,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 3.5399999618530273,
+   "umsatz_usd": 19706300.59118271,
+   "zum_kaufpreis": -0.2352365664243502,
+   "stop": 2.7945394663175493,
+   "ziel": 5.286946089179965,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "FF",
+   "firma": "FutureFuel Corp.",
+   "datum": "2026-11-13",
+   "kaeufer_anzahl": 5,
+   "summe": 591781.0,
+   "kaufpreis_mittel": 2.8337949554009936,
+   "kaeufer": [
+    {
+     "name": "KRUSZEWSKI RONALD J",
+     "titel": "Director",
+     "wert": 284000,
+     "preis": 2.84,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Polet Roeland",
+     "titel": "Chief Executive Officer",
+     "wert": 136066,
+     "preis": 2.83,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Bedell Donald C.",
+     "titel": "Director",
+     "wert": 113200,
+     "preis": 2.83,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "SPARKS ROSE",
+     "titel": "Chief Financial Officer",
+     "wert": 30315,
+     "preis": 2.82,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Butcher Pamela R",
+     "titel": "Director",
+     "wert": 28200,
+     "preis": 2.82,
+     "gemeldet": "2026-11-13"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 2.930000066757202,
+   "umsatz_usd": 2719686.486029625,
+   "zum_kaufpreis": 0.033949213994064475,
+   "stop": 2.455977211337285,
+   "ziel": 3.4040229221771194,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "LRMR",
+   "firma": "Larimar Therapeutics, Inc.",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 9,
+   "summe": 402143.0,
+   "kaufpreis_mittel": 2.727844925338894,
+   "kaeufer": [
+    {
+     "name": "Hamilton Thomas Edward",
+     "titel": "Director",
+     "wert": 187082,
+     "preis": 2.6726,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Celano Michael",
+     "titel": "Chief Financial Officer",
+     "wert": 49992,
+     "preis": 2.7081,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "BEN-MAIMON CAROLE",
+     "titel": "President and CEO",
+     "wert": 49953,
+     "preis": 2.7675,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Harlow John B. Jr.",
+     "titel": "President and COO",
+     "wert": 49918,
+     "preis": 2.8044,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "THOMAS FRANK E",
+     "titel": "Director",
+     "wert": 21800,
+     "preis": 2.725,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Shankar Gopi",
+     "titel": "Chief Development Officer",
+     "wert": 13549,
+     "preis": 2.7098,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "SHERMAN JEFFREY W",
+     "titel": "Director",
+     "wert": 10058,
+     "preis": 3.0576,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Clayton Russell",
+     "titel": "Chief Medical Officer",
+     "wert": 9999,
+     "preis": 3.01,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 3.140000104904175,
+   "umsatz_usd": 3205110.0397467613,
+   "zum_kaufpreis": 0.15109186586699996,
+   "stop": 2.7251254483061396,
+   "ziel": 3.55487476150221,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "GSM",
+   "firma": "Ferroglobe PLC",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 5,
+   "summe": 262562.0,
+   "kaufpreis_mittel": 2.60370612868148,
+   "kaeufer": [
+    {
+     "name": "Lopez Madrid Javier",
+     "titel": "EXECUTIVE CHAIRMAN",
+     "wert": 75000,
+     "preis": 2.6159,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Villar-Mir de Fuentes Silvia",
+     "titel": "Director",
+     "wert": 75000,
+     "preis": 2.6159,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Levi Marco",
+     "titel": "CHIEF EXECUTIVE OFFICER",
+     "wert": 50600,
+     "preis": 2.53,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Girardeau David Marie, Gabriel",
+     "titel": "SEE REMARKS",
+     "wert": 40610,
+     "preis": 2.62,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "CROCKETT BRUCE LARMOUR",
+     "titel": "Director",
+     "wert": 21352,
+     "preis": 2.669,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 2.119999885559082,
+   "umsatz_usd": 5909819.966995716,
+   "zum_kaufpreis": -0.1857760512194775,
+   "stop": 1.5150966259222713,
+   "ziel": 3.8968465781312025,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "MP",
+   "firma": "MP Materials Corp. / DE",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 3,
+   "summe": 3573808.0,
+   "kaufpreis_mittel": 36.24442831510125,
+   "kaeufer": [
+    {
+     "name": "WEISENBURGER RANDALL J",
+     "titel": "Director",
+     "wert": 1980000,
+     "preis": 36.0,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Rosenthal Michael Stuart",
+     "titel": "Chief Operating Officer",
+     "wert": 1175090,
+     "preis": 36.7216,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Corbett Ryan",
+     "titel": "Chief Financial Officer",
+     "wert": 198516,
+     "preis": 36.252,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Corbett Ryan",
+     "titel": "Chief Financial Officer",
+     "wert": 128625,
+     "preis": 36.75,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Corbett Ryan",
+     "titel": "Chief Financial Officer",
+     "wert": 91577,
+     "preis": 34.86,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 33.95000076293945,
+   "umsatz_usd": 221589584.73091125,
+   "zum_kaufpreis": -0.06330428313600478,
+   "stop": 30.038586757953315,
+   "ziel": 38.76648775069259,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "DOX",
+   "firma": "AMDOCS LTD",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 7,
+   "summe": 719314.0,
+   "kaufpreis_mittel": 42.573035351693704,
+   "kaeufer": [
+    {
+     "name": "Gardner Adrian",
+     "titel": "Director",
+     "wert": 215090,
+     "preis": 43.0181,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Genish Amos",
+     "titel": "Director",
+     "wert": 149730,
+     "preis": 42.0,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Gelman Eliahu Meir",
+     "titel": "Director",
+     "wert": 104300,
+     "preis": 41.7202,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "DE LA VEGA RAFAEL",
+     "titel": "Director",
+     "wert": 102228,
+     "preis": 44.505,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Kanouff Yvette",
+     "titel": "Director",
+     "wert": 100800,
+     "preis": 42.0,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "MacDonald John Anthony",
+     "titel": "Director",
+     "wert": 41630,
+     "preis": 41.6295,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "MORALI VERONIQUE",
+     "titel": "Director",
+     "wert": 5536,
+     "preis": 41.31,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 41.18000030517578,
+   "umsatz_usd": 94721487.41970062,
+   "zum_kaufpreis": -0.03272106475401937,
+   "stop": 37.784984786948975,
+   "ziel": 45.383215191886066,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "TSM",
+   "firma": "TAIWAN SEMICONDUCTOR MANUFACTURING CO LTD",
+   "datum": "2026-11-10",
+   "kaeufer_anzahl": 7,
+   "summe": 1195479.0,
+   "kaufpreis_mittel": 140.38047679217775,
+   "kaeufer": [
+    {
+     "name": "BURNS URSULA M",
+     "titel": "Director",
+     "wert": 500039,
+     "preis": 363.665,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Lu Lee-Chung",
+     "titel": "VP",
+     "wert": 302850,
+     "preis": 60.57,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "SPLINTER MICHAEL R",
+     "titel": "Director",
+     "wert": 299880,
+     "preis": 357.0,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Yuan Lipen",
+     "titel": "VP",
+     "wert": 71490,
+     "preis": 71.49,
+     "gemeldet": "2026-11-03"
+    },
+    {
+     "name": "Wei Che-Chia",
+     "titel": "Chairman and CEO",
+     "wert": 10928,
+     "preis": 70.5,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "Chin Yung-Pei",
+     "titel": "EVP and Co-COO",
+     "wert": 5146,
+     "preis": 70.5,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "Mii Yuh-Jier",
+     "titel": "EVP and Co-COO",
+     "wert": 5146,
+     "preis": 70.5,
+     "gemeldet": "2026-11-10"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 318.7099914550781,
+   "umsatz_usd": 5733868500.788879,
+   "zum_kaufpreis": 1.270329883028558,
+   "stop": 271.0678090195536,
+   "ziel": 400.88212817909243,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "FUN",
+   "firma": "Six Flags Entertainment Corporation/NEW",
+   "datum": "2026-11-10",
+   "kaeufer_anzahl": 3,
+   "summe": 30666320.0,
+   "kaufpreis_mittel": 10.801826475350717,
+   "kaeufer": [
+    {
+     "name": "JAFFER REHAN",
+     "titel": "Director",
+     "wert": 14929000,
+     "preis": 10.2959,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "JAFFER REHAN",
+     "titel": "Director",
+     "wert": 9246000,
+     "preis": 11.2073,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "JAFFER REHAN",
+     "titel": "Director",
+     "wert": 6354000,
+     "preis": 11.5527,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "HADDRILL RICHARD M",
+     "titel": "Executive Chair",
+     "wert": 90720,
+     "preis": 10.08,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "Bennett Christopher Lawrence",
+     "titel": "Chief Legal Officer",
+     "wert": 46600,
+     "preis": 9.32,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 11.0600004196167,
+   "umsatz_usd": 48741975.719594955,
+   "zum_kaufpreis": 0.023900952756010563,
+   "stop": 9.808037158388116,
+   "ziel": 12.311963680845283,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "TTMI",
+   "firma": "TTM TECHNOLOGIES INC",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 3,
+   "summe": 2575939.0,
+   "kaufpreis_mittel": 73.59827514705817,
+   "kaeufer": [
+    {
+     "name": "Ali Wajid",
+     "titel": "Director",
+     "wert": 902460,
+     "preis": 90.246,
+     "gemeldet": "2026-10-28"
+    },
+    {
+     "name": "Ali Wajid",
+     "titel": "Director",
+     "wert": 631541,
+     "preis": 63.1541,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Roks Edwin",
+     "titel": "President and CEO",
+     "wert": 440350,
+     "preis": 88.07,
+     "gemeldet": "2026-10-28"
+    },
+    {
+     "name": "FRANKLIN PHILIP G",
+     "titel": "Director",
+     "wert": 309600,
+     "preis": 61.92,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "FRANKLIN PHILIP G",
+     "titel": "Director",
+     "wert": 291988,
+     "preis": 58.3977,
+     "gemeldet": "2026-11-20"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 58.849998474121094,
+   "umsatz_usd": 319903116.8346405,
+   "zum_kaufpreis": -0.2003888901399966,
+   "stop": 46.25366380370815,
+   "ziel": 92.06999969482422,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "FLOC",
+   "firma": "Flowco Holdings Inc.",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 3,
+   "summe": 1494074.0,
+   "kaufpreis_mittel": 19.443965314116966,
+   "kaeufer": [
+    {
+     "name": "EDWARDS JOSEPH R",
+     "titel": "President and CEO",
+     "wert": 798213,
+     "preis": 19.4686,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "EDWARDS JOSEPH R",
+     "titel": "President and CEO",
+     "wert": 389732,
+     "preis": 19.4866,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "Fairbanks Jonathan B.",
+     "titel": "Director",
+     "wert": 292924,
+     "preis": 19.3477,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Chmelev Alexander",
+     "titel": "Director",
+     "wert": 13205,
+     "preis": 18.865,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 18.940000534057617,
+   "umsatz_usd": 13071896.257686615,
+   "zum_kaufpreis": -0.0259188273542873,
+   "stop": 17.433790516555632,
+   "ziel": 20.986940142336746,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "OBIO",
+   "firma": "Orchestra BioMed Holdings, Inc.",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 4,
+   "summe": 230000.0,
+   "kaufpreis_mittel": 5.0,
+   "kaeufer": [
+    {
+     "name": "Fain Eric S",
+     "titel": "Director",
+     "wert": 100000,
+     "preis": 5.0,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Pacitti David",
+     "titel": "Director",
+     "wert": 100000,
+     "preis": 5.0,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Hochman David P",
+     "titel": "See Remarks",
+     "wert": 25000,
+     "preis": 5.0,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Taylor Andrew Lawrence",
+     "titel": "Chief Financial Officer",
+     "wert": 5000,
+     "preis": 5.0,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 6.579999923706055,
+   "umsatz_usd": 2751922.0564603806,
+   "zum_kaufpreis": 0.31599998474121094,
+   "stop": 5.74579411022294,
+   "ziel": 7.369317460285771,
+   "ueber_200": true
+  },
+  {
+   "typ": "A",
+   "ticker": "LKQ",
+   "firma": "LKQ CORP",
+   "datum": "2026-11-06",
+   "kaeufer_anzahl": 4,
+   "summe": 1288716.0,
+   "kaufpreis_mittel": 19.065259848049585,
+   "kaeufer": [
+    {
+     "name": "Urbain Xavier",
+     "titel": "Director",
+     "wert": 496101,
+     "preis": 19.0808,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "CLARKE ANDREW C",
+     "titel": "Director",
+     "wert": 400030,
+     "preis": 18.35,
+     "gemeldet": "2026-11-03"
+    },
+    {
+     "name": "GOVE SUE",
+     "titel": "Director",
+     "wert": 201085,
+     "preis": 20.5294,
+     "gemeldet": "2026-11-06"
+    },
+    {
+     "name": "Powell Michael Scott",
+     "titel": "Director",
+     "wert": 191500,
+     "preis": 19.15,
+     "gemeldet": "2026-11-03"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 18.510000228881836,
+   "umsatz_usd": 96248915.59753418,
+   "zum_kaufpreis": -0.029124156900728226,
+   "stop": 16.1800670368216,
+   "ziel": 20.84733142017621,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "MTDR",
+   "firma": "Matador Resources Co",
+   "datum": "2026-11-06",
+   "kaeufer_anzahl": 9,
+   "summe": 1015895.0,
+   "kaufpreis_mittel": 50.78459041428013,
+   "kaeufer": [
+    {
+     "name": "Foran Joseph Wm",
+     "titel": "Chairman and CEO",
+     "wert": 256800,
+     "preis": 51.36,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Foran Joseph Wm",
+     "titel": "Chairman and CEO",
+     "wert": 127450,
+     "preis": 50.98,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "Foran Joseph Wm",
+     "titel": "Chairman and CEO",
+     "wert": 123225,
+     "preis": 49.29,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Foran Joseph Wm",
+     "titel": "Chairman and CEO",
+     "wert": 123050,
+     "preis": 49.22,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Calvert Christopher P",
+     "titel": "EVP and CFO",
+     "wert": 105140,
+     "preis": 52.57,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Appel Shelley F",
+     "titel": "Director",
+     "wert": 67521,
+     "preis": 50.0157,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Stetson Glenn W",
+     "titel": "EVP and COO",
+     "wert": 50800,
+     "preis": 50.8,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Erman Bryan A",
+     "titel": "President",
+     "wert": 46473,
+     "preis": 50.79,
+     "gemeldet": "2026-11-06"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 48.630001068115234,
+   "umsatz_usd": 82031110.35251617,
+   "zum_kaufpreis": -0.04242604555020779,
+   "stop": 45.5268765001119,
+   "ziel": 54.20504098982138,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "PAM",
+   "firma": "Pampa Energy Inc.",
+   "datum": "2026-11-05",
+   "kaeufer_anzahl": 4,
+   "summe": 49613702.0,
+   "kaufpreis_mittel": 75.12242615371713,
+   "kaeufer": [
+    {
+     "name": "Mindlin Marcos Marcelo",
+     "titel": "Director",
+     "wert": 35139300,
+     "preis": 80.78,
+     "gemeldet": "2026-10-16"
+    },
+    {
+     "name": "Mindlin Marcos Marcelo",
+     "titel": "Director",
+     "wert": 4012172,
+     "preis": 63.1361,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Mindlin Damian Miguel",
+     "titel": "Vicepresident",
+     "wert": 2616098,
+     "preis": 67.6834,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Mindlin Damian Miguel",
+     "titel": "Vicepresident",
+     "wert": 1456232,
+     "preis": 63.0786,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Mariani Gustavo",
+     "titel": "Vice President",
+     "wert": 1448196,
+     "preis": 63.0748,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Mindlin Damian Miguel",
+     "titel": "Vicepresident",
+     "wert": 1436636,
+     "preis": 63.2879,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Mindlin Damian Miguel",
+     "titel": "Vicepresident",
+     "wert": 1300012,
+     "preis": 64.2203,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Mindlin Damian Miguel",
+     "titel": "Vicepresident",
+     "wert": 1287400,
+     "preis": 64.37,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 60.630001068115234,
+   "umsatz_usd": 18567021.047973633,
+   "zum_kaufpreis": -0.1929174259620846,
+   "stop": 54.17622038928689,
+   "ziel": 79.9800033569336,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "LBRT",
+   "firma": "Liberty Energy Inc.",
+   "datum": "2026-11-05",
+   "kaeufer_anzahl": 3,
+   "summe": 645635.0,
+   "kaufpreis_mittel": 15.191411764705883,
+   "kaeufer": [
+    {
+     "name": "Gusek Ron",
+     "titel": "CEO and President",
+     "wert": 377335,
+     "preis": 15.0934,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Babcock Ken",
+     "titel": "Director",
+     "wert": 223300,
+     "preis": 15.4,
+     "gemeldet": "2026-10-28"
+    },
+    {
+     "name": "Gosney Ryan T",
+     "titel": "Chief Accounting Officer",
+     "wert": 45000,
+     "preis": 15.0,
+     "gemeldet": "2026-11-05"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 10.760000228881836,
+   "umsatz_usd": 61096434.68208313,
+   "zum_kaufpreis": -0.29170505048908746,
+   "stop": 8.058607014089128,
+   "ziel": 18.030000686645508,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "UPBD",
+   "firma": "UPBOUND GROUP, INC.",
+   "datum": "2026-11-04",
+   "kaeufer_anzahl": 10,
+   "summe": 2288583.0,
+   "kaufpreis_mittel": 23.49505717204397,
+   "kaeufer": [
+    {
+     "name": "BROWN JEFFREY J",
+     "titel": "Director",
+     "wert": 400012,
+     "preis": 22.67,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "LEWIS HAROLD G",
+     "titel": "Director",
+     "wert": 398565,
+     "preis": 26.05,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "MARINO GLENN P",
+     "titel": "Director",
+     "wert": 393414,
+     "preis": 22.61,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "Karam Fahmi",
+     "titel": "Chief Executive Officer",
+     "wert": 299989,
+     "preis": 24.66,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Khouri Halim",
+     "titel": "EVP, Chief Financial Officer",
+     "wert": 250580,
+     "preis": 22.78,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "Young Scott A.",
+     "titel": "EVP, Chief Operating Officer",
+     "wert": 150074,
+     "preis": 24.95,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "Karam Fahmi",
+     "titel": "Chief Executive Officer",
+     "wert": 100083,
+     "preis": 22.71,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Wooters Rebecca",
+     "titel": "EVP, Chief Growth Officer",
+     "wert": 99475,
+     "preis": 23.0,
+     "gemeldet": "2026-11-04"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 25.440000534057617,
+   "umsatz_usd": 37408720.03860474,
+   "zum_kaufpreis": 0.08278095889580861,
+   "stop": 20.885431112670346,
+   "ziel": 27.147964067077844,
+   "ueber_200": true
+  },
+  {
+   "typ": "A",
+   "ticker": "AN",
+   "firma": "AUTONATION, INC.",
+   "datum": "2026-11-04",
+   "kaeufer_anzahl": 4,
+   "summe": 1729868.0,
+   "kaufpreis_mittel": 183.8524473424677,
+   "kaeufer": [
+    {
+     "name": "Manley Michael Mark",
+     "titel": "CEO and Director",
+     "wert": 1031024,
+     "preis": 184.1114,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "Szlosek Thomas A",
+     "titel": "EVP & CFO",
+     "wert": 299990,
+     "preis": 182.0329,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "Szlosek Thomas A",
+     "titel": "EVP & CFO",
+     "wert": 199800,
+     "preis": 184.8288,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "EDMUNDS C COLEMAN",
+     "titel": "EVP, Gen Counsel & Corp Sec",
+     "wert": 100850,
+     "preis": 183.3636,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "TRAVISANO JACQUELINE A",
+     "titel": "Director",
+     "wert": 98204,
+     "preis": 185.29,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 175.47999572753906,
+   "umsatz_usd": 86875621.84753418,
+   "zum_kaufpreis": -0.045538972888041096,
+   "stop": 165.40636750004592,
+   "ziel": 185.5536239550322,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "FFIN",
+   "firma": "FIRST FINANCIAL BANKSHARES INC",
+   "datum": "2026-11-03",
+   "kaeufer_anzahl": 4,
+   "summe": 199733.0,
+   "kaufpreis_mittel": 30.424000303079545,
+   "kaeufer": [
+    {
+     "name": "Denny Michael B.",
+     "titel": "Director",
+     "wert": 99816,
+     "preis": 30.76,
+     "gemeldet": "2026-10-30"
+    },
+    {
+     "name": "Davis Sally Pope",
+     "titel": "Director",
+     "wert": 50796,
+     "preis": 29.88,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Nickles Robert Clark Jr",
+     "titel": "Director",
+     "wert": 24698,
+     "preis": 30.12,
+     "gemeldet": "2026-10-27"
+    },
+    {
+     "name": "Edwards Murray Hamilton",
+     "titel": "Director",
+     "wert": 24423,
+     "preis": 30.5287,
+     "gemeldet": "2026-11-03"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 29.1299991607666,
+   "umsatz_usd": 29530616.844844818,
+   "zum_kaufpreis": -0.042532248534784656,
+   "stop": 27.37805349474205,
+   "ziel": 32.26527184326864,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "OCFC",
+   "firma": "OCEANFIRST FINANCIAL CORP",
+   "datum": "2026-11-03",
+   "kaeufer_anzahl": 3,
+   "summe": 277785.0,
+   "kaufpreis_mittel": 17.873184213002162,
+   "kaeufer": [
+    {
+     "name": "Katsoulis Nicos",
+     "titel": "Director",
+     "wert": 178277,
+     "preis": 17.8277,
+     "gemeldet": "2026-11-02"
+    },
+    {
+     "name": "Barrett Patrick Sean",
+     "titel": "Senior EVP & CFO",
+     "wert": 89500,
+     "preis": 17.9,
+     "gemeldet": "2026-10-30"
+    },
+    {
+     "name": "Farris Jack M.",
+     "titel": "Director",
+     "wert": 10008,
+     "preis": 18.465,
+     "gemeldet": "2026-11-03"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 17.209999084472656,
+   "umsatz_usd": 21161702.739810944,
+   "zum_kaufpreis": -0.03710503515356034,
+   "stop": 16.50425785036504,
+   "ziel": 17.915740318580273,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "TRTX",
+   "firma": "TPG RE Finance Trust, Inc.",
+   "datum": "2026-11-03",
+   "kaeufer_anzahl": 4,
+   "summe": 604373.0,
+   "kaufpreis_mittel": 6.5216388782882175,
+   "kaeufer": [
+    {
+     "name": "SILVERSTEIN WENDY",
+     "titel": "Director",
+     "wert": 253239,
+     "preis": 6.51,
+     "gemeldet": "2026-11-03"
+    },
+    {
+     "name": "Schuster Todd",
+     "titel": "Director",
+     "wert": 224824,
+     "preis": 6.56,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Smith Michael Bradley",
+     "titel": "Director",
+     "wert": 64600,
+     "preis": 6.46,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Smith Michael Bradley",
+     "titel": "Director",
+     "wert": 32600,
+     "preis": 6.52,
+     "gemeldet": "2026-11-03"
+    },
+    {
+     "name": "Gillmore Michael",
+     "titel": "Director",
+     "wert": 16250,
+     "preis": 6.5,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Gillmore Michael",
+     "titel": "Director",
+     "wert": 12860,
+     "preis": 6.43,
+     "gemeldet": "2026-11-03"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 6.360000133514404,
+   "umsatz_usd": 9964092.074155807,
+   "zum_kaufpreis": -0.024784988526724394,
+   "stop": 6.002315521444247,
+   "ziel": 6.7830538408043815,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "STRZ",
+   "firma": "STARZ ENTERTAINMENT CORP /CN/",
+   "datum": "2026-11-03",
+   "kaeufer_anzahl": 3,
+   "summe": 176706.0,
+   "kaufpreis_mittel": 22.199295072769875,
+   "kaeufer": [
+    {
+     "name": "Hirsch Jeffrey",
+     "titel": "President and CEO",
+     "wert": 110650,
+     "preis": 22.13,
+     "gemeldet": "2026-11-03"
+    },
+    {
+     "name": "MACDONALD SCOTT D",
+     "titel": "CFO and Treasurer",
+     "wert": 55550,
+     "preis": 22.22,
+     "gemeldet": "2026-11-03"
+    },
+    {
+     "name": "Kapenstein James M.",
+     "titel": "SEE REMARKS",
+     "wert": 10506,
+     "preis": 22.84,
+     "gemeldet": "2026-11-03"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 23.05500030517578,
+   "umsatz_usd": 6567085.973739624,
+   "zum_kaufpreis": 0.03854650472462673,
+   "stop": 20.223152156366815,
+   "ziel": 25.886848453984747,
+   "ueber_200": true
+  },
+  {
+   "typ": "A",
+   "ticker": "BBT",
+   "firma": "Beacon Financial Corp",
+   "datum": "2026-10-28",
+   "kaeufer_anzahl": 7,
+   "summe": 280473.0,
+   "kaufpreis_mittel": 30.390327177233996,
+   "kaeufer": [
+    {
+     "name": "Hollister Thomas J",
+     "titel": "Director",
+     "wert": 104984,
+     "preis": 30.43,
+     "gemeldet": "2026-10-26"
+    },
+    {
+     "name": "Callahan Mary Anne",
+     "titel": "Director",
+     "wert": 96672,
+     "preis": 30.21,
+     "gemeldet": "2026-10-29"
+    },
+    {
+     "name": "Polito Karyn",
+     "titel": "Director",
+     "wert": 30680,
+     "preis": 30.68,
+     "gemeldet": "2026-10-28"
+    },
+    {
+     "name": "Rosengren Eric S",
+     "titel": "Director",
+     "wert": 21168,
+     "preis": 30.24,
+     "gemeldet": "2026-10-28"
+    },
+    {
+     "name": "Charnley Nina A",
+     "titel": "Director",
+     "wert": 10700,
+     "preis": 30.57,
+     "gemeldet": "2026-10-30"
+    },
+    {
+     "name": "Fitzgerald Margaret Boles",
+     "titel": "Director",
+     "wert": 10123,
+     "preis": 30.77,
+     "gemeldet": "2026-10-28"
+    },
+    {
+     "name": "Hughes William H III",
+     "titel": "Director",
+     "wert": 6146,
+     "preis": 30.73,
+     "gemeldet": "2026-11-02"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 29.360000610351562,
+   "umsatz_usd": 26965666.441726685,
+   "zum_kaufpreis": -0.033903108738305154,
+   "stop": 28.201369190764357,
+   "ziel": 31.776009086650266,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "NPB",
+   "firma": "NORTHPOINTE BANCSHARES INC",
+   "datum": "2026-10-27",
+   "kaeufer_anzahl": 4,
+   "summe": 1819350.0,
+   "kaufpreis_mittel": 15.38691629269605,
+   "kaeufer": [
+    {
+     "name": "Williams Charles Alan",
+     "titel": "CHAIRMAN & CEO",
+     "wert": 1537390,
+     "preis": 15.3739,
+     "gemeldet": "2026-10-27"
+    },
+    {
+     "name": "Boer Carrie L",
+     "titel": "Director",
+     "wert": 184762,
+     "preis": 15.3968,
+     "gemeldet": "2026-10-27"
+    },
+    {
+     "name": "Long Joseph B",
+     "titel": "Chief Operating Officer",
+     "wert": 49800,
+     "preis": 15.3703,
+     "gemeldet": "2026-10-27"
+    },
+    {
+     "name": "Chaudhary Rajeev Kumar",
+     "titel": "Director",
+     "wert": 47398,
+     "preis": 15.7992,
+     "gemeldet": "2026-10-29"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 14.5,
+   "umsatz_usd": 3327658.084011078,
+   "zum_kaufpreis": -0.057640938302696565,
+   "stop": 13.224555919385898,
+   "ziel": 16.381304858296662,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "STC",
+   "firma": "STEWART INFORMATION SERVICES CORP",
+   "datum": "2026-10-26",
+   "kaeufer_anzahl": 5,
+   "summe": 460970.0,
+   "kaufpreis_mittel": 46.097,
+   "kaeufer": [
+    {
+     "name": "EPPINGER FREDERICK H",
+     "titel": "Chief Executive Officer",
+     "wert": 133350,
+     "preis": 44.45,
+     "gemeldet": "2026-10-27"
+    },
+    {
+     "name": "Apel Thomas G",
+     "titel": "Director",
+     "wert": 95470,
+     "preis": 47.735,
+     "gemeldet": "2026-10-26"
+    },
+    {
+     "name": "BRADLEY C ALLEN JR",
+     "titel": "Director",
+     "wert": 94600,
+     "preis": 47.3,
+     "gemeldet": "2026-10-26"
+    },
+    {
+     "name": "Corey William S. Jr.",
+     "titel": "Director",
+     "wert": 93640,
+     "preis": 46.82,
+     "gemeldet": "2026-10-26"
+    },
+    {
+     "name": "Matz Deborah Jane",
+     "titel": "Director",
+     "wert": 43910,
+     "preis": 43.91,
+     "gemeldet": "2026-10-27"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 44.4900016784668,
+   "umsatz_usd": 32063206.044387817,
+   "zum_kaufpreis": -0.034861234386905915,
+   "stop": 41.18404529192607,
+   "ziel": 50.290000915527344,
+   "ueber_200": false
+  },
+  {
+   "typ": "A",
+   "ticker": "RAPP",
+   "firma": "Rapport Therapeutics, Inc.",
+   "datum": "2026-10-22",
+   "kaeufer_anzahl": 7,
+   "summe": 22023905.0,
+   "kaufpreis_mittel": 21.35808727544416,
+   "kaeufer": [
+    {
+     "name": "HEALY JAMES",
+     "titel": "Director",
+     "wert": 20359080,
+     "preis": 21.0,
+     "gemeldet": "2026-10-30"
+    },
+    {
+     "name": "PAUL STEVEN M",
+     "titel": "Director",
+     "wert": 974278,
+     "preis": 27.28,
+     "gemeldet": "2026-10-22"
+    },
+    {
+     "name": "MARAGANORE JOHN",
+     "titel": "Director",
+     "wert": 248891,
+     "preis": 26.4468,
+     "gemeldet": "2026-10-22"
+    },
+    {
+     "name": "Ignelzi Troy A.",
+     "titel": "Chief Financial Officer",
+     "wert": 143550,
+     "preis": 26.1,
+     "gemeldet": "2026-10-21"
+    },
+    {
+     "name": "Young Wendy B.",
+     "titel": "Director",
+     "wert": 99992,
+     "preis": 26.39,
+     "gemeldet": "2026-10-22"
+    },
+    {
+     "name": "Silva Paul M",
+     "titel": "Director",
+     "wert": 99636,
+     "preis": 27.075,
+     "gemeldet": "2026-10-22"
+    },
+    {
+     "name": "Sanchez Ramiro",
+     "titel": "Director",
+     "wert": 98478,
+     "preis": 27.3549,
+     "gemeldet": "2026-10-23"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 23.15999984741211,
+   "umsatz_usd": 18260801.02005005,
+   "zum_kaufpreis": 0.08436675760004242,
+   "stop": 20.357143911772685,
+   "ziel": 26.610470217173788,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "SEI",
+   "firma": "Solaris Energy Infrastructure, Inc.",
+   "datum": "2026-11-20",
+   "kaeufer_anzahl": 4,
+   "summe": 757952.0,
+   "kaufpreis_mittel": 54.48972509527894,
+   "kaeufer": [
+    {
+     "name": "Brock Amanda M",
+     "titel": "Co-Chief Executive Officer",
+     "wert": 268900,
+     "preis": 53.78,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Zartler William A",
+     "titel": "Chairman and Co-CEO",
+     "wert": 212440,
+     "preis": 53.11,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Ramachandran Kyle S.",
+     "titel": "President",
+     "wert": 159750,
+     "preis": 53.25,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "TEAGUE AJ",
+     "titel": "Director",
+     "wert": 40717,
+     "preis": 60.7716,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "TEAGUE AJ",
+     "titel": "Director",
+     "wert": 35242,
+     "preis": 63.4998,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "TEAGUE AJ",
+     "titel": "Director",
+     "wert": 30821,
+     "preis": 59.2716,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "TEAGUE AJ",
+     "titel": "Director",
+     "wert": 10082,
+     "preis": 61.1,
+     "gemeldet": "2026-11-19"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 54.66999816894531,
+   "umsatz_usd": 156088019.93598938,
+   "zum_kaufpreis": 0.0033083865508800603,
+   "stop": 45.573748530364085,
+   "ziel": 63.76624780752654,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "HMH",
+   "firma": "HMH Holding Inc",
+   "datum": "2026-11-19",
+   "kaeufer_anzahl": 2,
+   "summe": 1736052.0,
+   "kaufpreis_mittel": 11.73005414852616,
+   "kaeufer": [
+    {
+     "name": "McGee Thomas W.",
+     "titel": "Chief Financial Officer",
+     "wert": 1647972,
+     "preis": 11.7712,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "Bergsvik Eirik",
+     "titel": "Chief Executive Officer",
+     "wert": 88080,
+     "preis": 11.01,
+     "gemeldet": "2026-11-19"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 10.979999542236328,
+   "umsatz_usd": 4057811.854362488,
+   "zum_kaufpreis": -0.06394297901720025
+  },
+  {
+   "typ": "B",
+   "ticker": "PAM",
+   "firma": "Pampa Energy Inc.",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 4,
+   "summe": 14474402.0,
+   "kaufpreis_mittel": 64.2056994162139,
+   "kaeufer": [
+    {
+     "name": "Mindlin Marcos Marcelo",
+     "titel": "Director",
+     "wert": 4012172,
+     "preis": 63.1361,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Mindlin Damian Miguel",
+     "titel": "Vicepresident",
+     "wert": 2616098,
+     "preis": 67.6834,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Mindlin Damian Miguel",
+     "titel": "Vicepresident",
+     "wert": 1456232,
+     "preis": 63.0786,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Mariani Gustavo",
+     "titel": "Vice President",
+     "wert": 1448196,
+     "preis": 63.0748,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Mindlin Damian Miguel",
+     "titel": "Vicepresident",
+     "wert": 1436636,
+     "preis": 63.2879,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Mindlin Damian Miguel",
+     "titel": "Vicepresident",
+     "wert": 1300012,
+     "preis": 64.2203,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Mindlin Damian Miguel",
+     "titel": "Vicepresident",
+     "wert": 1287400,
+     "preis": 64.37,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Mindlin Marcos Marcelo",
+     "titel": "Director",
+     "wert": 541019,
+     "preis": 63.92,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 60.630001068115234,
+   "umsatz_usd": 18567021.047973633,
+   "zum_kaufpreis": -0.055691291904152895,
+   "stop": 54.17622038928689,
+   "ziel": 79.9800033569336,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "CGON",
+   "firma": "CG Oncology, Inc.",
+   "datum": "2026-11-18",
+   "kaeufer_anzahl": 2,
+   "summe": 2665586.0,
+   "kaufpreis_mittel": 78.97724435219388,
+   "kaeufer": [
+    {
+     "name": "Kuan Arthur",
+     "titel": "Chief Executive Officer",
+     "wert": 2366425,
+     "preis": 78.88,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Kalofonos Isabel",
+     "titel": "Chief Commercial Officer",
+     "wert": 299161,
+     "preis": 79.755,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 79.47000122070312,
+   "umsatz_usd": 84450730.38902283,
+   "zum_kaufpreis": 0.0062392259004611095,
+   "stop": 70.2699576220338,
+   "ziel": 87.87237248378266,
+   "ueber_200": true
+  },
+  {
+   "typ": "B",
+   "ticker": "SSII",
+   "firma": "SS Innovations International, Inc.",
+   "datum": "2026-11-17",
+   "kaeufer_anzahl": 1,
+   "summe": 300000.0,
+   "kaufpreis_mittel": 3.0,
+   "kaeufer": [
+    {
+     "name": "Sudhir Srivastava",
+     "titel": "Chairman and CEO",
+     "wert": 300000,
+     "preis": 3.0,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": false,
+   "kurs": 1.2699999809265137,
+   "umsatz_usd": 205073.5034584999,
+   "zum_kaufpreis": -0.5766666730244954,
+   "stop": 0.826950745019956,
+   "ziel": 2.6700000762939453,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "LPG",
+   "firma": "DORIAN LPG LTD.",
+   "datum": "2026-11-17",
+   "kaeufer_anzahl": 1,
+   "summe": 961460.0,
+   "kaufpreis_mittel": 48.073,
+   "kaeufer": [
+    {
+     "name": "HADJIPATERAS JOHN C",
+     "titel": "President and CEO",
+     "wert": 961460,
+     "preis": 48.073,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 44.20000076293945,
+   "umsatz_usd": 26229644.49863434,
+   "zum_kaufpreis": -0.08056495823145104,
+   "stop": 40.98650351551874,
+   "ziel": 51.281163973385645,
+   "ueber_200": true
+  },
+  {
+   "typ": "B",
+   "ticker": "NSLR",
+   "firma": "Neostellar Capital Corp.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 3,
+   "summe": 1139700.0,
+   "kaufpreis_mittel": 5.998384368406568,
+   "kaeufer": [
+    {
+     "name": "Klein Mark D",
+     "titel": "Chairman, CEO and President",
+     "wert": 994000,
+     "preis": 6.0242,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Potter Leonard",
+     "titel": "Director",
+     "wert": 115200,
+     "preis": 5.76,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Mazur Marc",
+     "titel": "Director",
+     "wert": 30500,
+     "preis": 6.1,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 4.820000171661377,
+   "umsatz_usd": 1892047.5293397903,
+   "zum_kaufpreis": -0.19645026466655413,
+   "stop": 3.8680844289831073,
+   "ziel": 6.460000038146973,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "HUBS",
+   "firma": "HUBSPOT INC",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 1,
+   "summe": 4997858.0,
+   "kaufpreis_mittel": 217.44,
+   "kaeufer": [
+    {
+     "name": "Halligan Brian",
+     "titel": "Chief Executive Officer",
+     "wert": 4997858,
+     "preis": 217.44,
+     "gemeldet": "2026-11-16"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 193.8800048828125,
+   "umsatz_usd": 274712303.4637451,
+   "zum_kaufpreis": -0.10835170675674899,
+   "stop": 171.7175411797614,
+   "ziel": 230.0964940948331,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "OIG",
+   "firma": "Orion180 Insurance Group Inc.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 2,
+   "summe": 1130571.0,
+   "kaufpreis_mittel": 10.618389582279448,
+   "kaeufer": [
+    {
+     "name": "Gregg Kenneth",
+     "titel": "Chief Executive Officer",
+     "wert": 1024690,
+     "preis": 10.6572,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "DEUTSCH ROBERT V",
+     "titel": "Director",
+     "wert": 105881,
+     "preis": 10.2569,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": null
+  },
+  {
+   "typ": "B",
+   "ticker": "FPS",
+   "firma": "Forgent Power Solutions, Inc.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 5,
+   "summe": 1143314.0,
+   "kaufpreis_mittel": 20.869878418899223,
+   "kaeufer": [
+    {
+     "name": "Niederpruem Gary John",
+     "titel": "Chief Executive Officer",
+     "wert": 334261,
+     "preis": 20.8913,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Ard Amy E",
+     "titel": "Chief Financial Officer",
+     "wert": 299996,
+     "preis": 20.5238,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Hottinger Tyson",
+     "titel": "Chief Legal Officer",
+     "wert": 244956,
+     "preis": 20.759,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Bhatia Neel",
+     "titel": "Director",
+     "wert": 199121,
+     "preis": 21.26,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Lund Inez",
+     "titel": "Chief Accounting Officer",
+     "wert": 64980,
+     "preis": 21.66,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 18.0,
+   "umsatz_usd": 227242118.37301254,
+   "zum_kaufpreis": -0.1375129438368139
+  },
+  {
+   "typ": "B",
+   "ticker": "KURA",
+   "firma": "Kura Oncology, Inc.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 1,
+   "summe": 1504765.0,
+   "kaufpreis_mittel": 7.5238,
+   "kaeufer": [
+    {
+     "name": "WILSON TROY EDWARD",
+     "titel": "President and CEO",
+     "wert": 1504765,
+     "preis": 7.5238,
+     "gemeldet": "2026-11-16"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 6.909999847412109,
+   "umsatz_usd": 18331326.887893677,
+   "zum_kaufpreis": -0.08158113620615781,
+   "stop": 5.931463529425879,
+   "ziel": 7.9425242931259135,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "CTVA",
+   "firma": "Corteva, Inc.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 2,
+   "summe": 485712.0,
+   "kaufpreis_mittel": 9.288464207604203,
+   "kaeufer": [
+    {
+     "name": "KISSAM LUTHER C IV",
+     "titel": "Chief Executive Officer",
+     "wert": 300312,
+     "preis": 9.2999,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "PAGE GREGORY R",
+     "titel": "Director",
+     "wert": 185400,
+     "preis": 9.27,
+     "gemeldet": "2026-11-16"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 7.889999866485596,
+   "umsatz_usd": 228582730.65862656,
+   "zum_kaufpreis": -0.1505592646816386,
+   "stop": 6.372975840778329,
+   "ziel": 11.621261087778787,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "CRMD",
+   "firma": "CorMedix Inc.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 4,
+   "summe": 588195.0,
+   "kaufpreis_mittel": 4.841111111111111,
+   "kaeufer": [
+    {
+     "name": "Todisco Joseph",
+     "titel": "Chief Executive Officer",
+     "wert": 391200,
+     "preis": 4.89,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Kaplan Myron",
+     "titel": "Director",
+     "wert": 122000,
+     "preis": 4.88,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Lefkowitz Steven W",
+     "titel": "Director",
+     "wert": 52095,
+     "preis": 4.53,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Blum Susan",
+     "titel": "Chief Financial Officer",
+     "wert": 22900,
+     "preis": 4.58,
+     "gemeldet": "2026-11-20"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 5.269999980926514,
+   "umsatz_usd": 11859086.683559418,
+   "zum_kaufpreis": 0.08859306468530237,
+   "stop": 4.643931304546458,
+   "ziel": 7.583642113825267,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "BRSP",
+   "firma": "BrightSpire Capital, Inc.",
+   "datum": "2026-11-16",
+   "kaeufer_anzahl": 1,
+   "summe": 1000180.0,
+   "kaufpreis_mittel": 3.2356,
+   "kaeufer": [
+    {
+     "name": "Mazzei Michael",
+     "titel": "CEO",
+     "wert": 1000180,
+     "preis": 3.2356,
+     "gemeldet": "2026-11-16"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 3.190000057220459,
+   "umsatz_usd": 6846883.647918701,
+   "zum_kaufpreis": -0.01409319532066411,
+   "stop": 2.946875483688221,
+   "ziel": 3.463552540371817,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "UPST",
+   "firma": "Upstart Holdings, Inc.",
+   "datum": "2026-11-13",
+   "kaeufer_anzahl": 2,
+   "summe": 3789453.0,
+   "kaufpreis_mittel": 18.045014285714284,
+   "kaeufer": [
+    {
+     "name": "Gu Paul",
+     "titel": "Chief Executive Officer",
+     "wert": 1028400,
+     "preis": 20.568,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Girouard Dave",
+     "titel": "Director",
+     "wert": 950988,
+     "preis": 15.8498,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Gu Paul",
+     "titel": "Chief Executive Officer",
+     "wert": 950000,
+     "preis": 19.0,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "Gu Paul",
+     "titel": "Chief Executive Officer",
+     "wert": 860065,
+     "preis": 17.2013,
+     "gemeldet": "2026-11-20"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 15.65999984741211,
+   "umsatz_usd": 97977254.9791336,
+   "zum_kaufpreis": -0.1321702715519778,
+   "stop": 12.449536413451778,
+   "ziel": 24.899999618530273,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "NXGL",
+   "firma": "NEXGEL, INC.",
+   "datum": "2026-11-13",
+   "kaeufer_anzahl": 2,
+   "summe": 757691.0,
+   "kaufpreis_mittel": 5.5,
+   "kaeufer": [
+    {
+     "name": "Kieser Brian Joseph",
+     "titel": "Interim CEO",
+     "wert": 732688,
+     "preis": 5.5,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "glassman steven mark",
+     "titel": "Director",
+     "wert": 25003,
+     "preis": 5.5,
+     "gemeldet": "2026-11-13"
+    }
+   ],
+   "handelbar": false,
+   "kurs": 3.121000051498413,
+   "umsatz_usd": 106510.49859523773,
+   "zum_kaufpreis": -0.4325454451821067,
+   "stop": 1.6629943148595787,
+   "ziel": 5.260000228881836,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "STWD",
+   "firma": "STARWOOD PROPERTY TRUST, INC.",
+   "datum": "2026-11-13",
+   "kaeufer_anzahl": 3,
+   "summe": 18734234.0,
+   "kaufpreis_mittel": 11.801039184128001,
+   "kaeufer": [
+    {
+     "name": "STERNLICHT BARRY S",
+     "titel": "CEO, Chairman of the Board",
+     "wert": 14697682,
+     "preis": 11.8054,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "ZELNICK STRAUSS",
+     "titel": "Director",
+     "wert": 2023102,
+     "preis": 11.7138,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Pollack Jonathan Lee",
+     "titel": "Director",
+     "wert": 2013450,
+     "preis": 11.8578,
+     "gemeldet": "2026-11-13"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 10.829999923706055,
+   "umsatz_usd": 80172924.27940369,
+   "zum_kaufpreis": -0.08228421626867921,
+   "stop": 9.749221791074103,
+   "ziel": 13.220000267028809,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "AKAM",
+   "firma": "AKAMAI TECHNOLOGIES INC",
+   "datum": "2026-11-13",
+   "kaeufer_anzahl": 1,
+   "summe": 2552400.0,
+   "kaufpreis_mittel": 85.08,
+   "kaeufer": [
+    {
+     "name": "LEIGHTON F THOMSON",
+     "titel": "Chief Executive Officer",
+     "wert": 2552400,
+     "preis": 85.08,
+     "gemeldet": "2026-11-13"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 85.11000061035156,
+   "umsatz_usd": 498562100.8293152,
+   "zum_kaufpreis": 0.000352616482740542,
+   "stop": 77.15521003692582,
+   "ziel": 93.0647911837773,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "BH",
+   "firma": "Biglari Holdings Inc.",
+   "datum": "2026-11-13",
+   "kaeufer_anzahl": 1,
+   "summe": 7689765.0,
+   "kaufpreis_mittel": 845.0291068614086,
+   "kaeufer": [
+    {
+     "name": "BIGLARI, SARDAR",
+     "titel": "Chairman and CEO",
+     "wert": 5537125,
+     "preis": 1514.1166,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "BIGLARI, SARDAR",
+     "titel": "Chairman and CEO",
+     "wert": 2152640,
+     "preis": 395.4878,
+     "gemeldet": "2026-11-18"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 357.0400085449219,
+   "umsatz_usd": 21453413.439941406,
+   "zum_kaufpreis": -0.5774819995597156,
+   "stop": 311.74484545540355,
+   "ziel": 402.72374725341797,
+   "ueber_200": true
+  },
+  {
+   "typ": "B",
+   "ticker": "FIP",
+   "firma": "FTAI Infrastructure Inc.",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 2,
+   "summe": 1548950.0,
+   "kaufpreis_mittel": 3.824567901234568,
+   "kaeufer": [
+    {
+     "name": "Nicholson Kenneth J.",
+     "titel": "CEO and President",
+     "wert": 1530000,
+     "preis": 3.825,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Fletcher Carl Russell IV",
+     "titel": "CFO  and CAO",
+     "wert": 18950,
+     "preis": 3.79,
+     "gemeldet": "2026-11-10"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 3.309999942779541,
+   "umsatz_usd": 5200689.064085484,
+   "zum_kaufpreis": -0.13454276973064716,
+   "stop": 2.868802055061315,
+   "ziel": 4.052485890280001,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "HOS",
+   "firma": "HORNBECK OFFSHORE SERVICES, INC.",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 1,
+   "summe": 2000010.0,
+   "kaufpreis_mittel": 5.452946083440812,
+   "kaeufer": [
+    {
+     "name": "HORNBECK TODD M",
+     "titel": "PRESIDENT & CEO",
+     "wert": 1500009,
+     "preis": 5.3407,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "HORNBECK TODD M",
+     "titel": "PRESIDENT & CEO",
+     "wert": 500001,
+     "preis": 5.8199,
+     "gemeldet": "2026-11-16"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 4.929999828338623,
+   "umsatz_usd": 21734891.43617153,
+   "zum_kaufpreis": -0.0959016001809081,
+   "stop": 4.006118798038329,
+   "ziel": 7.130955614130412,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "TEAM",
+   "firma": "Atlassian Corp",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 1,
+   "summe": 13716064.0,
+   "kaufpreis_mittel": 146.22671395857958,
+   "kaeufer": [
+    {
+     "name": "Cannon-Brookes Michael",
+     "titel": "CEO, Co-Founder",
+     "wert": 2013990,
+     "preis": 150.2978,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Cannon-Brookes Michael",
+     "titel": "CEO, Co-Founder",
+     "wert": 2010793,
+     "preis": 150.0592,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "Cannon-Brookes Michael",
+     "titel": "CEO, Co-Founder",
+     "wert": 2004422,
+     "preis": 149.5838,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Cannon-Brookes Michael",
+     "titel": "CEO, Co-Founder",
+     "wert": 1998767,
+     "preis": 149.1617,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "Cannon-Brookes Michael",
+     "titel": "CEO, Co-Founder",
+     "wert": 1960527,
+     "preis": 146.308,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "Cannon-Brookes Michael",
+     "titel": "CEO, Co-Founder",
+     "wert": 1881888,
+     "preis": 140.4394,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "Cannon-Brookes Michael",
+     "titel": "CEO, Co-Founder",
+     "wert": 1845677,
+     "preis": 137.7371,
+     "gemeldet": "2026-11-20"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 134.64999389648438,
+   "umsatz_usd": 578822156.3301086,
+   "zum_kaufpreis": -0.07916966571083894,
+   "stop": 112.78744170657498,
+   "ziel": 170.85802983713725,
+   "ueber_200": true
+  },
+  {
+   "typ": "B",
+   "ticker": "TH",
+   "firma": "Target Hospitality Corp.",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 3,
+   "summe": 608241.0,
+   "kaufpreis_mittel": 11.497492220740128,
+   "kaeufer": [
+    {
+     "name": "Archer James Bradley",
+     "titel": "Director and CEO and President",
+     "wert": 312675,
+     "preis": 11.37,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Schrenk Troy C.",
+     "titel": "Chief Commercial Officer",
+     "wert": 250006,
+     "preis": 11.6814,
+     "gemeldet": "2026-11-16"
+    },
+    {
+     "name": "PATENAUDE PAMELA H.",
+     "titel": "Director",
+     "wert": 45560,
+     "preis": 11.39,
+     "gemeldet": "2026-11-17"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 11.180000305175781,
+   "umsatz_usd": 25348980.491018295,
+   "zum_kaufpreis": -0.02761401438407829,
+   "stop": 9.312149825347582,
+   "ziel": 14.539999961853027,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "COHR",
+   "firma": "COHERENT CORP.",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 2,
+   "summe": 1220285.0,
+   "kaufpreis_mittel": 203.38083333333333,
+   "kaeufer": [
+    {
+     "name": "ANDERSON JAMES ROBERT",
+     "titel": "CEO",
+     "wert": 997400,
+     "preis": 199.48,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Digirolomo Enrico",
+     "titel": "Director",
+     "wert": 222885,
+     "preis": 222.885,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 187.22000122070312,
+   "umsatz_usd": 2208450404.521179,
+   "zum_kaufpreis": -0.07946093959671818,
+   "stop": 148.30847180931283,
+   "ziel": 246.89999389648438,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "BOOT",
+   "firma": "Boot Barn Holdings, Inc.",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 1,
+   "summe": 270740.0,
+   "kaufpreis_mittel": 135.37,
+   "kaeufer": [
+    {
+     "name": "Watkins James M",
+     "titel": "CFO & SECRETARY",
+     "wert": 270740,
+     "preis": 135.37,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 135.60000610351562,
+   "umsatz_usd": 110778098.76403809,
+   "zum_kaufpreis": 0.0016990921438695405,
+   "stop": 124.08066750967991,
+   "ziel": 148.3984953015418,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "BLMN",
+   "firma": "Bloomin' Brands, Inc.",
+   "datum": "2026-11-12",
+   "kaeufer_anzahl": 1,
+   "summe": 502000.0,
+   "kaufpreis_mittel": 10.04,
+   "kaeufer": [
+    {
+     "name": "Spanos Mike",
+     "titel": "CEO",
+     "wert": 502000,
+     "preis": 10.04,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 9.970000267028809,
+   "umsatz_usd": 26625181.946516037,
+   "zum_kaufpreis": -0.006972084957289848,
+   "stop": 8.983239638718734,
+   "ziel": 11.279999732971191,
+   "ueber_200": true
+  },
+  {
+   "typ": "B",
+   "ticker": "BSM",
+   "firma": "Black Stone Minerals, L.P.",
+   "datum": "2026-11-10",
+   "kaeufer_anzahl": 1,
+   "summe": 1023878.0,
+   "kaufpreis_mittel": 13.651699926833821,
+   "kaeufer": [
+    {
+     "name": "Carter Thomas L Jr",
+     "titel": "Executive Chairman",
+     "wert": 686290,
+     "preis": 13.7258,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "Carter Thomas L Jr",
+     "titel": "Executive Chairman",
+     "wert": 337588,
+     "preis": 13.5035,
+     "gemeldet": "2026-11-19"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 13.369999885559082,
+   "umsatz_usd": 7468426.739311218,
+   "zum_kaufpreis": -0.02063479587044159,
+   "stop": 12.622990279082586,
+   "ziel": 14.21449819871432,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "FLOC",
+   "firma": "Flowco Holdings Inc.",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 3,
+   "summe": 1494074.0,
+   "kaufpreis_mittel": 19.443965314116966,
+   "kaeufer": [
+    {
+     "name": "EDWARDS JOSEPH R",
+     "titel": "President and CEO",
+     "wert": 798213,
+     "preis": 19.4686,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "EDWARDS JOSEPH R",
+     "titel": "President and CEO",
+     "wert": 389732,
+     "preis": 19.4866,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "Fairbanks Jonathan B.",
+     "titel": "Director",
+     "wert": 292924,
+     "preis": 19.3477,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Chmelev Alexander",
+     "titel": "Director",
+     "wert": 13205,
+     "preis": 18.865,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 18.940000534057617,
+   "umsatz_usd": 13071896.257686615,
+   "zum_kaufpreis": -0.0259188273542873,
+   "stop": 17.433790516555632,
+   "ziel": 20.986940142336746,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "MTDR",
+   "firma": "Matador Resources Co",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 9,
+   "summe": 1015895.0,
+   "kaufpreis_mittel": 50.78459041428013,
+   "kaeufer": [
+    {
+     "name": "Foran Joseph Wm",
+     "titel": "Chairman and CEO",
+     "wert": 256800,
+     "preis": 51.36,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Foran Joseph Wm",
+     "titel": "Chairman and CEO",
+     "wert": 127450,
+     "preis": 50.98,
+     "gemeldet": "2026-11-19"
+    },
+    {
+     "name": "Foran Joseph Wm",
+     "titel": "Chairman and CEO",
+     "wert": 123225,
+     "preis": 49.29,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Foran Joseph Wm",
+     "titel": "Chairman and CEO",
+     "wert": 123050,
+     "preis": 49.22,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "Calvert Christopher P",
+     "titel": "EVP and CFO",
+     "wert": 105140,
+     "preis": 52.57,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Appel Shelley F",
+     "titel": "Director",
+     "wert": 67521,
+     "preis": 50.0157,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Stetson Glenn W",
+     "titel": "EVP and COO",
+     "wert": 50800,
+     "preis": 50.8,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Erman Bryan A",
+     "titel": "President",
+     "wert": 46473,
+     "preis": 50.79,
+     "gemeldet": "2026-11-06"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 48.630001068115234,
+   "umsatz_usd": 82031110.35251617,
+   "zum_kaufpreis": -0.04242604555020779,
+   "stop": 45.5268765001119,
+   "ziel": 54.20504098982138,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "LUMN",
+   "firma": "Lumen Technologies, Inc.",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 2,
+   "summe": 494605.0,
+   "kaufpreis_mittel": 3.95684,
+   "kaeufer": [
+    {
+     "name": "Johnson Kathleen E",
+     "titel": "Chief Executive Officer",
+     "wert": 396890,
+     "preis": 3.9689,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "GOLDBERG MICHELLE J",
+     "titel": "Director",
+     "wert": 97715,
+     "preis": 3.9086,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 3.8299999237060547,
+   "umsatz_usd": 72337817.24780798,
+   "zum_kaufpreis": -0.03205590225885946,
+   "stop": 2.955128937757537,
+   "ziel": 5.070000171661377,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "NTHI",
+   "firma": "NEONC TECHNOLOGIES HOLDINGS, INC.",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 2,
+   "summe": 734112.0,
+   "kaufpreis_mittel": 3.9678134324642858,
+   "kaeufer": [
+    {
+     "name": "Heshmatpour Amir F",
+     "titel": "CEO, President",
+     "wert": 294500,
+     "preis": 4.2071,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Heshmatpour Amir F",
+     "titel": "CEO, President",
+     "wert": 230510,
+     "preis": 3.293,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Heshmatpour Amir F",
+     "titel": "CEO, President",
+     "wert": 150501,
+     "preis": 5.0167,
+     "gemeldet": "2026-11-13"
+    },
+    {
+     "name": "Heshmatpour Amir F",
+     "titel": "CEO, President",
+     "wert": 38600,
+     "preis": 3.86,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "CHEN THOMAS C",
+     "titel": "CMO",
+     "wert": 20001,
+     "preis": 3.9874,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 3.1500000953674316,
+   "umsatz_usd": 752218.0118203163,
+   "zum_kaufpreis": -0.20611184245851388,
+   "stop": 2.3403696531140694,
+   "ziel": 4.369950145159874,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "WCC",
+   "firma": "WESCO INTERNATIONAL INC",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 2,
+   "summe": 603430.0,
+   "kaufpreis_mittel": 292.07660745589703,
+   "kaeufer": [
+    {
+     "name": "Dev Indraneel",
+     "titel": "EVP & CFO",
+     "wert": 503527,
+     "preis": 291.9,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Marino Anthony S",
+     "titel": "EVP & CHRO",
+     "wert": 99903,
+     "preis": 292.97,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 282.0400085449219,
+   "umsatz_usd": 207723965.26184082,
+   "zum_kaufpreis": -0.03436289882438004,
+   "stop": 237.6950700118656,
+   "ziel": 334.4353499974399,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "ROK",
+   "firma": "ROCKWELL AUTOMATION, INC",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 1,
+   "summe": 1545450.0,
+   "kaufpreis_mittel": 386.3624,
+   "kaeufer": [
+    {
+     "name": "Moret Blake D.",
+     "titel": "President and CEO",
+     "wert": 1545450,
+     "preis": 386.3624,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 361.92999267578125,
+   "umsatz_usd": 379659507.57751465,
+   "zum_kaufpreis": -0.06323702131526965,
+   "stop": 323.1346978579064,
+   "ziel": 431.08890780799106,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "ADTN",
+   "firma": "ADTRAN Holdings, Inc.",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 2,
+   "summe": 847008.0,
+   "kaufpreis_mittel": 4.075681932879949,
+   "kaeufer": [
+    {
+     "name": "STANTON THOMAS R",
+     "titel": "Chairman & CEO",
+     "wert": 600900,
+     "preis": 4.006,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "STANTON THOMAS R",
+     "titel": "Chairman & CEO",
+     "wert": 171920,
+     "preis": 4.298,
+     "gemeldet": "2026-11-12"
+    },
+    {
+     "name": "Santo Timothy P",
+     "titel": "SVP of Finance; CFO",
+     "wert": 74188,
+     "preis": 4.1632,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 3.990000009536743,
+   "umsatz_usd": 11269231.247448921,
+   "zum_kaufpreis": -0.02102272079967271,
+   "stop": 3.426579961328204,
+   "ziel": 4.980463743200713,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "DKNG",
+   "firma": "DraftKings Inc.",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 3,
+   "summe": 1450887.0,
+   "kaufpreis_mittel": 18.387072026520844,
+   "kaeufer": [
+    {
+     "name": "Kalish Matthew",
+     "titel": "Director",
+     "wert": 1002100,
+     "preis": 18.22,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "Ellingson Alan Wayne",
+     "titel": "Chief Financial Officer",
+     "wert": 349987,
+     "preis": 18.51,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Wendt Gregory Westin",
+     "titel": "Director",
+     "wert": 98800,
+     "preis": 19.76,
+     "gemeldet": "2026-11-12"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 15.800000190734863,
+   "umsatz_usd": 253349103.2046318,
+   "zum_kaufpreis": -0.14070058745919323,
+   "stop": 12.724613533486167,
+   "ziel": 23.885000228881836,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "CMCO",
+   "firma": "COLUMBUS MCKINNON CORP",
+   "datum": "2026-11-09",
+   "kaeufer_anzahl": 1,
+   "summe": 551349.0,
+   "kaufpreis_mittel": 16.8965,
+   "kaeufer": [
+    {
+     "name": "Wilson David J.",
+     "titel": "President & CEO",
+     "wert": 551349,
+     "preis": 16.8965,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 17.450000762939453,
+   "umsatz_usd": 8580988.530921936,
+   "zum_kaufpreis": 0.03275830869940255,
+   "stop": 15.594071988077276,
+   "ziel": 19.305929537801628,
+   "ueber_200": true
+  },
+  {
+   "typ": "B",
+   "ticker": "KYN",
+   "firma": "Kayne Anderson Energy Infrastructure Fund, Inc.",
+   "datum": "2026-11-06",
+   "kaeufer_anzahl": 2,
+   "summe": 382623.0,
+   "kaufpreis_mittel": 13.239567506212149,
+   "kaeufer": [
+    {
+     "name": "Baker James C",
+     "titel": "President",
+     "wert": 331085,
+     "preis": 13.2434,
+     "gemeldet": "2026-11-06"
+    },
+    {
+     "name": "Little Harrison James",
+     "titel": "Executive Vice President",
+     "wert": 51538,
+     "preis": 13.215,
+     "gemeldet": "2026-11-06"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 12.970000267028809,
+   "umsatz_usd": 4727093.292999268,
+   "zum_kaufpreis": -0.020360728479752566,
+   "stop": 12.514870222877908,
+   "ziel": 13.949161163477005,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "KMI",
+   "firma": "KINDER MORGAN, INC.",
+   "datum": "2026-11-06",
+   "kaeufer_anzahl": 1,
+   "summe": 14994200.0,
+   "kaufpreis_mittel": 29.9884,
+   "kaeufer": [
+    {
+     "name": "KINDER RICHARD D",
+     "titel": "Executive Chairman",
+     "wert": 14994200,
+     "preis": 29.9884,
+     "gemeldet": "2026-11-06"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 30.360000610351562,
+   "umsatz_usd": 393127464.3966675,
+   "zum_kaufpreis": 0.0123914783833603,
+   "stop": 29.11938712760776,
+   "ziel": 32.18647007460665,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "CVS",
+   "firma": "CVS HEALTH Corp",
+   "datum": "2026-11-06",
+   "kaeufer_anzahl": 1,
+   "summe": 2001315.0,
+   "kaufpreis_mittel": 83.895,
+   "kaeufer": [
+    {
+     "name": "Shah Prem S",
+     "titel": "EVP and Group President",
+     "wert": 2001315,
+     "preis": 83.895,
+     "gemeldet": "2026-11-06"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 80.83999633789062,
+   "umsatz_usd": 1017833913.3289337,
+   "zum_kaufpreis": -0.03641460947743458,
+   "stop": 75.77636730096472,
+   "ziel": 89.82624328765692,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "LBRT",
+   "firma": "Liberty Energy Inc.",
+   "datum": "2026-11-05",
+   "kaeufer_anzahl": 3,
+   "summe": 645635.0,
+   "kaufpreis_mittel": 15.191411764705883,
+   "kaeufer": [
+    {
+     "name": "Gusek Ron",
+     "titel": "CEO and President",
+     "wert": 377335,
+     "preis": 15.0934,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Babcock Ken",
+     "titel": "Director",
+     "wert": 223300,
+     "preis": 15.4,
+     "gemeldet": "2026-10-28"
+    },
+    {
+     "name": "Gosney Ryan T",
+     "titel": "Chief Accounting Officer",
+     "wert": 45000,
+     "preis": 15.0,
+     "gemeldet": "2026-11-05"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 10.760000228881836,
+   "umsatz_usd": 61096434.68208313,
+   "zum_kaufpreis": -0.29170505048908746,
+   "stop": 8.058607014089128,
+   "ziel": 18.030000686645508,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "FBRT",
+   "firma": "Franklin BSP Realty Trust, Inc.",
+   "datum": "2026-11-05",
+   "kaeufer_anzahl": 2,
+   "summe": 1146000.0,
+   "kaufpreis_mittel": 6.6676736615980445,
+   "kaeufer": [
+    {
+     "name": "Byrne Richard J",
+     "titel": "Chairman and CEO",
+     "wert": 998364,
+     "preis": 6.14,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "ORTALE BUFORD H",
+     "titel": "Director",
+     "wert": 121892,
+     "preis": 16.9059,
+     "gemeldet": "2026-11-18"
+    },
+    {
+     "name": "ORTALE BUFORD H",
+     "titel": "Director",
+     "wert": 25744,
+     "preis": 12.4728,
+     "gemeldet": "2026-11-04"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 6.050000190734863,
+   "umsatz_usd": 7790528.023481369,
+   "zum_kaufpreis": -0.09263702787684769,
+   "stop": 5.7096625100064315,
+   "ziel": 6.4359111249644485,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "LBTY",
+   "firma": "Liberty Global Ltd.",
+   "datum": "2026-11-05",
+   "kaeufer_anzahl": 2,
+   "summe": 3026150.0,
+   "kaufpreis_mittel": 9.418075436063466,
+   "kaeufer": [
+    {
+     "name": "Rodriguez Enrique",
+     "titel": "EVP, Chief Technology Officer",
+     "wert": 1995978,
+     "preis": 9.4456,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "FRIES MICHAEL T",
+     "titel": "President & CEO",
+     "wert": 1030172,
+     "preis": 9.3652,
+     "gemeldet": "2026-11-05"
+    }
+   ],
+   "handelbar": null
+  },
+  {
+   "typ": "B",
+   "ticker": "GLXY",
+   "firma": "Galaxy Digital Inc.",
+   "datum": "2026-11-05",
+   "kaeufer_anzahl": 2,
+   "summe": 15103939.0,
+   "kaufpreis_mittel": 12.560462201756975,
+   "kaeufer": [
+    {
+     "name": "Novogratz Michael",
+     "titel": "Chief Executive Officer",
+     "wert": 9864346,
+     "preis": 12.9794,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Novogratz Michael",
+     "titel": "Chief Executive Officer",
+     "wert": 4869468,
+     "preis": 11.7337,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "DEASON DOUGLAS R",
+     "titel": "Director",
+     "wert": 200850,
+     "preis": 13.39,
+     "gemeldet": "2026-11-17"
+    },
+    {
+     "name": "DEASON DOUGLAS R",
+     "titel": "Director",
+     "wert": 99375,
+     "preis": 13.25,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "DEASON DOUGLAS R",
+     "titel": "Director",
+     "wert": 69900,
+     "preis": 13.98,
+     "gemeldet": "2026-11-10"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 11.220000267028809,
+   "umsatz_usd": 131250520.7057476,
+   "zum_kaufpreis": -0.1067207490613411,
+   "stop": 7.1772646410842444,
+   "ziel": 19.5,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "TRAD",
+   "firma": "APEX Tech Acquisition Inc.",
+   "datum": "2026-11-05",
+   "kaeufer_anzahl": 1,
+   "summe": 2120000.0,
+   "kaufpreis_mittel": 10.0,
+   "kaeufer": [
+    {
+     "name": "Liu Shaoren",
+     "titel": "CEO and CFO",
+     "wert": 2089710,
+     "preis": 10.0,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Liu Shaoren",
+     "titel": "CEO and CFO",
+     "wert": 30290,
+     "preis": 10.0,
+     "gemeldet": "2026-11-05"
+    }
+   ],
+   "handelbar": false,
+   "kurs": 10.119999885559082,
+   "umsatz_usd": 32304.50086593628,
+   "zum_kaufpreis": 0.011999988555908114
+  },
+  {
+   "typ": "B",
+   "ticker": "BXMT",
+   "firma": "BLACKSTONE MORTGAGE TRUST, INC.",
+   "datum": "2026-11-05",
+   "kaeufer_anzahl": 2,
+   "summe": 1149642.0,
+   "kaufpreis_mittel": 11.49642,
+   "kaeufer": [
+    {
+     "name": "Johnson Timothy Steven",
+     "titel": "Chief Executive Officer",
+     "wert": 1035351,
+     "preis": 11.5039,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "NASSAU HENRY N",
+     "titel": "Director",
+     "wert": 114291,
+     "preis": 11.4291,
+     "gemeldet": "2026-11-05"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 10.239999771118164,
+   "umsatz_usd": 38033280.938100815,
+   "zum_kaufpreis": -0.10928795476172903,
+   "stop": 9.658077709028785,
+   "ziel": 11.51121717068305,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "NONE",
+   "firma": "Carlyle Credit Solutions",
+   "datum": "2026-11-05",
+   "kaeufer_anzahl": 1,
+   "summe": 380943.0,
+   "kaufpreis_mittel": 17.96,
+   "kaeufer": [
+    {
+     "name": "Hennigan Thomas M",
+     "titel": "CFO and President",
+     "wert": 380943,
+     "preis": 17.96,
+     "gemeldet": "2026-11-05"
+    }
+   ],
+   "handelbar": null
+  },
+  {
+   "typ": "B",
+   "ticker": "UPBD",
+   "firma": "UPBOUND GROUP, INC.",
+   "datum": "2026-11-04",
+   "kaeufer_anzahl": 10,
+   "summe": 2288583.0,
+   "kaufpreis_mittel": 23.49505717204397,
+   "kaeufer": [
+    {
+     "name": "BROWN JEFFREY J",
+     "titel": "Director",
+     "wert": 400012,
+     "preis": 22.67,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "LEWIS HAROLD G",
+     "titel": "Director",
+     "wert": 398565,
+     "preis": 26.05,
+     "gemeldet": "2026-11-20"
+    },
+    {
+     "name": "MARINO GLENN P",
+     "titel": "Director",
+     "wert": 393414,
+     "preis": 22.61,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "Karam Fahmi",
+     "titel": "Chief Executive Officer",
+     "wert": 299989,
+     "preis": 24.66,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "Khouri Halim",
+     "titel": "EVP, Chief Financial Officer",
+     "wert": 250580,
+     "preis": 22.78,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "Young Scott A.",
+     "titel": "EVP, Chief Operating Officer",
+     "wert": 150074,
+     "preis": 24.95,
+     "gemeldet": "2026-11-10"
+    },
+    {
+     "name": "Karam Fahmi",
+     "titel": "Chief Executive Officer",
+     "wert": 100083,
+     "preis": 22.71,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Wooters Rebecca",
+     "titel": "EVP, Chief Growth Officer",
+     "wert": 99475,
+     "preis": 23.0,
+     "gemeldet": "2026-11-04"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 25.440000534057617,
+   "umsatz_usd": 37408720.03860474,
+   "zum_kaufpreis": 0.08278095889580861,
+   "stop": 20.885431112670346,
+   "ziel": 27.147964067077844,
+   "ueber_200": true
+  },
+  {
+   "typ": "B",
+   "ticker": "INTC",
+   "firma": "INTEL CORP",
+   "datum": "2026-11-04",
+   "kaeufer_anzahl": 1,
+   "summe": 9709680.0,
+   "kaufpreis_mittel": 64.7312,
+   "kaeufer": [
+    {
+     "name": "TAN LIP BU",
+     "titel": "CEO",
+     "wert": 9709680,
+     "preis": 64.7312,
+     "gemeldet": "2026-11-04"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 51.279998779296875,
+   "umsatz_usd": 8613949082.670593,
+   "zum_kaufpreis": -0.207800893861123,
+   "stop": 38.19154056907564,
+   "ziel": 92.47367305167583,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "LSCC",
+   "firma": "LATTICE SEMICONDUCTOR CORP",
+   "datum": "2026-11-04",
+   "kaeufer_anzahl": 1,
+   "summe": 1003689.0,
+   "kaufpreis_mittel": 102.5219,
+   "kaeufer": [
+    {
+     "name": "Tamer Ford",
+     "titel": "President & CEO",
+     "wert": 1003689,
+     "preis": 102.5219,
+     "gemeldet": "2026-11-04"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 98.30999755859375,
+   "umsatz_usd": 268059184.18159485,
+   "zum_kaufpreis": -0.041082953411966106,
+   "stop": 86.15067924653071,
+   "ziel": 119.50284551171131,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "AN",
+   "firma": "AUTONATION, INC.",
+   "datum": "2026-11-04",
+   "kaeufer_anzahl": 4,
+   "summe": 1729868.0,
+   "kaufpreis_mittel": 183.8524473424677,
+   "kaeufer": [
+    {
+     "name": "Manley Michael Mark",
+     "titel": "CEO and Director",
+     "wert": 1031024,
+     "preis": 184.1114,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "Szlosek Thomas A",
+     "titel": "EVP & CFO",
+     "wert": 299990,
+     "preis": 182.0329,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "Szlosek Thomas A",
+     "titel": "EVP & CFO",
+     "wert": 199800,
+     "preis": 184.8288,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "EDMUNDS C COLEMAN",
+     "titel": "EVP, Gen Counsel & Corp Sec",
+     "wert": 100850,
+     "preis": 183.3636,
+     "gemeldet": "2026-11-04"
+    },
+    {
+     "name": "TRAVISANO JACQUELINE A",
+     "titel": "Director",
+     "wert": 98204,
+     "preis": 185.29,
+     "gemeldet": "2026-11-09"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 175.47999572753906,
+   "umsatz_usd": 86875621.84753418,
+   "zum_kaufpreis": -0.045538972888041096,
+   "stop": 165.40636750004592,
+   "ziel": 185.5536239550322,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "SITE",
+   "firma": "SiteOne Landscape Supply, Inc.",
+   "datum": "2026-11-03",
+   "kaeufer_anzahl": 1,
+   "summe": 1003684.0,
+   "kaufpreis_mittel": 110.295,
+   "kaeufer": [
+    {
+     "name": "BLACK DOUG",
+     "titel": "CEO",
+     "wert": 1003684,
+     "preis": 110.295,
+     "gemeldet": "2026-11-03"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 107.72000122070312,
+   "umsatz_usd": 95864575.65040588,
+   "zum_kaufpreis": -0.0233464688272077,
+   "stop": 101.75025373477611,
+   "ziel": 113.68974870663014,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "LSTR",
+   "firma": "LANDSTAR SYSTEM INC",
+   "datum": "2026-11-02",
+   "kaeufer_anzahl": 1,
+   "summe": 714619.0,
+   "kaufpreis_mittel": 142.9238,
+   "kaeufer": [
+    {
+     "name": "Lonegro Frank A",
+     "titel": "President & CEO",
+     "wert": 714619,
+     "preis": 142.9238,
+     "gemeldet": "2026-11-02"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 146.42999267578125,
+   "umsatz_usd": 62365328.37905884,
+   "zum_kaufpreis": 0.024531902144927953,
+   "stop": 134.20745119141586,
+   "ziel": 169.31635697210436,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "ENPH",
+   "firma": "Enphase Energy, Inc.",
+   "datum": "2026-11-02",
+   "kaeufer_anzahl": 2,
+   "summe": 298104.0,
+   "kaufpreis_mittel": 27.100363636363635,
+   "kaeufer": [
+    {
+     "name": "Kothandaraman Badrinarayanan",
+     "titel": "President & CEO",
+     "wert": 267514,
+     "preis": 26.7514,
+     "gemeldet": "2026-11-02"
+    },
+    {
+     "name": "Trivedi Shanker",
+     "titel": "Director",
+     "wert": 30590,
+     "preis": 30.59,
+     "gemeldet": "2026-11-03"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 19.6299991607666,
+   "umsatz_usd": 180105592.70133972,
+   "zum_kaufpreis": -0.27565550690888874,
+   "stop": 14.55841302501826,
+   "ziel": 34.29999923706055,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "TFC",
+   "firma": "TRUIST FINANCIAL CORP",
+   "datum": "2026-10-29",
+   "kaeufer_anzahl": 1,
+   "summe": 1209050.0,
+   "kaufpreis_mittel": 48.362,
+   "kaeufer": [
+    {
+     "name": "Lyons Michael P.",
+     "titel": "President & CEO",
+     "wert": 1209050,
+     "preis": 48.362,
+     "gemeldet": "2026-10-29"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 45.810001373291016,
+   "umsatz_usd": 364712807.4262619,
+   "zum_kaufpreis": -0.05276867430439158,
+   "stop": 42.94983222640634,
+   "ziel": 48.11256480707788,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "DINO",
+   "firma": "HF Sinclair Corp",
+   "datum": "2026-10-29",
+   "kaeufer_anzahl": 1,
+   "summe": 1108000.0,
+   "kaufpreis_mittel": 110.8,
+   "kaeufer": [
+    {
+     "name": "MYERS FRANKLIN",
+     "titel": "CEO",
+     "wert": 1108000,
+     "preis": 110.8,
+     "gemeldet": "2026-10-29"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 87.38999938964844,
+   "umsatz_usd": 257044914.66827393,
+   "zum_kaufpreis": -0.21128159395624146,
+   "stop": 77.06397340418219,
+   "ziel": 108.77912313813226,
+   "ueber_200": true
+  },
+  {
+   "typ": "B",
+   "ticker": "TTMI",
+   "firma": "TTM TECHNOLOGIES INC",
+   "datum": "2026-10-28",
+   "kaeufer_anzahl": 3,
+   "summe": 2575939.0,
+   "kaufpreis_mittel": 73.59827514705817,
+   "kaeufer": [
+    {
+     "name": "Ali Wajid",
+     "titel": "Director",
+     "wert": 902460,
+     "preis": 90.246,
+     "gemeldet": "2026-10-28"
+    },
+    {
+     "name": "Ali Wajid",
+     "titel": "Director",
+     "wert": 631541,
+     "preis": 63.1541,
+     "gemeldet": "2026-11-05"
+    },
+    {
+     "name": "Roks Edwin",
+     "titel": "President and CEO",
+     "wert": 440350,
+     "preis": 88.07,
+     "gemeldet": "2026-10-28"
+    },
+    {
+     "name": "FRANKLIN PHILIP G",
+     "titel": "Director",
+     "wert": 309600,
+     "preis": 61.92,
+     "gemeldet": "2026-11-09"
+    },
+    {
+     "name": "FRANKLIN PHILIP G",
+     "titel": "Director",
+     "wert": 291988,
+     "preis": 58.3977,
+     "gemeldet": "2026-11-20"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 58.849998474121094,
+   "umsatz_usd": 319903116.8346405,
+   "zum_kaufpreis": -0.2003888901399966,
+   "stop": 46.25366380370815,
+   "ziel": 92.06999969482422,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "ACN",
+   "firma": "Accenture plc",
+   "datum": "2026-10-28",
+   "kaeufer_anzahl": 2,
+   "summe": 3200889.0,
+   "kaufpreis_mittel": 246.2222433714701,
+   "kaeufer": [
+    {
+     "name": "Sweet Julie Spellman",
+     "titel": "Chair and CEO",
+     "wert": 3001041,
+     "preis": 245.987,
+     "gemeldet": "2026-10-28"
+    },
+    {
+     "name": "Price Paula A",
+     "titel": "Director",
+     "wert": 199848,
+     "preis": 249.8097,
+     "gemeldet": "2026-10-28"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 221.1699981689453,
+   "umsatz_usd": 1173861964.81781,
+   "zum_kaufpreis": -0.10174647448374119,
+   "stop": 206.14138462770046,
+   "ziel": 264.0255665393332,
+   "ueber_200": true
+  },
+  {
+   "typ": "B",
+   "ticker": "NPB",
+   "firma": "NORTHPOINTE BANCSHARES INC",
+   "datum": "2026-10-27",
+   "kaeufer_anzahl": 4,
+   "summe": 1819350.0,
+   "kaufpreis_mittel": 15.38691629269605,
+   "kaeufer": [
+    {
+     "name": "Williams Charles Alan",
+     "titel": "CHAIRMAN & CEO",
+     "wert": 1537390,
+     "preis": 15.3739,
+     "gemeldet": "2026-10-27"
+    },
+    {
+     "name": "Boer Carrie L",
+     "titel": "Director",
+     "wert": 184762,
+     "preis": 15.3968,
+     "gemeldet": "2026-10-27"
+    },
+    {
+     "name": "Long Joseph B",
+     "titel": "Chief Operating Officer",
+     "wert": 49800,
+     "preis": 15.3703,
+     "gemeldet": "2026-10-27"
+    },
+    {
+     "name": "Chaudhary Rajeev Kumar",
+     "titel": "Director",
+     "wert": 47398,
+     "preis": 15.7992,
+     "gemeldet": "2026-10-29"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 14.5,
+   "umsatz_usd": 3327658.084011078,
+   "zum_kaufpreis": -0.057640938302696565,
+   "stop": 13.224555919385898,
+   "ziel": 16.381304858296662,
+   "ueber_200": false
+  },
+  {
+   "typ": "B",
+   "ticker": "TIPT",
+   "firma": "TIPTREE INC.",
+   "datum": "2026-10-27",
+   "kaeufer_anzahl": 1,
+   "summe": 502303.0,
+   "kaufpreis_mittel": 16.24,
+   "kaeufer": [
+    {
+     "name": "Barnes Michael Gene",
+     "titel": "Chairman and CEO",
+     "wert": 502303,
+     "preis": 16.24,
+     "gemeldet": "2026-10-27"
+    }
+   ],
+   "handelbar": true,
+   "kurs": 17.729999542236328,
+   "umsatz_usd": 4686694.507789612,
+   "zum_kaufpreis": 0.09174874028548818,
+   "stop": 17.131456933552933,
+   "ziel": 18.328542150919723,
+   "ueber_200": true
+  },
+  {
+   "typ": "B",
+   "ticker": "AIOK",
+   "firma": "AI OKTO Corp.",
+   "datum": "2026-10-27",
+   "kaeufer_anzahl": 1,
+   "summe": 1059604.0,
+   "kaufpreis_mittel": 8.1508,
+   "kaeufer": [
+    {
+     "name": "Panagiotidis Petros Panagiotis",
+     "titel": "Chief Executive Officer",
+     "wert": 1059604,
+     "preis": 8.1508,
+     "gemeldet": "2026-10-27"
+    }
+   ],
+   "handelbar": null
+  }
+ ],
+ "kaeufe_im_speicher": 970,
+ "abgedeckte_tage": 45,
+ "luecke_ab": null,
+ "vollstaendig": true,
+ "diagnose": {
+  "meldungen_gelesen": 0,
+  "kaeufe_neu": 0,
+  "tage_neu": [],
+  "fehler": 0,
+  "abbruch": false
+ }
+}
