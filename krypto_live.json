@@ -1,0 +1,680 @@
+{
+ "erstellt_utc": "2026-11-21T17:42:45+00:00",
+ "version": 1,
+ "puffer": 0.03,
+ "coins": {
+  "BTC-USD": {
+   "name": "Bitcoin",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 60102.95,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 77229.4154,
+     "abstand": -0.2217609095096167,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 77686.7766,
+     "abstand": -0.22634259483485897,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 72485.1724,
+     "abstand": -0.1708242112148166,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 81416.09,
+     "abstand": -0.26178044167927983,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 77734.0,
+     "abstand": -0.2268125916587337,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": true,
+   "push_grund": "ok"
+  },
+  "ETH-USD": {
+   "name": "Ethereum",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 1680.15,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 2267.7434,
+     "abstand": -0.259109297815617,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 2368.1528000000003,
+     "abstand": -0.2905229763890236,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 2127.010050000001,
+     "abstand": -0.2100883585387857,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 2389.14,
+     "abstand": -0.29675531781310427,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 2463.41,
+     "abstand": -0.31795762784108195,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": true,
+   "push_grund": "ok"
+  },
+  "SOL-USD": {
+   "name": "Solana",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 70.63,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 96.29760000000002,
+     "abstand": -0.2665445452430799,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 99.60559999999998,
+     "abstand": -0.2909033227047474,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 88.48729999999999,
+     "abstand": -0.2018063609128089,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 103.65,
+     "abstand": -0.318572117703811,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 95.43,
+     "abstand": -0.25987634915644986,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": true,
+   "push_grund": "ok"
+  },
+  "XRP-USD": {
+   "name": "XRP",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 0.9345,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 1.2367059999999999,
+     "abstand": -0.24436365635809953,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 1.3068549999999999,
+     "abstand": -0.2849244943012039,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 1.2422239999999998,
+     "abstand": -0.2477202179317094,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 1.3094,
+     "abstand": -0.2863143424469222,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 1.5204,
+     "abstand": -0.3853591160220995,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": false,
+   "push_grund": "Langzeit-Test nicht bestanden"
+  },
+  "BNB-USD": {
+   "name": "BNB",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 548.04,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 701.5728,
+     "abstand": -0.21884086726281304,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 709.7044999999999,
+     "abstand": -0.22779128496437595,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 657.0828999999999,
+     "abstand": -0.1659499889587751,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 731.28,
+     "abstand": -0.25057433541188057,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 702.37,
+     "abstand": -0.21972749405583958,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": false,
+   "push_grund": "Langzeit-Test nicht bestanden"
+  },
+  "ADA-USD": {
+   "name": "Cardano",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 0.1455,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 0.202666,
+     "abstand": -0.282070006809233,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 0.20945899999999998,
+     "abstand": -0.3053533149685619,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 0.2011475,
+     "abstand": -0.27665021936638545,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 0.2123,
+     "abstand": -0.3146490814884597,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 0.227,
+     "abstand": -0.3590308370044053,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": true,
+   "push_grund": "ok"
+  },
+  "DOGE-USD": {
+   "name": "Dogecoin",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 0.05525,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 0.0756652,
+     "abstand": -0.26980963507662703,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 0.08111419999999997,
+     "abstand": -0.3188615556832217,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 0.08272535000000002,
+     "abstand": -0.33212733460783195,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 0.07882,
+     "abstand": -0.29903577772139056,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 0.09342,
+     "abstand": -0.40858488546349825,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": false,
+   "push_grund": "Langzeit-Test nicht bestanden"
+  },
+  "AVAX-USD": {
+   "name": "Avalanche",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 6.633,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 9.009260000000001,
+     "abstand": -0.2637575117157237,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 8.661290000000001,
+     "abstand": -0.2341787424275138,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 8.013585,
+     "abstand": -0.17228057105527683,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 9.128,
+     "abstand": -0.2733347940403156,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 7.609,
+     "abstand": -0.12826915494808777,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-18T14:56+00:00",
+   "wechsel": [
+    {
+     "zeit": "2026-11-18T14:56+00:00",
+     "von": 0.2,
+     "auf": 0.0,
+     "kurs": 7.052
+    }
+   ],
+   "push": true,
+   "push_grund": "ok"
+  },
+  "LINK-USD": {
+   "name": "Chainlink",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 8.594,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 11.426740000000002,
+     "abstand": -0.24790447669239013,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 11.689110000000003,
+     "abstand": -0.2647857706874178,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 10.098900000000002,
+     "abstand": -0.14901622949034077,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 11.96,
+     "abstand": -0.28143812709030114,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 11.543,
+     "abstand": -0.2554795113921857,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": false,
+   "push_grund": "Langzeit-Test nicht bestanden"
+  },
+  "LTC-USD": {
+   "name": "Litecoin",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 40.13,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 56.0012,
+     "abstand": -0.2834082126811568,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 55.5907,
+     "abstand": -0.27811666339873387,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 51.48659999999999,
+     "abstand": -0.2205738968974449,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 58.87,
+     "abstand": -0.31832852046882953,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 52.28,
+     "abstand": -0.23240244835501145,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": false,
+   "push_grund": "Langzeit-Test nicht bestanden"
+  },
+  "BCH-USD": {
+   "name": "Bitcoin Cash",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 198.1,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 264.2,
+     "abstand": -0.25018925056775165,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 262.54,
+     "abstand": -0.24544831263807432,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 262.1905,
+     "abstand": -0.24444249505607563,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 275.1,
+     "abstand": -0.2798982188295166,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 274.2,
+     "abstand": -0.2775346462436178,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-18T00:25+00:00",
+   "wechsel": [
+    {
+     "zeit": "2026-11-18T00:25+00:00",
+     "von": 0.2,
+     "auf": 0.0,
+     "kurs": 211.7
+    }
+   ],
+   "push": false,
+   "push_grund": "Langzeit-Test nicht bestanden"
+  },
+  "TRX-USD": {
+   "name": "Tron",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 0.3053,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 0.323976,
+     "abstand": -0.0576462454008938,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 0.33029900000000006,
+     "abstand": -0.07568596937925953,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 0.33218949999999997,
+     "abstand": -0.08094626711560704,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 0.3286,
+     "abstand": -0.0709068776628119,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 0.3439,
+     "abstand": -0.11224193079383538,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": false,
+   "push_grund": "Langzeit-Test nicht bestanden"
+  },
+  "XLM-USD": {
+   "name": "Stellar",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 0.1292,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 0.16936199999999998,
+     "abstand": -0.23713702011076854,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 0.179639,
+     "abstand": -0.2807797861266206,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 0.1813435,
+     "abstand": -0.28753994491117674,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 0.1754,
+     "abstand": -0.2633979475484606,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 0.1997,
+     "abstand": -0.3530295443164746,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": false,
+   "push_grund": "Langzeit-Test nicht bestanden"
+  },
+  "DOT-USD": {
+   "name": "Polkadot",
+   "anteil": 0.0,
+   "signal": "STARK VERKAUFEN",
+   "kurs": 0.659,
+   "einzel": [
+    {
+     "regel": "SMA 50",
+     "an": false,
+     "schwelle": 0.9928400000000001,
+     "abstand": -0.3362475323314935,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 100",
+     "an": false,
+     "schwelle": 0.99517,
+     "abstand": -0.33780158163931784,
+     "vorher": false
+    },
+    {
+     "regel": "SMA 200",
+     "an": false,
+     "schwelle": 0.9882149999999998,
+     "abstand": -0.3331410674802546,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 30 Tage",
+     "an": false,
+     "schwelle": 1.112,
+     "abstand": -0.4073741007194245,
+     "vorher": false
+    },
+    {
+     "regel": "Momentum 90 Tage",
+     "an": false,
+     "schwelle": 0.928,
+     "abstand": -0.2898706896551724,
+     "vorher": false
+    }
+   ],
+   "seit": "2026-11-17T19:43+00:00",
+   "wechsel": [],
+   "push": false,
+   "push_grund": "Langzeit-Test nicht bestanden"
+  }
+ },
+ "fehler": []
+}
