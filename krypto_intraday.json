@@ -1,0 +1,540 @@
+{
+ "erstellt_utc": "2026-11-22T06:27:52+00:00",
+ "puffer": 0.03,
+ "kosten": 0.0025,
+ "coins": {
+  "BTC-USD": {
+   "name": "Bitcoin",
+   "von": "2018-03-06",
+   "bis": "2026-11-22",
+   "stunden": 81090,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.34118603892779653,
+     "mdd": -0.5056114001742599,
+     "sharpe": 0.9384812111959665,
+     "sharpe_haelfte1": 1.0252618224769614,
+     "sharpe_haelfte2": 0.8542280300464631,
+     "signale_pro_jahr": 32.25737124885336,
+     "zeit_investiert": 0.5306565325645394,
+     "jahre": 8.711187214611872
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.3050939384518674,
+     "mdd": -0.5329353484183317,
+     "sharpe": 0.8716722588239866,
+     "sharpe_haelfte1": 0.9054974319198231,
+     "sharpe_haelfte2": 0.8639419254131133,
+     "signale_pro_jahr": 49.70619840125803,
+     "zeit_investiert": 0.5312409906958458,
+     "jahre": 8.711187214611872
+    },
+    "Kaufen und Halten": {
+     "cagr": 0.2068627029745893,
+     "mdd": -0.7719848663243924,
+     "sharpe": 0.6138944790733829,
+     "sharpe_haelfte1": 0.5574863664832361,
+     "sharpe_haelfte2": 0.7495267479837546,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 8.711187214611872
+    }
+   }
+  },
+  "ETH-USD": {
+   "name": "Ethereum",
+   "von": "2018-03-06",
+   "bis": "2026-11-22",
+   "stunden": 81090,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.3466658177715942,
+     "mdd": -0.6391186812102996,
+     "sharpe": 0.8326528984017403,
+     "sharpe_haelfte1": 1.0286768247776676,
+     "sharpe_haelfte2": 0.574061293638379,
+     "signale_pro_jahr": 33.060935657187784,
+     "zeit_investiert": 0.5159166557462981,
+     "jahre": 8.711187214611872
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.41821181712577205,
+     "mdd": -0.5524250850123893,
+     "sharpe": 0.9377442985649067,
+     "sharpe_haelfte1": 1.159286340163092,
+     "sharpe_haelfte2": 0.6456644735544301,
+     "signale_pro_jahr": 50.28017297863976,
+     "zeit_investiert": 0.51486830035382,
+     "jahre": 8.711187214611872
+    },
+    "Kaufen und Halten": {
+     "cagr": 0.07967801476553005,
+     "mdd": -0.9033396463903826,
+     "sharpe": 0.5010163598629324,
+     "sharpe_haelfte1": 0.5638103767977349,
+     "sharpe_haelfte2": 0.43257742699901186,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 8.711187214611872
+    }
+   }
+  },
+  "SOL-USD": {
+   "name": "Solana",
+   "von": "2021-02-28",
+   "bis": "2026-11-22",
+   "stunden": 55036,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.6431771144933098,
+     "mdd": -0.6324993053729998,
+     "sharpe": 1.0427422113871452,
+     "sharpe_haelfte1": 1.5997167612345735,
+     "sharpe_haelfte2": 0.21214596821129603,
+     "signale_pro_jahr": 39.766650074664014,
+     "zeit_investiert": 0.5048760577401693,
+     "jahre": 5.733447488584475
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.7294412626843305,
+     "mdd": -0.6017010499593625,
+     "sharpe": 1.111228779411373,
+     "sharpe_haelfte1": 1.6572096795328706,
+     "sharpe_haelfte2": 0.2985438122597157,
+     "signale_pro_jahr": 68.02190144350423,
+     "zeit_investiert": 0.505859631657541,
+     "jahre": 5.733447488584475
+    },
+    "Kaufen und Halten": {
+     "cagr": 0.3344224325523022,
+     "mdd": -0.9679616158489396,
+     "sharpe": 0.8053524916901544,
+     "sharpe_haelfte1": 1.181842154217458,
+     "sharpe_haelfte2": 0.26363523346458234,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 5.733447488584475
+    }
+   }
+  },
+  "XRP-USD": {
+   "name": "XRP",
+   "von": "2018-11-21",
+   "bis": "2026-11-22",
+   "stunden": 74886,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": -0.06125975914073645,
+     "mdd": -0.8744131410569689,
+     "sharpe": 0.24772705716912985,
+     "sharpe_haelfte1": 0.22409566715632548,
+     "sharpe_haelfte2": 0.28883163767906406,
+     "signale_pro_jahr": 44.86347684670033,
+     "zeit_investiert": 0.4522183229193415,
+     "jahre": 8.002054794520548
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.002717525762836237,
+     "mdd": -0.8485727630849722,
+     "sharpe": 0.3457213625069981,
+     "sharpe_haelfte1": 0.3948179357626201,
+     "sharpe_haelfte2": 0.28838144134099336,
+     "signale_pro_jahr": 73.10622271676795,
+     "zeit_investiert": 0.45383891123855175,
+     "jahre": 8.002054794520548
+    },
+    "Kaufen und Halten": {
+     "cagr": 0.09503233575408387,
+     "mdd": -0.8482792075426902,
+     "sharpe": 0.5794037401707187,
+     "sharpe_haelfte1": 0.5286610786487006,
+     "sharpe_haelfte2": 0.6757286178976781,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 8.002054794520548
+    }
+   }
+  },
+  "BNB-USD": {
+   "name": "BNB",
+   "von": "2018-05-26",
+   "bis": "2026-11-22",
+   "stunden": 79153,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.6034202028443367,
+     "mdd": -0.6496805822646765,
+     "sharpe": 1.0945342680223789,
+     "sharpe_haelfte1": 1.5179564704015789,
+     "sharpe_haelfte2": 0.4558232833927899,
+     "signale_pro_jahr": 37.34125810182073,
+     "zeit_investiert": 0.5530242315036441,
+     "jahre": 8.489269406392694
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.5781201908155891,
+     "mdd": -0.6946642380352857,
+     "sharpe": 1.0722762637131242,
+     "sharpe_haelfte1": 1.5180263066156947,
+     "sharpe_haelfte2": 0.39340743526552585,
+     "signale_pro_jahr": 58.897883441357614,
+     "zeit_investiert": 0.552558965118468,
+     "jahre": 8.489269406392694
+    },
+    "Kaufen und Halten": {
+     "cagr": 0.5504655231075368,
+     "mdd": -0.8052252971055569,
+     "sharpe": 0.9475579439747077,
+     "sharpe_haelfte1": 1.2404891366390491,
+     "sharpe_haelfte2": 0.5228397466592327,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 8.489269406392694
+    }
+   }
+  },
+  "ADA-USD": {
+   "name": "Cardano",
+   "von": "2018-11-04",
+   "bis": "2026-11-22",
+   "stunden": 75298,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.4698795628347914,
+     "mdd": -0.7542259823112549,
+     "sharpe": 0.9028466212194978,
+     "sharpe_haelfte1": 1.3145185573139628,
+     "sharpe_haelfte2": 0.3222962257051888,
+     "signale_pro_jahr": 38.39543823316642,
+     "zeit_investiert": 0.42793231109661134,
+     "jahre": 8.04783105022831
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.48941633746798074,
+     "mdd": -0.7416945834356754,
+     "sharpe": 0.9229803304239949,
+     "sharpe_haelfte1": 1.3983272709341503,
+     "sharpe_haelfte2": 0.2471596862338837,
+     "signale_pro_jahr": 60.14042752379466,
+     "zeit_investiert": 0.4260429225946467,
+     "jahre": 8.04783105022831
+    },
+    "Kaufen und Halten": {
+     "cagr": 0.08791386991402428,
+     "mdd": -0.9564135702746344,
+     "sharpe": 0.589472446520714,
+     "sharpe_haelfte1": 0.9089500974793047,
+     "sharpe_haelfte2": 0.17694272723447824,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 8.04783105022831
+    }
+   }
+  },
+  "DOGE-USD": {
+   "name": "Dogecoin",
+   "von": "2020-01-22",
+   "bis": "2026-11-22",
+   "stunden": 64678,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.805404467720811,
+     "mdd": -0.8810847339762217,
+     "sharpe": 1.0658317861814102,
+     "sharpe_haelfte1": 1.3769140561336093,
+     "sharpe_haelfte2": 0.6144177123268876,
+     "signale_pro_jahr": 43.15775410000334,
+     "zeit_investiert": 0.44787401048799225,
+     "jahre": 6.835388127853881
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.8055726651011836,
+     "mdd": -0.8856404752463592,
+     "sharpe": 1.0659174246925778,
+     "sharpe_haelfte1": 1.36125244812836,
+     "sharpe_haelfte2": 0.6476472582340078,
+     "signale_pro_jahr": 64.80977988576772,
+     "zeit_investiert": 0.44858545709609543,
+     "jahre": 6.835388127853881
+    },
+    "Kaufen und Halten": {
+     "cagr": 0.5802145019580858,
+     "mdd": -0.931787620716353,
+     "sharpe": 0.9738266188165817,
+     "sharpe_haelfte1": 1.3791800836621637,
+     "sharpe_haelfte2": 0.3644110439060265,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 6.835388127853881
+    }
+   }
+  },
+  "AVAX-USD": {
+   "name": "Avalanche",
+   "von": "2021-04-11",
+   "bis": "2026-11-22",
+   "stunden": 54028,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.17382900286412295,
+     "mdd": -0.7452741503649103,
+     "sharpe": 0.5826441410406936,
+     "sharpe_haelfte1": 0.953385418502658,
+     "sharpe_haelfte2": 0.047079996942314725,
+     "signale_pro_jahr": 42.716079483115934,
+     "zeit_investiert": 0.40744443089926446,
+     "jahre": 5.618493150684931
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.12366602579779706,
+     "mdd": -0.7626196381112101,
+     "sharpe": 0.5191429967985963,
+     "sharpe_haelfte1": 0.9210923278526686,
+     "sharpe_haelfte2": -0.06459017056685239,
+     "signale_pro_jahr": 75.99902474704376,
+     "zeit_investiert": 0.40919175911251976,
+     "jahre": 5.618493150684931
+    },
+    "Kaufen und Halten": {
+     "cagr": -0.24597850550763833,
+     "mdd": -0.9591736111111111,
+     "sharpe": 0.2878931404363027,
+     "sharpe_haelfte1": 0.6557534333937974,
+     "sharpe_haelfte2": -0.22531719368455166,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 5.618493150684931
+    }
+   }
+  },
+  "LINK-USD": {
+   "name": "Chainlink",
+   "von": "2019-08-05",
+   "bis": "2026-11-22",
+   "stunden": 68744,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.080934345448747,
+     "mdd": -0.8800920580075418,
+     "sharpe": 0.47400684829249967,
+     "sharpe_haelfte1": 0.46217337053876933,
+     "sharpe_haelfte2": 0.5142513435785524,
+     "signale_pro_jahr": 45.48087448784913,
+     "zeit_investiert": 0.5089294091890032,
+     "jahre": 7.2997716894977165
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.10313844830634311,
+     "mdd": -0.8954611279315584,
+     "sharpe": 0.4951351654202399,
+     "sharpe_haelfte1": 0.49206281737527796,
+     "sharpe_haelfte2": 0.5204444060781783,
+     "signale_pro_jahr": 83.01629499890534,
+     "zeit_investiert": 0.5066024458136553,
+     "jahre": 7.2997716894977165
+    },
+    "Kaufen und Halten": {
+     "cagr": 0.18225810018046995,
+     "mdd": -0.9048001683598318,
+     "sharpe": 0.6864926645614309,
+     "sharpe_haelfte1": 0.8543539026332626,
+     "sharpe_haelfte2": 0.47041681425350984,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 7.2997716894977165
+    }
+   }
+  },
+  "LTC-USD": {
+   "name": "Litecoin",
+   "von": "2018-07-02",
+   "bis": "2026-11-22",
+   "stunden": 78265,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.002411765425463175,
+     "mdd": -0.8898630637715581,
+     "sharpe": 0.3214802638916057,
+     "sharpe_haelfte1": 0.6248759198954248,
+     "sharpe_haelfte2": -0.07815427853349742,
+     "signale_pro_jahr": 39.336499340037285,
+     "zeit_investiert": 0.4500537495407476,
+     "jahre": 8.389155251141553
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.030061345338875167,
+     "mdd": -0.8760226706554458,
+     "sharpe": 0.3608876427075297,
+     "sharpe_haelfte1": 0.756059970445998,
+     "sharpe_haelfte2": -0.14649050250114337,
+     "signale_pro_jahr": 69.4944821673992,
+     "zeit_investiert": 0.4499965981303324,
+     "jahre": 8.389155251141553
+    },
+    "Kaufen und Halten": {
+     "cagr": -0.08175664053929177,
+     "mdd": -0.906963693148546,
+     "sharpe": 0.3676102570422359,
+     "sharpe_haelfte1": 0.4748986311834039,
+     "sharpe_haelfte2": 0.22888446850507282,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 8.389155251141553
+    }
+   }
+  },
+  "BCH-USD": {
+   "name": "Bitcoin Cash",
+   "von": "2020-06-16",
+   "bis": "2026-11-22",
+   "stunden": 61188,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": -0.013382825476449867,
+     "mdd": -0.8482101450617097,
+     "sharpe": 0.30773478951198924,
+     "sharpe_haelfte1": 0.35580484528203343,
+     "sharpe_haelfte2": 0.25117689992429826,
+     "signale_pro_jahr": 41.016618484294916,
+     "zeit_investiert": 0.4829469875671745,
+     "jahre": 6.436415525114155
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": -0.05892275358420407,
+     "mdd": -0.8608732112242479,
+     "sharpe": 0.23236396995422387,
+     "sharpe_haelfte1": 0.3163295204326938,
+     "sharpe_haelfte2": 0.12826003752470272,
+     "signale_pro_jahr": 77.37225759537449,
+     "zeit_investiert": 0.48516751503112643,
+     "jahre": 6.436415525114155
+    },
+    "Kaufen und Halten": {
+     "cagr": -0.029138143784932402,
+     "mdd": -0.9444835209003223,
+     "sharpe": 0.4244622714358471,
+     "sharpe_haelfte1": 0.44611079666097775,
+     "sharpe_haelfte2": 0.4035614664262,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 6.436415525114155
+    }
+   }
+  },
+  "TRX-USD": {
+   "name": "Tron",
+   "von": "2018-12-29",
+   "bis": "2026-11-22",
+   "stunden": 73971,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.1935650604774839,
+     "mdd": -0.7352946173428947,
+     "sharpe": 0.5943040041799378,
+     "sharpe_haelfte1": 0.4886692187528137,
+     "sharpe_haelfte2": 0.948690042103753,
+     "signale_pro_jahr": 33.55303096002081,
+     "zeit_investiert": 0.6241725204521146,
+     "jahre": 7.897945205479452
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.1535369744127033,
+     "mdd": -0.788214105955586,
+     "sharpe": 0.5394896902544973,
+     "sharpe_haelfte1": 0.4569405375583897,
+     "sharpe_haelfte2": 0.834689922545842,
+     "signale_pro_jahr": 58.876073193998785,
+     "zeit_investiert": 0.6234758477148556,
+     "jahre": 7.897945205479452
+    },
+    "Kaufen und Halten": {
+     "cagr": 0.4088829523717925,
+     "mdd": -0.8122985370691786,
+     "sharpe": 0.8285383405449268,
+     "sharpe_haelfte1": 0.7593951305750763,
+     "sharpe_haelfte2": 1.227444770219619,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 7.897945205479452
+    }
+   }
+  },
+  "XLM-USD": {
+   "name": "Stellar",
+   "von": "2018-12-18",
+   "bis": "2026-11-22",
+   "stunden": 74237,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": 0.08065918475413514,
+     "mdd": -0.766300866219672,
+     "sharpe": 0.4702126110511549,
+     "sharpe_haelfte1": 0.5493663397873301,
+     "sharpe_haelfte2": 0.376645055881339,
+     "signale_pro_jahr": 41.876457883369326,
+     "zeit_investiert": 0.41944420446364294,
+     "jahre": 7.928082191780822
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": 0.08645751482412756,
+     "mdd": -0.8052947576546547,
+     "sharpe": 0.4756074042521061,
+     "sharpe_haelfte1": 0.5284764410609376,
+     "sharpe_haelfte2": 0.4160773222060204,
+     "signale_pro_jahr": 68.99524838012958,
+     "zeit_investiert": 0.41394960403167746,
+     "jahre": 7.928082191780822
+    },
+    "Kaufen und Halten": {
+     "cagr": 0.019468210432526112,
+     "mdd": -0.910291173563773,
+     "sharpe": 0.5183426789234485,
+     "sharpe_haelfte1": 0.5157872937142238,
+     "sharpe_haelfte2": 0.535473316241756,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 7.928082191780822
+    }
+   }
+  },
+  "DOT-USD": {
+   "name": "Polkadot",
+   "von": "2021-03-07",
+   "bis": "2026-11-22",
+   "stunden": 54851,
+   "kennzahlen": {
+    "Prüfung nur am Tagesschluss": {
+     "cagr": -0.2078877386808179,
+     "mdd": -0.8161279283118248,
+     "sharpe": -0.10305727988471,
+     "sharpe_haelfte1": 0.15195721835310114,
+     "sharpe_haelfte2": -0.42917362065398573,
+     "signale_pro_jahr": 38.84933477166487,
+     "zeit_investiert": 0.32495505213951814,
+     "jahre": 5.714383561643835
+    },
+    "Laufende Prüfung (stündlich)": {
+     "cagr": -0.22389752680424235,
+     "mdd": -0.8317185934875719,
+     "sharpe": -0.1647049571338893,
+     "sharpe_haelfte1": 0.07525304943835874,
+     "sharpe_haelfte2": -0.46909409049329637,
+     "signale_pro_jahr": 72.27376243557474,
+     "zeit_investiert": 0.32674897119341567,
+     "jahre": 5.714383561643835
+    },
+    "Kaufen und Halten": {
+     "cagr": -0.4985447556806555,
+     "mdd": -0.9886243866981644,
+     "sharpe": -0.21576871562241168,
+     "sharpe_haelfte1": 0.06290649682965174,
+     "sharpe_haelfte2": -0.5639720106602841,
+     "signale_pro_jahr": 0.0,
+     "zeit_investiert": 1.0,
+     "jahre": 5.714383561643835
+    }
+   }
+  }
+ },
+ "fehler": []
+}
