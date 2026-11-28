@@ -1,0 +1,452 @@
+{
+ "erstellt_utc": "2026-11-28T10:00:51+00:00",
+ "anzahl": 58,
+ "ok": 57,
+ "werte": [
+  {
+   "ticker": "WMT",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [
+    "1 extreme Volumenspitzen"
+   ],
+   "status": "warnung"
+  },
+  {
+   "ticker": "AAPL",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "ADA-USD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 731,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "ADBE",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "AMD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "AMZN",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "ASML",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "AVAX-USD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 731,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "AVGO",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "BNB-USD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 731,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "BRK-B",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "BTC-USD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 731,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "COST",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "CRM",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "DOGE-USD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 731,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "ETH-USD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 731,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "GLD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "GOOGL",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "HD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "IWM",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "JNJ",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "JPM",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "LINK-USD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 731,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "LLY",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "MA",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "META",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "MSFT",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "NFLX",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "NVDA",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "NVO",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "ORCL",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "PG",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "PLTR",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "QQQ",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "SAP",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "SMH",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "SOL-USD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 731,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "SPY",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "TLT",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "TSLA",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "TSM",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "UNH",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "V",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLB",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLC",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLE",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLF",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLI",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLK",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLP",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLRE",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLU",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLV",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XLY",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XOM",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "XRP-USD",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 731,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "^VIX",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 504,
+   "probleme": [],
+   "status": "ok"
+  },
+  {
+   "ticker": "^VIX3M",
+   "letzter_tag": "2026-11-27",
+   "tage_2j": 501,
+   "probleme": [],
+   "status": "ok"
+  }
+ ],
+ "krypto_gegenprobe": {
+  "BTC-USD": {
+   "quelle": "https://data-api.binance.vision",
+   "tage": 60,
+   "abweichung_median": 0.0012147394485980678,
+   "abweichung_max": 0.003564280961060984,
+   "tag_max": "2026-11-08",
+   "status": "ok"
+  },
+  "ETH-USD": {
+   "quelle": "https://data-api.binance.vision",
+   "tage": 60,
+   "abweichung_median": 0.0011580200709346844,
+   "abweichung_max": 0.0030457801277697927,
+   "tag_max": "2026-11-08",
+   "status": "ok"
+  },
+  "SOL-USD": {
+   "quelle": "https://data-api.binance.vision",
+   "tage": 60,
+   "abweichung_median": 0.0010968006919474527,
+   "abweichung_max": 0.003433745921773923,
+   "tag_max": "2026-11-08",
+   "status": "ok"
+  },
+  "XRP-USD": {
+   "quelle": "https://data-api.binance.vision",
+   "tage": 60,
+   "abweichung_median": 0.001013659017609303,
+   "abweichung_max": 0.0024586568579499923,
+   "tag_max": "2026-11-08",
+   "status": "ok"
+  }
+ },
+ "diagnose": {
+  "fehler": []
+ }
+}
